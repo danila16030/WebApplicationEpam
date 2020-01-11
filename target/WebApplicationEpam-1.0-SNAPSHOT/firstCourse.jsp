@@ -16,7 +16,6 @@
 </head>
 <body>
 <jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
-<c:out value="${listResults}"/>
 <form method="post">
     <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom">Submit</button>
 </form>
@@ -30,11 +29,11 @@
             <th> Exemplum</th>
         </tr>
         <c:forEach var="product" items="${listResults}">
-            <tr>\
-                <td><c:out value=" ${product.name}"/></td>
+            <tr>
+                <td>${product.name}</td>
                 <td>${product.cost}</td>
                 <td>${product.cookingTime}</td>
-                <td><img src="https://html5book.ru/wp-content/uploads/2015/04/dress-2.png"></td>
+                <td> <img src="${pageContext.request.contextPath}/images/${product.image}"></td>
             </tr>
         </c:forEach>
     </table>
