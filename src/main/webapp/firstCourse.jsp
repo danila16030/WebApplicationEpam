@@ -9,16 +9,38 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>firstCourse</title>
-    <link rel="stylesheet" type="text/css" href="dishPage.css"/>
+    <title>FirstCourse</title>
+    <link rel="stylesheet" type="text/css" href="productPage.css"/>
     <style type="text/css">
     </style>
 </head>
-<body>
 <jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
-<form method="post">
-    <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom">Submit</button>
-</form>
+<div>
+    <form method="post">
+        <nav>
+            <ul class="topmenu">
+                <li><a href="/WebApplication_war_exploded">Home</a></li>
+                <li><a href="" class="down">Dishes</a>
+                    <ul class="submenu">
+                        <li><a href="firstCourse"> First course</a></li>
+                        <li><a href="">Second course</a></li>
+                        <li><a href="">Garnish</a></li>
+                        <li><a href="">Salad</a></li>
+                    </ul>
+                </li>
+                <li><a href="" class="down">Drink</a>
+                    <ul class="submenu">
+                        <li><a href="">Sparkling water</a></li>
+                        <li><a href="">Still water</a></li>
+                        <li><a href="">Alcohol</a></li>
+                        <li><a href="">Cocktails</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Contact</a></li>
+            </ul>
+        </nav>
+    </form>
+</div>
 
 <form>
     <table border="1">
@@ -33,10 +55,9 @@
                 <td>${product.name}</td>
                 <td>${product.cost}</td>
                 <td>${product.cookingTime}</td>
-                <td> <img src="${pageContext.request.contextPath}/images/${product.image}"></td>
+                <td><img src="${product.image}"></td>
             </tr>
         </c:forEach>
     </table>
 </form>
-</body>
 </html>

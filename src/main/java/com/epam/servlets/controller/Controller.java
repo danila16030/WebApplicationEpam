@@ -3,6 +3,8 @@ package com.epam.servlets.controller;
 
 import com.epam.servlets.entities.Dish;
 import com.epam.servlets.entities.User;
+import com.epam.servlets.service.Command;
+import com.epam.servlets.service.factory.CommandFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,42 +19,53 @@ import java.util.List;
 
 public class Controller extends HttpServlet {
     String s;
+    Boolean circle = false;
     List<User> userList = new ArrayList<>();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         s = request.getServletPath();
+        if (request.getParameterValues("value") != null && !circle) {
+            circle = true;
+            doPost(request, response);
+        }
         s = s.substring(1);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(s + ".jsp");
         requestDispatcher.forward(request, response);
+        circle = false;
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Command command;
         s = req.getServletPath();
         s = s.substring(1);
+        command = CommandFactory.getInstance().getCurrentCommand(s.toUpperCase());
         if (s.equals("singIn")) {
-            if (singIn(req)) {
+            if (command.execute(req)) {
                 resp.sendRedirect("client");
             } else {
                 doGet(req, resp);
             }
         }
         if (s.equals("client")) {
-            logOut(req);
+            command.execute(req);
             resp.sendRedirect("/WebApplication_war_exploded");
         }
         if (s.equals("register")) {
-            register(req);
-            doGet(req, resp);
+            if (command.execute(req)) {
+                resp.sendRedirect("client");
+            } else {
+                doGet(req, resp);
+            }
         }
         if (s.equals("firstCourse")) {
-            firstCourse(req, resp);
+            command.execute(req);
             doGet(req, resp);
         }
     }
 
-
+/*
     private void firstCourse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ArrayList<Dish> listResults = new ArrayList();
         try {
@@ -70,7 +83,7 @@ public class Controller extends HttpServlet {
     }
 
 
-    private void register(HttpServletRequest req) {
+    private boolean register(HttpServletRequest req) {
         String name = req.getParameter("name");
         String password = req.getParameter("pass");
         try {
@@ -80,13 +93,15 @@ public class Controller extends HttpServlet {
             ResultSet res = stmt.executeQuery("SELECT * FROM users WHERE login='" + name + "' ");
             if (res.next()) {
                 req.setAttribute("inf", "exist");
-                return;
+                return false;
             }
             String query = "INSERT INTO cafe.users (login , password) VALUES('" + name + "', '" + password + "')";
             stmt.executeUpdate(query);
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     private void logOut(HttpServletRequest req) {
@@ -118,7 +133,7 @@ public class Controller extends HttpServlet {
                 if (!res.getBoolean(3)) {
                     userList.add(new User(res.getString(1), res.getString(2), res.getString(3)));
                     stmt.executeUpdate("UPDATE  users SET inSystem=true WHERE login='" + name + "'");
-                  return true;
+                    return true;
                 } else {
                     req.setAttribute("inf", "already");
                 }
@@ -132,4 +147,5 @@ public class Controller extends HttpServlet {
         }
         return false;
     }
+    */
 }

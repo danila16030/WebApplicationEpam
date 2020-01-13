@@ -13,14 +13,9 @@
     <style type="text/css">
     </style>
 </head>
-<div>       <!-- content -->
     <div>    <!-- buttons holder -->
-
         <button type="submit" class="register"
-                onclick="location.href=location.href+'register'">Register
-        </button>
-        <button type="submit" class="register"
-                onclick="location.href=location.href+'register'">Register
+                onclick="location.href='user'">User
         </button>
         <form method="post">
             <nav>
@@ -28,7 +23,7 @@
                     <li><a href="">Home</a></li>
                     <li><a href="" class="down">Dishes</a>
                         <ul class="submenu">
-                            <li><a href="firstCourse"> First course</a></li>
+                            <li><a href="firstCourse" type="submit"> First course</a></li>
                             <li><a href="">Second course</a></li>
                             <li><a href="">Garnish</a></li>
                             <li><a href="">Salad</a></li>
@@ -47,13 +42,10 @@
             </nav>
             <button type="submit" class="singIn">Log out</button>
             <%
-                if (request.getAttribute("inf")!=null&&request.getAttribute("inf").equals("out")) {
-                 response.sendRedirect("/WebApplication_war_exploded");
+                if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("out")) {
+                    response.sendRedirect("/WebApplication_war_exploded");
                 }
             %>
         </form>
     </div>
-</div>
-<body>
-</body>
 </html>
