@@ -1,6 +1,6 @@
 package com.epam.servlets.entities;
 
-import java.sql.Blob;
+
 import java.sql.Time;
 
 public class Dish {
@@ -8,9 +8,12 @@ public class Dish {
     int cost;
     Time cookingTime;
     String tag;
-    Blob image;
+    String image;
+    private int id;
 
-    public Dish(String name, int cost, Time cookingTime, String tag, Blob image) {
+
+
+    public Dish(String name, int cost, Time cookingTime, String tag, String image) {
         this.name = name;
         this.cost = cost;
         this.cookingTime = cookingTime;
@@ -18,8 +21,31 @@ public class Dish {
         this.image = image;
     }
 
-    public String getName() {
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public void setCookingTime(Time cookingTime) {
+        this.cookingTime = cookingTime;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
         return name;
     }
 
@@ -35,7 +61,7 @@ public class Dish {
         return tag;
     }
 
-    public Blob getImage() {
+    public String getImage() {
         return image;
     }
 
@@ -46,7 +72,8 @@ public class Dish {
                 ", cost=" + cost +
                 ", cookingTime=" + cookingTime +
                 ", tag='" + tag + '\'' +
-                ", image=" + image +
+                ", image='" + image + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

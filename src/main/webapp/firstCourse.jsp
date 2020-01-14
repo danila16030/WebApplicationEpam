@@ -22,7 +22,7 @@
                 <li><a href="/WebApplication_war_exploded">Home</a></li>
                 <li><a href="" class="down">Dishes</a>
                     <ul class="submenu">
-                        <li><a href="firstCourse"> First course</a></li>
+                        <li><a href="firstCourse?move=0"> First course</a></li>
                         <li><a href="">Second course</a></li>
                         <li><a href="">Garnish</a></li>
                         <li><a href="">Salad</a></li>
@@ -52,10 +52,12 @@
         </tr>
         <c:forEach var="product" items="${listResults}">
             <tr>
-                <td>${product.name}</td>
+                <td>${product.name} </td>
                 <td>${product.cost}</td>
                 <td>${product.cookingTime}</td>
-                <td><img src="${product.image}"></td>
+                <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%">
+                    <input type="submit" name="move" value="to order">
+                </td>
             </tr>
         </c:forEach>
     </table>

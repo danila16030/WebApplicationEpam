@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class FirstCourseCommand implements Command {
     @Override
@@ -18,7 +19,8 @@ public class FirstCourseCommand implements Command {
             Statement stmt = connection.createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM menu WHERE tag='firstCourse' ");
             while (res.next()) {
-                listResults.add(new Dish(res.getString(1), res.getInt(2), res.getTime(3), res.getString(4), res.getBlob(5)));
+                Blob image = res.getBlob(5);
+                listResults.add(new Dish(res.getString(1), res.getInt(2), res.getTime(3), res.getString(4), Base64.getEncoder().encodeToString( image.getBytes(1, (int) image.length()))));
             }
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();

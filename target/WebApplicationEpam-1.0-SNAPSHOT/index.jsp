@@ -13,36 +13,36 @@
     <style type="text/css">
     </style>
 </head>
-    <div>    <!-- buttons holder -->
-        <button type="submit" class="singIn"
-                onclick="location.href=location.href+'singIn'">Sing in
-        </button>
-        <button type="submit" class="register"
-                onclick="location.href=location.href+'register'">Register
-        </button>
-        <form  method="post">
-            <nav>
-                <ul class="topmenu">
-                    <li><a href="">Home</a></li>
-                    <li><a href="" class="down">Dishes</a>
-                        <ul class="submenu">
-                            <li><a href="firstCourse?value=0"  > First course</a></li>
-                            <li><a href="">Second course</a></li>
-                            <li><a href="">Garnish</a></li>
-                            <li><a href="">Salad</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="" class="down">Drink</a>
-                        <ul class="submenu">
-                            <li><a href="">Sparkling water</a></li>
-                            <li><a href="">Still water</a></li>
-                            <li><a href="">Alcohol</a></li>
-                            <li><a href="">Cocktails</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="">Contact</a></li>
-                </ul>
-            </nav>
-        </form>
-    </div>
+<div>    <!-- buttons holder -->
+    <button type="submit" class="singIn"
+            onclick="location.href=location.href+'singIn'">Sing in
+    </button>
+    <button type="submit" class="register"
+            onclick="location.href=location.href+'register'">Register
+    </button>
+    <form method="post">
+        <nav>
+            <ul class="topmenu">
+                <li><a href="">Home</a></li>
+                <li><a href="" class="down">Dishes</a>
+                    <ul class="submenu">
+                        <li><a href="firstCourse?move=0"> First course</a></li>
+                        <li><a href="">Second course</a></li>
+                        <li><a href="">Garnish</a></li>
+                        <li><a href="">Salad</a></li>
+                    </ul>
+                </li>
+                <li><a href="" class="down">Drink</a>
+                    <ul class="submenu">
+                        <li><a href="">Sparkling water</a></li>
+                        <li><a href="">Still water</a></li>
+                        <li><a href="">Alcohol</a></li>
+                        <li><a href="">Cocktails</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Contact</a></li>
+            </ul>
+        </nav>
+    </form>
+</div>
 </html>

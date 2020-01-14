@@ -1,14 +1,11 @@
 package com.epam.servlets.service.factory;
 
 import com.epam.servlets.service.Command;
-import com.epam.servlets.service.impl.FirstCourseCommand;
-import com.epam.servlets.service.impl.LogOutCommand;
-import com.epam.servlets.service.impl.RegisterCommand;
-import com.epam.servlets.service.impl.SingInCommand;
+import com.epam.servlets.service.impl.*;
 
 public enum CommandEnum {
     SINGIN(new SingInCommand()),
-    CLIENT(new LogOutCommand()),
+    CLIENT(new ClientPageCommand()),
     REGISTER(new RegisterCommand()),
     FIRSTCOURSE(new FirstCourseCommand());
 
@@ -19,6 +16,6 @@ public enum CommandEnum {
     }
 
     public static Command getCurrentCommand(String action) {
-        return CommandEnum.valueOf(action.toUpperCase()).command;//toUpperCase увеличивает(делает ее как класс и передает ее в вер где логин
+        return CommandEnum.valueOf(action.toUpperCase()).command;
     }
 }

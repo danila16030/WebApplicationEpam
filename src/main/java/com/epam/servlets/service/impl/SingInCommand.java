@@ -1,12 +1,10 @@
 package com.epam.servlets.service.impl;
 
-import com.epam.servlets.entities.User;
 import com.epam.servlets.service.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
-import java.util.List;
 
 public class SingInCommand implements Command {
     @Override
@@ -22,8 +20,7 @@ public class SingInCommand implements Command {
             if (res.next()) {
                 connect = true;
                 if (!res.getBoolean(3)) {
-              //      userList.add(new User(res.getString(1), res.getString(2), res.getString(3)));
-                    stmt.executeUpdate("UPDATE  users SET inSystem=true WHERE login='" + name + "'");
+                     stmt.executeUpdate("UPDATE  users SET inSystem=true WHERE login='" + name + "'");
                     return true;
                 } else {
                     req.setAttribute("inf", "already");
