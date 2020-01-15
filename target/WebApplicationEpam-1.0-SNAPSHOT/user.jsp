@@ -18,10 +18,10 @@
 <body>
 <form>
     <tr>
-        <th> Name</th>
-        <th> Cost</th>
-        <th> Cooking time</th>
-        <th> Exemplum</th>
+        <th> Login</th>
+        <th> Loyalty points</th>
+        <th> Order</th>
+        <th> Block</th>
     </tr>
     <tr>
         <td>${client.login}</td>

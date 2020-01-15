@@ -23,12 +23,12 @@ public class UtilityFilter implements Filter {
         String[] list = req.getRequestURI().split("/");
         String page = null;
         page = list[list.length - 1];
-        if (((page != null) && page.equalsIgnoreCase("singIn"))) {
+        if (((page != null) && page.equalsIgnoreCase("singIn")||page.equalsIgnoreCase("register"))) {
             if (req.getParameter("name") != null) {
                 userName = req.getParameter("name");
             }
         }
-        if (userName != null) {
+            if (userName != null) {
             request.setAttribute("user", userName);
         }
         chain.doFilter(request, response);

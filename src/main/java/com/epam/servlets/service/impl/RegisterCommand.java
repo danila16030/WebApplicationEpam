@@ -8,7 +8,7 @@ import java.sql.*;
 
 public class RegisterCommand implements Command {
     @Override
-    public boolean execute(HttpServletRequest req) {
+    public String execute(HttpServletRequest req) {
         String name = req.getParameter("name");
         String password = req.getParameter("pass");
         try {
@@ -18,14 +18,15 @@ public class RegisterCommand implements Command {
             ResultSet res = stmt.executeQuery("SELECT * FROM users WHERE login='" + name + "' ");
             if (res.next()) {
                 req.setAttribute("inf", "exist");
-                return false;
+                return "register";
             }
-            String query = "INSERT INTO cafe.users (login , password,inSystem) VALUES('" + name + "', '" + password + " ',true )";
+            String query = "INSERT INTO users (login , password,inSystem) VALUES('" + name + "', '" + password + " ',true )";
             stmt.executeUpdate(query);
+            connection.close();
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+        return "client";
     }
 }

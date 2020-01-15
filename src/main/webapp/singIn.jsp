@@ -43,7 +43,7 @@
         }
 
     %>
-        <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom">Submit</button>
+        <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom" onclick="location.href='/client'">Submit</button>
     </form>
 </div>
 </div>

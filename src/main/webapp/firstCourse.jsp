@@ -7,10 +7,12 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="user" class="java.lang.String" scope="request"/>
 <html>
 <head>
     <title>FirstCourse</title>
     <link rel="stylesheet" type="text/css" href="productPage.css"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style type="text/css">
     </style>
 </head>
@@ -56,10 +58,20 @@
                 <td>${product.cost}</td>
                 <td>${product.cookingTime}</td>
                 <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%">
-                    <input type="submit" name="move" value="to order">
+                    <input type="submit" id="order" name="move" value="click to order ${product.name}">
                 </td>
             </tr>
         </c:forEach>
     </table>
 </form>
+<script>
+    function DeliteButton(value) {
+        value.style.display="none";
+    }
+    if (document.getElementById("user") == null) {
+        var buttons = document.getElementsByTagName("input");
+        var inputList = Array.prototype.slice.call(buttons);
+        inputList.forEach(DeliteButton);
+    }
+</script>
 </html>

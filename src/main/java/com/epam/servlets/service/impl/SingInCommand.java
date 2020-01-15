@@ -8,8 +8,7 @@ import java.sql.*;
 
 public class SingInCommand implements Command {
     @Override
-    public boolean execute(HttpServletRequest req) {
-        boolean connect = false;
+    public String execute(HttpServletRequest req) {
         String name = req.getParameter("name");
         String password = req.getParameter("pass");
         try {
@@ -18,21 +17,20 @@ public class SingInCommand implements Command {
             Statement stmt = connection.createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM users WHERE login='" + name + "' AND password='" + password + "'");
             if (res.next()) {
-                connect = true;
-                if (!res.getBoolean(3)) {
-                     stmt.executeUpdate("UPDATE  users SET inSystem=true WHERE login='" + name + "'");
-                    return true;
+               if (!res.getBoolean(3)) {
+                    stmt.executeUpdate("UPDATE  users SET inSystem=true WHERE login='" + name + "'");
+                    return "client";
                 } else {
                     req.setAttribute("inf", "already");
+                    return "singIn";
                 }
             }
             connection.close();
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
+            return null;
         }
-        if (!connect) {
-            req.setAttribute("inf", "wrong");
-        }
-        return false;
-    }
+           req.setAttribute("inf", "wrong");
+            return "singIn";
+       }
 }

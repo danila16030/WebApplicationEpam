@@ -9,17 +9,17 @@ import java.sql.*;
 
 public class ClientPageCommand implements Command {
     @Override
-    public boolean execute(HttpServletRequest req) {
+    public String execute(HttpServletRequest req) {
         if (req.getParameter("move").equals("logout")) {
             return logOut(req);
         }
         if (req.getParameter("move").equals("user")) {
             return userPage(req);
         }
-        return false;
+        return null;
     }
 
-    private boolean logOut(HttpServletRequest req) {
+    private String logOut(HttpServletRequest req) {
         String name = (String) req.getAttribute("user");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
@@ -29,12 +29,12 @@ public class ClientPageCommand implements Command {
             connection.close();
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return true;
+        return "/WebApplication_war_exploded";
     }
 
-    private boolean userPage(HttpServletRequest req) {
+    private String userPage(HttpServletRequest req) {
         String name = (String) req.getAttribute("user");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
@@ -44,12 +44,12 @@ public class ClientPageCommand implements Command {
             while (res.next()) {
                 Client client = new Client(res.getString(1), res.getInt(2), res.getString(3), res.getBoolean(4));
                 req.setAttribute("client", client);
-                return true;
+                return "user";
             }
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
-        return false;
+        return null;
     }
 }
