@@ -21,7 +21,9 @@ public class RegisterCommand implements Command {
                 return "register";
             }
             String query = "INSERT INTO users (login , password,inSystem) VALUES('" + name + "', '" + password + " ',true )";
+            String query2 = "INSERT INTO client (login) VALUES('" + name + "')";
             stmt.executeUpdate(query);
+            stmt.executeUpdate(query2);
             connection.close();
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();

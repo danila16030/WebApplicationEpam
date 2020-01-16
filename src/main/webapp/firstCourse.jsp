@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %><%--
   Created by IntelliJ IDEA.
   User: chech
   Date: 05.01.2020
@@ -43,7 +44,7 @@
         </nav>
     </form>
 </div>
-
+<input type="submit" id="user" value="${user}" style="display: none">
 <form>
     <table border="1">
         <tr>
@@ -58,7 +59,12 @@
                 <td>${product.cost}</td>
                 <td>${product.cookingTime}</td>
                 <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%">
-                    <input type="submit" id="order" name="move" value="click to order ${product.name}">
+                    <input type="submit" id="order" name="move" value="click to order ${product.name} ">
+                    <%
+                        Date date = new Date();
+                        SimpleDateFormat ft = new SimpleDateFormat("hh:mm");
+                        request.setAttribute("time", ft.format(date));
+                    %>
                 </td>
             </tr>
         </c:forEach>
@@ -66,12 +72,15 @@
 </form>
 <script>
     function DeliteButton(value) {
-        value.style.display="none";
+        value.style.display = "none";
     }
-    if (document.getElementById("user") == null) {
+
+    var uservar = document.getElementById("user").value;
+    if (uservar === "") {
         var buttons = document.getElementsByTagName("input");
         var inputList = Array.prototype.slice.call(buttons);
         inputList.forEach(DeliteButton);
     }
 </script>
+
 </html>

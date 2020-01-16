@@ -4,20 +4,25 @@ package com.epam.servlets.entities;
 import java.sql.Time;
 
 public class Dish {
-    String name;
-    int cost;
-    Time cookingTime;
-    String tag;
-    String image;
+    private String name;
+    private int cost;
+    private Time cookingTime;
+    private Time orderTime;
+
+    private String image;
     private int id;
 
-
-
-    public Dish(String name, int cost, Time cookingTime, String tag, String image) {
+    public Dish(String name, int cost, Time cookingTime,Time orderTime) {
         this.name = name;
         this.cost = cost;
         this.cookingTime = cookingTime;
-        this.tag = tag;
+        this.orderTime=orderTime;
+    }
+
+    public Dish(String name, int cost, Time cookingTime, String image) {
+        this.name = name;
+        this.cost = cost;
+        this.cookingTime = cookingTime;
         this.image = image;
     }
 
@@ -33,9 +38,6 @@ public class Dish {
         this.cookingTime = cookingTime;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
 
     public void setImage(String image) {
         this.image = image;
@@ -57,9 +59,6 @@ public class Dish {
         return cookingTime;
     }
 
-    public String getTag() {
-        return tag;
-    }
 
     public String getImage() {
         return image;
@@ -71,7 +70,6 @@ public class Dish {
                 "name='" + name + '\'' +
                 ", cost=" + cost +
                 ", cookingTime=" + cookingTime +
-                ", tag='" + tag + '\'' +
                 ", image='" + image + '\'' +
                 ", id=" + id +
                 '}';

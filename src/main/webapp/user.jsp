@@ -16,20 +16,34 @@
     </style>
 </head>
 <body>
+
+<br>
+
+Login: <%= client.getLogin()%><br>
+
+Loyalty points: <%= client.getLoyaltyPoints()%><br>
+
+Order:
 <form>
-    <tr>
-        <th> Login</th>
-        <th> Loyalty points</th>
-        <th> Order</th>
-        <th> Block</th>
-    </tr>
-    <tr>
-        <td>${client.login}</td>
-        <td>${client.loyaltyPoints}</td>
-        <td>${client.order}</td>
-        <td>${client.block}</td>
-    </tr>
+    <table border="1">
+        <tr>
+            <th> Name</th>
+            <th> Order time</th>
+            <th> Remaining time before cooking</th>
+        </tr>
+        <c:forEach var="product" items="${client.orderList}">
+            <tr>
+                <td>${product.name} </td>
+                <td>${product.cookingTime}</td>
+                <td>${product.cookingTime}</td>
+                </td>
+            </tr>
+        </c:forEach>
     </table>
 </form>
+
+Block: <%= client.isBlock()%><br>
+
 </body>
+
 </html>
