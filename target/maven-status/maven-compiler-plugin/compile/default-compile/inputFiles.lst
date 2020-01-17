@@ -1,10 +1,10 @@
 C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\controller\Controller.java
-C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\entities\User.java
-C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\service\factory\CommandFactory.java
+C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\filter\UtilityFilter.java
+C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\entities\Client.java
 C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\service\impl\RegisterCommand.java
 C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\entities\Dish.java
 C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\service\factory\CommandEnum.java
+C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\service\impl\ClientPageCommand.java
 C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\service\impl\SingInCommand.java
 C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\service\Command.java
-C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\service\impl\LogOutCommand.java
 C:\Users\chech\IdeaProjects\EpamWeb\WebApplication\src\main\java\com\epam\servlets\service\impl\FirstCourseCommand.java

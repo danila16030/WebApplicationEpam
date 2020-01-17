@@ -1,10 +1,10 @@
-com\epam\servlets\service\factory\CommandEnum.class
+com\epam\servlets\filter\UtilityFilter.class
 com\epam\servlets\entities\Dish.class
 com\epam\servlets\controller\Controller.class
-com\epam\servlets\service\impl\LogOutCommand.class
-com\epam\servlets\service\impl\RegisterCommand.class
 com\epam\servlets\service\Command.class
+com\epam\servlets\entities\Client.class
+com\epam\servlets\service\impl\ClientPageCommand.class
 com\epam\servlets\service\impl\FirstCourseCommand.class
-com\epam\servlets\entities\User.class
-com\epam\servlets\service\factory\CommandFactory.class
 com\epam\servlets\service\impl\SingInCommand.class
+com\epam\servlets\service\factory\CommandEnum.class
+com\epam\servlets\service\impl\RegisterCommand.class

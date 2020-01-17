@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="user" class="java.lang.String" scope="request"/>
+<jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
 <html>
 <head>
     <title>FirstCourse</title>
@@ -17,7 +18,6 @@
     <style type="text/css">
     </style>
 </head>
-<jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
 <div>
     <form method="post">
         <nav>
@@ -60,11 +60,6 @@
                 <td>${product.cookingTime}</td>
                 <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%">
                     <input type="submit" id="order" name="move" value="click to order ${product.name} ">
-                    <%
-                        Date date = new Date();
-                        SimpleDateFormat ft = new SimpleDateFormat("hh:mm");
-                        request.setAttribute("time", ft.format(date));
-                    %>
                 </td>
             </tr>
         </c:forEach>

@@ -7,16 +7,15 @@ public class Dish {
     private String name;
     private int cost;
     private Time cookingTime;
-    private Time orderTime;
+    private String readyTime;
 
     private String image;
     private int id;
 
-    public Dish(String name, int cost, Time cookingTime,Time orderTime) {
+    public Dish(String name, int cost, String readyTime) {
         this.name = name;
         this.cost = cost;
-        this.cookingTime = cookingTime;
-        this.orderTime=orderTime;
+        this.readyTime = readyTime;
     }
 
     public Dish(String name, int cost, Time cookingTime, String image) {
@@ -32,10 +31,6 @@ public class Dish {
 
     public void setCost(int cost) {
         this.cost = cost;
-    }
-
-    public void setCookingTime(Time cookingTime) {
-        this.cookingTime = cookingTime;
     }
 
 
@@ -59,6 +54,17 @@ public class Dish {
         return cookingTime;
     }
 
+    public void setCookingTime(Time cookingTime) {
+        this.cookingTime = cookingTime;
+    }
+
+    public String getReadyTime() {
+        return readyTime;
+    }
+
+    public void setReadyTime(String readyTime) {
+        this.readyTime = readyTime;
+    }
 
     public String getImage() {
         return image;
@@ -70,6 +76,7 @@ public class Dish {
                 "name='" + name + '\'' +
                 ", cost=" + cost +
                 ", cookingTime=" + cookingTime +
+                ", orderTime='" + readyTime + '\'' +
                 ", image='" + image + '\'' +
                 ", id=" + id +
                 '}';

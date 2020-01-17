@@ -56,11 +56,11 @@ public class ClientPageCommand implements Command {
                 String orderString = res.getString(3);
                 if (orderString != null) {
                     list = orderString.split(" ");
-                    for (int i = 0; i <= list.length - 1; i++) {
+                    for (int i = 1; i <= list.length - 1; i += 2) {
                         Statement stmt1 = connection.createStatement();
                         ResultSet res1 = stmt1.executeQuery("SELECT * FROM menu WHERE dish='" + list[i] + "'");
                         if (res1.next()) {
-                            orderList.add(new Dish(res1.getString(1), res1.getInt(2), res1.getTime(3), res1.getString(4)));
+                            orderList.add(new Dish(res1.getString(1), res1.getInt(2), list[i + 1]));
                         }
                     }
                     client.setOrderList(orderList);
