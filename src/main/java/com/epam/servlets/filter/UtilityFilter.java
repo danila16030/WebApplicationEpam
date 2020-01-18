@@ -28,7 +28,10 @@ public class UtilityFilter implements Filter {
         if (list.length > 2) {
             previousPage = list[list.length - 1];
         }
-        if (((page != null) && page.equals("singIn") || page.equals("register"))) {
+        if (req.getServletPath().equals("/index.jsp") && previousPage != null && previousPage.equals("client")) {
+            userName = null;
+        }
+        if ((page.equals("singIn") || page.equals("register"))) {
             if (req.getParameter("name") != null) {
                 userName = req.getParameter("name");
             }
@@ -36,12 +39,13 @@ public class UtilityFilter implements Filter {
         if (userName != null) {
             request.setAttribute("user", userName);
         }
-        String value = req.getParameter("move");
-/*        if ((page != null) && page.equals("WebApplication_war_exploded") && userName != null
-                && value == null && !previousPage.equals("client")) {
+        if (page.equals("WebApplication_war_exploded") && userName != null) {
             resp.sendRedirect("client");
         }
-*/
+        if (page.equals("client") && userName == null) {
+            resp.sendRedirect("/WebApplication_war_exploded");
+            return;
+        }
         chain.doFilter(request, response);
     }
 

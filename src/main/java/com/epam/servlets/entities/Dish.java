@@ -12,6 +12,9 @@ public class Dish {
     private String image;
     private int id;
 
+    public Dish() {
+    }
+
     public Dish(String name, int cost, String readyTime) {
         this.name = name;
         this.cost = cost;

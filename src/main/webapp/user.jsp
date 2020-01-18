@@ -43,6 +43,7 @@ Order:
 </form>
 
 Block: <%= client.isBlock()%><br>
+Balance: <%= client.getBalance()%><br>
 <script>
     function getDate(string) {
         return new Date(0, 0, 0, string.split(':')[0], string.split(':')[1], string.split(':')[2]);

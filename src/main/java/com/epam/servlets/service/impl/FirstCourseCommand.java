@@ -7,16 +7,11 @@ import com.epam.servlets.service.Command;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Date;
 
 public class FirstCourseCommand implements Command {
     @Override
@@ -24,8 +19,32 @@ public class FirstCourseCommand implements Command {
         if (req.getParameter("move").equals("0")) {
             return getProductList(req);
         } else {
-            return orderADish(req);
+            if (req.getParameter("time") != null) {
+                return orderADish(req);
+            } else {
+                return getProductForOrderPage(req);
+            }
         }
+    }
+
+    private String getProductForOrderPage(HttpServletRequest req) {
+        Dish dish = null;
+        String product = req.getParameter("move").substring(15);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
+            Statement stmt = connection.createStatement();
+            ResultSet res = stmt.executeQuery("SELECT * FROM menu WHERE dish='" + product.trim() + "'  ");
+            if (res.next()) {
+                Blob image = res.getBlob(5);
+                dish = new Dish(res.getString(1), res.getInt(2), res.getTime(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())));
+            }
+        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
+        req.setAttribute("product", dish);
+        return "orderPage";
     }
 
     private String orderADish(HttpServletRequest req) {
@@ -52,20 +71,28 @@ public class FirstCourseCommand implements Command {
                 end = end.plus(start.getHour(), ChronoUnit.HOURS);
                 end = end.plus(start.getMinute(), ChronoUnit.MINUTES);
                 end = end.plus(start.getSecond(), ChronoUnit.SECONDS);
-                String orderTime = end.format(formatter);
-                if (fullOrder != null || fullOrder.equals("")) {
-                    fullOrder = fullOrder + product + orderTime;
+                String requestedTime=req.getParameter("time") + ":03";
+                LocalTime orderTime = LocalTime.parse(requestedTime, formatter);
+                if (end.isBefore(orderTime)) {
+                    if (fullOrder != null || fullOrder.equals("")) {
+                        fullOrder = fullOrder + product + orderTime;
+                    } else {
+                        fullOrder = product + orderTime;
+                    }
+                    stmt.executeUpdate("UPDATE  client SET `order`='" + fullOrder + "' WHERE login='" + userName + "'");
+                    connection.close();
+                    req.setAttribute("inf", "cool");
+                    return getProductForOrderPage(req);
                 } else {
-                    fullOrder = product + orderTime;
+                    req.setAttribute("inf", "error");
+                    return getProductForOrderPage(req);
                 }
-                stmt.executeUpdate("UPDATE  client SET `order`='" + fullOrder + "' WHERE login='" + userName + "'");
             }
-            connection.close();
-            return getProductList(req);
-        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | SQLException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
+        return null;
     }
 
     private String getProductList(HttpServletRequest req) {

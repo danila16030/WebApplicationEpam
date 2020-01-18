@@ -18,11 +18,12 @@ public class Controller extends HttpServlet {
             throws ServletException, IOException {
         if (request.getParameter("move") != null) {
             processRequest(request, response);
+        } else {
+            s = request.getServletPath();
+            s = s.substring(1);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(s + ".jsp");
+            requestDispatcher.forward(request, response);
         }
-        s = request.getServletPath();
-        s = s.substring(1);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(s + ".jsp");
-        requestDispatcher.forward(request, response);
     }
 
     @Override
@@ -36,12 +37,13 @@ public class Controller extends HttpServlet {
         s = s.substring(1);
         Command command = CommandEnum.getCurrentCommand(s);
         page = command.execute(req);
-        if (page.equals("client") || page.equals("/WebApplication_war_exploded")) {
+        if (page.equals("client") || page.equals("/WebApplication_war_exploded") ) {
             resp.sendRedirect(page);
             return;
         }
         RequestDispatcher requestDispatcher = req.getRequestDispatcher(page + ".jsp");
         requestDispatcher.forward(req, resp);
     }
+
 
 }

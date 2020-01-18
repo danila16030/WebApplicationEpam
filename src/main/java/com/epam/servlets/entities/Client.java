@@ -8,15 +8,10 @@ public class Client {
     private ArrayList<Dish> orderList;
     private boolean block;
     private int id;
+    private int balance;
+
 
     public Client() {
-    }
-
-    public Client(String login, int loyaltyPoints, ArrayList<Dish> orderList, boolean block) {
-        this.login = login;
-        this.loyaltyPoints = loyaltyPoints;
-        this.orderList = orderList;
-        this.block = block;
     }
 
     @Override
@@ -29,6 +24,7 @@ public class Client {
         if (loyaltyPoints != client.loyaltyPoints) return false;
         if (block != client.block) return false;
         if (id != client.id) return false;
+        if (balance != client.balance) return false;
         if (login != null ? !login.equals(client.login) : client.login != null) return false;
         return orderList != null ? orderList.equals(client.orderList) : client.orderList == null;
     }
@@ -40,7 +36,28 @@ public class Client {
         result = 31 * result + (orderList != null ? orderList.hashCode() : 0);
         result = 31 * result + (block ? 1 : 0);
         result = 31 * result + id;
+        result = 31 * result + balance;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "login='" + login + '\'' +
+                ", loyaltyPoints=" + loyaltyPoints +
+                ", orderList=" + orderList +
+                ", block=" + block +
+                ", id=" + id +
+                ", balance=" + balance +
+                '}';
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     public String getLogin() {
@@ -83,14 +100,4 @@ public class Client {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "Client{" +
-                "login='" + login + '\'' +
-                ", loyaltyPoints=" + loyaltyPoints +
-                ", orderList=" + orderList +
-                ", block=" + block +
-                ", id=" + id +
-                '}';
-    }
 }

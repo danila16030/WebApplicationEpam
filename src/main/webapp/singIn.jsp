@@ -13,7 +13,7 @@
 </head>
 <body class="w3-light-grey">
 <div class="w3-container w3-blue-grey w3-opacity w3-right-align">
-    <h1>Super app!</h1>
+    <h1>Super cafe!</h1>
 </div>
 <div class="w3-card-4">
     <form method="post" class="w3-selection w3-light-grey w3-padding">

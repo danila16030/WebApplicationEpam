@@ -13,13 +13,13 @@
 </head>
 <body class="w3-light-grey">
 <div class="w3-container w3-blue-grey w3-opacity w3-right-align">
-    <h1>Super app!</h1>
+    <h1>Super cafe!</h1>
 </div>
 <div class="w3-card-4">
     <form method="post" class="w3-selection w3-light-grey w3-padding">
 
         <label>Name (more than 3 symbols):
-            <input type="text" name="name" pattern="^[A-Za-z0-9]{3,}" required
+            <input type="text" name="name" pattern="^[A-Za-z]{1}[A-Za-z0-9]{2,}" required
             class="w3-input w3-animate-input w3-border w3-round-large"
             style="width: 30%"><br/>
         </label>

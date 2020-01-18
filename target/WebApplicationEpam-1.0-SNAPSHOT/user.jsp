@@ -43,6 +43,7 @@ Order:
 </form>
 
 Block: <%= client.isBlock()%><br>
+Balance: <%= client.getBalance()%><br>
 <script>
     function getDate(string) {
         return new Date(0, 0, 0, string.split(':')[0], string.split(':')[1], string.split(':')[2]);
@@ -55,7 +56,7 @@ Block: <%= client.isBlock()%><br>
         let different = (getDate(firstDate) - getDate(secondDate));
         let hours = Math.floor((different % 86400000) / 3600000);
         let minutes = Math.round(((different % 86400000) % 3600000) / 60000);
-        let seconds = Math.round(((different % 86400000) % 3600000) / 60000 / 60000);
+        let seconds = Math.round((((different % 86400000) % 3600000) % 60000) / 1000);
         let cookTime = hours + ':' + minutes + ':' + seconds;
         if (minutes < 0 || seconds < 0 || hours < 0) {
             if(hours<-4){

@@ -53,6 +53,7 @@ public class ClientPageCommand implements Command {
                 client.setLogin(res.getString(1));
                 client.setLoyaltyPoints(res.getInt(2));
                 client.setBlock(res.getBoolean(4));
+                client.setBalance(res.getInt(6));
                 String orderString = res.getString(3);
                 if (orderString != null) {
                     list = orderString.split(" ");
