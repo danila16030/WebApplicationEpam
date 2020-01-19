@@ -7,7 +7,8 @@ public enum CommandEnum {
     SINGIN(new SingInCommand()),
     CLIENT(new ClientPageCommand()),
     REGISTER(new RegisterCommand()),
-    FIRSTCOURSE(new FirstCourseCommand());
+    FIRSTCOURSE(new FirstCourseCommand()),
+    BALANCE(new BalancePageCommand());
 
     private Command command;
 

@@ -35,7 +35,7 @@ Order:
             <tr>
                 <td>${product.name} </td>
                 <td>${product.readyTime}</td>
-                <td><input type="text" id="time" value="${product.readyTime}"></td>
+                <td><input type="text" id="time" value="${product.readyTime}" disabled></td>
                 </td>
             </tr>
         </c:forEach>
@@ -43,7 +43,12 @@ Order:
 </form>
 
 Block: <%= client.isBlock()%><br>
-Balance: <%= client.getBalance()%><br>
+
+<label>Balance: ${client.balance}     
+    <input type="button" id="money" value="replenish balance"
+           onclick="location.href='/WebApplication_war_exploded/balance'">
+</label>
+
 <script>
     function getDate(string) {
         return new Date(0, 0, 0, string.split(':')[0], string.split(':')[1], string.split(':')[2]);
@@ -59,8 +64,8 @@ Balance: <%= client.getBalance()%><br>
         let seconds = Math.round((((different % 86400000) % 3600000) % 60000) / 1000);
         let cookTime = hours + ':' + minutes + ':' + seconds;
         if (minutes < 0 || seconds < 0 || hours < 0) {
-            if(hours<-4){
-                value.value="Expired";
+            if (hours < -4) {
+                value.value = "Expired";
             }
             value.value = "Ready";
         } else {

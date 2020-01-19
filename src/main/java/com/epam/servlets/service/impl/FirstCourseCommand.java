@@ -52,18 +52,22 @@ public class FirstCourseCommand implements Command {
         String product = req.getParameter("move");
         product = product.substring(14);
         String time = null;
+        int clientBalance;
+        int productCost;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
             Statement stmt = connection.createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM client WHERE login='" + userName + "' ");
             if (res.next()) {
+                clientBalance = res.getInt(6);
                 Statement stmt1 = connection.createStatement();
                 String a = product.trim();
                 ResultSet res1 = stmt1.executeQuery("SELECT * FROM menu WHERE dish='" + a + "'");
                 if (res1.next()) {
                     time = String.valueOf(res1.getTime(3));
                 }
+                productCost = res1.getInt(2);
                 String fullOrder = res.getString(3);
                 LocalTime start = LocalTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -71,20 +75,26 @@ public class FirstCourseCommand implements Command {
                 end = end.plus(start.getHour(), ChronoUnit.HOURS);
                 end = end.plus(start.getMinute(), ChronoUnit.MINUTES);
                 end = end.plus(start.getSecond(), ChronoUnit.SECONDS);
-                String requestedTime=req.getParameter("time") + ":03";
+                String requestedTime = req.getParameter("time") + ":03";
                 LocalTime orderTime = LocalTime.parse(requestedTime, formatter);
-                if (end.isBefore(orderTime)) {
-                    if (fullOrder != null || fullOrder.equals("")) {
-                        fullOrder = fullOrder + product + orderTime;
+                if (clientBalance > productCost) {
+                    if (end.isBefore(orderTime)) {
+                        if (fullOrder != null) {
+                            fullOrder = fullOrder + product + orderTime;
+                        } else {
+                            fullOrder = product + orderTime;
+                        }
+                        clientBalance = clientBalance - productCost;
+                        stmt.executeUpdate("UPDATE  client SET `order`='" + fullOrder + "' , balance='" + clientBalance + "' WHERE login='" + userName + "'");
+                        connection.close();
+                        req.setAttribute("inf", "cool");
+                        return getProductForOrderPage(req);
                     } else {
-                        fullOrder = product + orderTime;
+                        req.setAttribute("inf", "time");
+                        return getProductForOrderPage(req);
                     }
-                    stmt.executeUpdate("UPDATE  client SET `order`='" + fullOrder + "' WHERE login='" + userName + "'");
-                    connection.close();
-                    req.setAttribute("inf", "cool");
-                    return getProductForOrderPage(req);
                 } else {
-                    req.setAttribute("inf", "error");
+                    req.setAttribute("inf", "money");
                     return getProductForOrderPage(req);
                 }
             }
