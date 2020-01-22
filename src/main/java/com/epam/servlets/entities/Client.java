@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Client {
     private String login;
     private int loyaltyPoints;
-    private ArrayList<Dish> orderList;
+    private ArrayList<Product> orderList;
     private boolean block;
     private int id;
     private int balance;
@@ -76,11 +76,11 @@ public class Client {
         this.loyaltyPoints = loyaltyPoints;
     }
 
-    public ArrayList<Dish> getOrderList() {
+    public ArrayList<Product> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(ArrayList<Dish> orderList) {
+    public void setOrderList(ArrayList<Product> orderList) {
         this.orderList = orderList;
     }
 

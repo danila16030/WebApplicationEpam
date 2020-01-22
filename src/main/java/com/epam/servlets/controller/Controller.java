@@ -16,7 +16,7 @@ public class Controller extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("move") != null) {
+        if (request.getParameter("move") != null || request.getServletPath().equals("/comments") || request.getServletPath().equals("/user")) {
             processRequest(request, response);
         } else {
             s = request.getServletPath();
@@ -37,11 +37,12 @@ public class Controller extends HttpServlet {
         s = s.substring(1);
         Command command = CommandEnum.getCurrentCommand(s);
         page = command.execute(req);
-        if (page.equals("client") || page.equals("/WebApplication_war_exploded") ) {
+        if (page.equals("client") || page.equals("/WebApplication_war_exploded") || page.equals("admin")) {
             resp.sendRedirect(page);
             return;
         }
         RequestDispatcher requestDispatcher = req.getRequestDispatcher(page + ".jsp");
+        req.removeAttribute("move");
         requestDispatcher.forward(req, resp);
     }
 

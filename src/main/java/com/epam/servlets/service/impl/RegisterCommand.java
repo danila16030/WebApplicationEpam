@@ -20,7 +20,7 @@ public class RegisterCommand implements Command {
                 req.setAttribute("inf", "exist");
                 return "register";
             }
-            String query = "INSERT INTO users (login , password,inSystem) VALUES('" + name + "', '" + password + " ',true )";
+            String query = "INSERT INTO users (login , password,inSystem) VALUES('" + name + "', '" + password + "',true )";
             String query2 = "INSERT INTO client (login) VALUES('" + name + "')";
             stmt.executeUpdate(query);
             stmt.executeUpdate(query2);

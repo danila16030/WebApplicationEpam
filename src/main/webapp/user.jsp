@@ -44,8 +44,8 @@ Order:
 
 Block: <%= client.isBlock()%><br>
 
-<label>Balance: ${client.balance}
-    <input type="button" id="money" value="replenish balance"
+<label>Balance:${client.balance}
+    <input type="button" id="money" name="money" value="replenish balance"
            onclick="location.href='/WebApplication_war_exploded/balance'">
 </label>
 

@@ -1,6 +1,6 @@
 package com.epam.servlets.service.impl;
 
-import com.epam.servlets.entities.Dish;
+import com.epam.servlets.entities.Product;
 import com.epam.servlets.service.Command;
 
 
@@ -28,16 +28,16 @@ public class FirstCourseCommand implements Command {
     }
 
     private String getProductForOrderPage(HttpServletRequest req) {
-        Dish dish = null;
+        Product dish = null;
         String product = req.getParameter("move").substring(15);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
             Statement stmt = connection.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM menu WHERE dish='" + product.trim() + "'  ");
+            ResultSet res = stmt.executeQuery("SELECT * FROM menu WHERE product='" + product.trim() + "'  ");
             if (res.next()) {
                 Blob image = res.getBlob(5);
-                dish = new Dish(res.getString(1), res.getInt(2), res.getTime(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())));
+                dish = new Product(res.getString(1), res.getInt(2), res.getTime(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())));
             }
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
@@ -62,8 +62,8 @@ public class FirstCourseCommand implements Command {
             if (res.next()) {
                 clientBalance = res.getInt(6);
                 Statement stmt1 = connection.createStatement();
-                String a = product.trim();
-                ResultSet res1 = stmt1.executeQuery("SELECT * FROM menu WHERE dish='" + a + "'");
+                String productName = product.trim();
+                ResultSet res1 = stmt1.executeQuery("SELECT * FROM menu WHERE product='" + productName + "'");
                 if (res1.next()) {
                     time = String.valueOf(res1.getTime(3));
                 }
@@ -85,7 +85,7 @@ public class FirstCourseCommand implements Command {
                             fullOrder = product + orderTime;
                         }
                         clientBalance = clientBalance - productCost;
-                        stmt.executeUpdate("UPDATE  client SET `order`='" + fullOrder + "' , balance='" + clientBalance + "' WHERE login='" + userName + "'");
+                        stmt.executeUpdate("UPDATE  client SET `order`='" + fullOrder + "', balance='" + clientBalance + "' WHERE login='" + userName + "'");
                         connection.close();
                         req.setAttribute("inf", "cool");
                         return getProductForOrderPage(req);
@@ -106,7 +106,7 @@ public class FirstCourseCommand implements Command {
     }
 
     private String getProductList(HttpServletRequest req) {
-        ArrayList<Dish> listResults = new ArrayList();
+        ArrayList<Product> listResults = new ArrayList();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
@@ -114,7 +114,7 @@ public class FirstCourseCommand implements Command {
             ResultSet res = stmt.executeQuery("SELECT * FROM menu WHERE tag='firstCourse' ");
             while (res.next()) {
                 Blob image = res.getBlob(5);
-                listResults.add(new Dish(res.getString(1), res.getInt(2), res.getTime(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length()))));
+                listResults.add(new Product(res.getString(1), res.getInt(2), res.getTime(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())), res.getDouble(7), res.getInt(8)));
             }
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();

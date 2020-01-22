@@ -1,14 +1,15 @@
 package com.epam.servlets.filter;
 
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.logging.LogRecord;
+
 
 public class UtilityFilter implements Filter {
     private FilterConfig filterConfig;
-    String userName;
-    String previousPage;
+    private String userName;
+    private String previousPage;
 
     public void init(final FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
@@ -31,11 +32,15 @@ public class UtilityFilter implements Filter {
         if (req.getServletPath().equals("/index.jsp") && previousPage != null && previousPage.equals("client")) {
             userName = null;
         }
+
+
         if ((page.equals("singIn") || page.equals("register"))) {
             if (req.getParameter("name") != null) {
                 userName = req.getParameter("name");
+
             }
         }
+
         if (userName != null) {
             request.setAttribute("user", userName);
         }
@@ -48,6 +53,5 @@ public class UtilityFilter implements Filter {
         }
         chain.doFilter(request, response);
     }
-
 
 }

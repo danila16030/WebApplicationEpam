@@ -17,8 +17,8 @@
 </head>
 <div>    <!-- buttons holder -->
     <form method="post">
-        <button type="submit" class="register" name="move" value="user" >${user}
-        </button>
+        <input type="button" class="register" id="move" value="${user}"
+               onclick="location.href='/WebApplication_war_exploded/user'">
         <nav>
             <ul class="topmenu">
                 <li><a href="">Home</a></li>
@@ -32,7 +32,7 @@
                 </li>
                 <li><a href="" class="down">Drink</a>
                     <ul class="submenu">
-                        <li><a >Sparkling water</a></li>
+                        <li><a>Sparkling water</a></li>
                         <li><a href="">Still water</a></li>
                         <li><a href="">Alcohol</a></li>
                         <li><a href="">Cocktails</a></li>
@@ -41,7 +41,7 @@
                 <li><a href="">Contact</a></li>
             </ul>
         </nav>
-        <button type="submit" class="singIn" name="move" value="logout" >Log out</button>
+        <button type="submit" class="singIn" name="move" value="logout">Log out</button>
     </form>
 </div>
 </html>

@@ -1,5 +1,6 @@
 package com.epam.servlets.service.impl;
 
+import com.epam.servlets.filter.UtilityFilter;
 import com.epam.servlets.service.Command;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,9 +18,12 @@ public class SingInCommand implements Command {
             Statement stmt = connection.createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM users WHERE login='" + name + "' AND password='" + password + "'");
             if (res.next()) {
-               if (!res.getBoolean(3)) {
+                if (!res.getBoolean(3)) {
+                    if (res.getString(4).equals("admin")) {
+                            return "admin";
+                    }
                     stmt.executeUpdate("UPDATE  users SET inSystem=true WHERE login='" + name + "'");
-                     return "client";
+                    return "client";
                 } else {
                     req.setAttribute("inf", "already");
                     return "singIn";
@@ -30,7 +34,7 @@ public class SingInCommand implements Command {
             e.printStackTrace();
             return null;
         }
-           req.setAttribute("inf", "wrong");
-            return "singIn";
-       }
+        req.setAttribute("inf", "wrong");
+        return "singIn";
+    }
 }

@@ -18,8 +18,8 @@ public class BalancePageCommand implements Command {
             ResultSet res = stmt.executeQuery("SELECT * FROM client WHERE login='" + name + "' ");
             if (res.next()) {
                 long balance = res.getInt(6);
-                balance = Long.parseLong(balance + amount);
-                stmt.executeUpdate("UPDATE  client SET balance=balance WHERE login='" + name + "'");
+                balance = balance + Long.parseLong(amount);
+                stmt.executeUpdate("UPDATE  client SET balance='" + balance + "' WHERE login='" + name + "'");
                 req.setAttribute("inf", "cool");
             }
             connection.close();

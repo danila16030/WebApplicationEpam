@@ -18,6 +18,7 @@
     <style type="text/css">
     </style>
 </head>
+<body class="w3-light-grey">
 <div>
     <form method="post">
         <nav>
@@ -52,6 +53,8 @@
             <th> Cost</th>
             <th> Cooking time</th>
             <th> Exemplum</th>
+            <th> Average score</th>
+            <th> Number of voters</th>
         </tr>
         <c:forEach var="product" items="${listResults}">
             <tr>
@@ -60,7 +63,12 @@
                 <td>${product.cookingTime}</td>
                 <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%">
                     <input type="submit" id="order" name="move" value="click to order ${product.name} ">
+                    <input type="button" id="com" name="comment"
+                           value="View comments on ${product.name} "
+                           onclick="location.href='/WebApplication_war_exploded/comments?about=${product.name}'">
                 </td>
+                <td>${product.averageScope}</td>
+                <td>${product.votersNumber}</td>
             </tr>
         </c:forEach>
     </table>
@@ -77,5 +85,5 @@
         inputList.forEach(DeliteButton);
     }
 </script>
-
+</body>
 </html>

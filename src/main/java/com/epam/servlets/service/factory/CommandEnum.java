@@ -8,7 +8,10 @@ public enum CommandEnum {
     CLIENT(new ClientPageCommand()),
     REGISTER(new RegisterCommand()),
     FIRSTCOURSE(new FirstCourseCommand()),
-    BALANCE(new BalancePageCommand());
+    BALANCE(new BalancePageCommand()),
+    USER(new UserPageCommand()),
+    COMMENTS(new CommentPageCommand()),
+    CHANGEPOINTS(new ChangePointPageCommand());
 
     private Command command;
 

@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>Sing in</title>
@@ -41,7 +42,6 @@
                     "   <h5>User already in system</h5>\n" +
                     "</div>");
         }
-
     %>
         <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom" onclick="location.href='/client'">Submit</button>
     </form>
