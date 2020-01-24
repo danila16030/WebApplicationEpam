@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: chech
@@ -6,11 +7,67 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
 <html>
 <head>
     <title>changeMenu</title>
 </head>
 <body>
+<div>
+    <form method="post">
+        <label>Enter the product name you want to find:
+            <input type="text" name="product" style="width: 30%" pattern="^[A-Za-z0-9]{1,}"><br/>
+        </label>
+        <button type="submit">Search</button>
+    </form>
+</div>
+<div>
+    <form method="post">
+        <label>Select the tag by which to search for product product:
+            <input type="checkbox" name="tag" value="firstCourse">First course
+            <input type="checkbox" name="tag" value="secondCourse">Second course
+            <input type="checkbox" name="tag" value="garnish">Garnish
+            <input type="checkbox" name="tag" value="salad">Salad
+            <input type="checkbox" name="tag" value="sparklingWater">Sparkling water
+            <input type="checkbox" name="tag" value="juice">Juice
+            <input type="checkbox" name="tag" value="alcohol">Alcohol
+            <br/>
+        </label>
+        <button type="submit">Search</button>
+    </form>
+</div>
+<div>
+    <form method="post">
+        <table border="1">
+            <tr>
+                <th> Name</th>
+                <th> Cost</th>
+                <th> Cooking time</th>
+                <th> Exemplum</th>
+                <th> Tag</th>
+            </tr>
+            <c:forEach var="product" items="${listResults}">
+                <tr>
+                    <input type="hidden" name="previous" value="${product.name}">
+                    <td><input type="text" name="product" value="${product.name}"
+                               pattern="^[A-Za-z0-9]{1,}">
+                    </td>
+                    <td><input type="text" name="cost" value="${product.cost}"
+                               pattern="^[0-9]{1,}"></td>
+                    <td><input type="time" name="time" value="${product.cookingTime}"
+                               pattern="^[A-Za-z0-9]{1,}"></td>
+                    <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%"></td>
+                    <td><input type="text" name="tag" value="${product.tag}"
+                               pattern="^[A-Za-z]{1,}">
+                        <input type="submit" id="de" name="delete" value="click to delete this product" >
+                        <button type="submit">Click to confirm changes</button>
+                    </td>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </form>
+</div>
 
 </body>
 </html>

@@ -35,7 +35,7 @@
                 <li><a href="" class="down">Drink</a>
                     <ul class="submenu">
                         <li><a href="">Sparkling water</a></li>
-                        <li><a href="">Still water</a></li>
+                        <li><a href="">Juice</a></li>
                         <li><a href="">Alcohol</a></li>
                         <li><a href="">Cocktails</a></li>
                     </ul>

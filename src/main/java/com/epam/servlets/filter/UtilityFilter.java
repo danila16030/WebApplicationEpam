@@ -1,9 +1,12 @@
 package com.epam.servlets.filter;
 
 
+import com.epam.servlets.entities.Client;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 
 public class UtilityFilter implements Filter {
@@ -32,7 +35,6 @@ public class UtilityFilter implements Filter {
         if (req.getServletPath().equals("/index.jsp") && previousPage != null && previousPage.equals("client")) {
             userName = null;
         }
-
 
         if ((page.equals("singIn") || page.equals("register"))) {
             if (req.getParameter("name") != null) {

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.epam.servlets.entities.Client" %>
 <%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
@@ -23,7 +24,7 @@
 </div>
 
 <div>
-    <form>
+    <form method="post">
         <table border="1">
             <tr>
                 <th> Login</th>
@@ -33,10 +34,10 @@
                 <tr>
                     <td>${user.login}</td>
                     <td>
-                        <form method="post">
-                            <input type="text" name="points" style="width: 30%" value="${user.loyaltyPoints}"><br/>
-                            <button type="submit">Click to confirm change</button>
-                        </form>
+                            <input type="hidden" name="user" value="${user.login}">
+                            <input type="text" name="points" style="width: 30%" value="${user.loyaltyPoints}"
+                                   pattern="^[0-9]{1,}"><br/>
+                            <button type="submit">Click to confirm changes</button>
                     </td>
                 </tr>
             </c:forEach>

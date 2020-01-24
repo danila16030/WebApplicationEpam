@@ -6,12 +6,13 @@ import java.sql.Time;
 public class Product {
     private String name;
     private int cost;
-    private Time cookingTime;
+    private String cookingTime;
     private String readyTime;
     private String image;
     private int id;
     private double averageScope;
     private int votersNumber;
+    private String tag;
 
     public Product() {
     }
@@ -22,7 +23,7 @@ public class Product {
         this.readyTime = readyTime;
     }
 
-    public Product(String name, int cost, Time cookingTime, String image, double averageScope, int votersNumber) {
+    public Product(String name, int cost, String cookingTime, String image, double averageScope, int votersNumber) {
         this.name = name;
         this.cost = cost;
         this.cookingTime = cookingTime;
@@ -31,11 +32,19 @@ public class Product {
         this.averageScope = averageScope;
     }
 
-    public Product(String name, int cost, Time cookingTime, String image) {
+    public Product(String name, int cost, String cookingTime, String image) {
         this.name = name;
         this.cost = cost;
         this.cookingTime = cookingTime;
         this.image = image;
+    }
+
+    public Product(String name, int cost, String cookingTime, String image, String tag) {
+        this.name = name;
+        this.cost = cost;
+        this.cookingTime = cookingTime;
+        this.image = image;
+        this.tag = tag;
     }
 
     public void setAverageScope(double averageScope) {
@@ -66,6 +75,13 @@ public class Product {
         this.cost = cost;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public void setImage(String image) {
         this.image = image;
@@ -83,11 +99,11 @@ public class Product {
         return cost;
     }
 
-    public Time getCookingTime() {
+    public String getCookingTime() {
         return cookingTime;
     }
 
-    public void setCookingTime(Time cookingTime) {
+    public void setCookingTime(String cookingTime) {
         this.cookingTime = cookingTime;
     }
 
@@ -117,7 +133,8 @@ public class Product {
         if (name != null ? !name.equals(product.name) : product.name != null) return false;
         if (cookingTime != null ? !cookingTime.equals(product.cookingTime) : product.cookingTime != null) return false;
         if (readyTime != null ? !readyTime.equals(product.readyTime) : product.readyTime != null) return false;
-        return image != null ? image.equals(product.image) : product.image == null;
+        if (image != null ? !image.equals(product.image) : product.image != null) return false;
+        return tag != null ? tag.equals(product.tag) : product.tag == null;
     }
 
     @Override
@@ -133,12 +150,13 @@ public class Product {
         temp = Double.doubleToLongBits(averageScope);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + votersNumber;
+        result = 31 * result + (tag != null ? tag.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Dish{" +
+        return "Product{" +
                 "name='" + name + '\'' +
                 ", cost=" + cost +
                 ", cookingTime=" + cookingTime +
@@ -147,6 +165,7 @@ public class Product {
                 ", id=" + id +
                 ", averageScope=" + averageScope +
                 ", votersNumber=" + votersNumber +
+                ", tag='" + tag + '\'' +
                 '}';
     }
 }

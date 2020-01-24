@@ -11,7 +11,8 @@ public enum CommandEnum {
     BALANCE(new BalancePageCommand()),
     USER(new UserPageCommand()),
     COMMENTS(new CommentPageCommand()),
-    CHANGEPOINTS(new ChangePointPageCommand());
+    CHANGEPOINTS(new ChangePointPageCommand()),
+    CHANGEMENU(new ChangeMenuPageCommand());
 
     private Command command;
 

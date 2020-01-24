@@ -28,22 +28,22 @@ public class FirstCourseCommand implements Command {
     }
 
     private String getProductForOrderPage(HttpServletRequest req) {
-        Product dish = null;
-        String product = req.getParameter("move").substring(15);
+        Product product = null;
+        String productName = req.getParameter("move").substring(15);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
             Statement stmt = connection.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM menu WHERE product='" + product.trim() + "'  ");
+            ResultSet res = stmt.executeQuery("SELECT * FROM menu WHERE product='" + productName.trim() + "'  ");
             if (res.next()) {
                 Blob image = res.getBlob(5);
-                dish = new Product(res.getString(1), res.getInt(2), res.getTime(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())));
+                product = new Product(res.getString(1), res.getInt(2), res.getString(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())));
             }
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
             return null;
         }
-        req.setAttribute("product", dish);
+        req.setAttribute("product", product);
         return "orderPage";
     }
 
@@ -65,17 +65,16 @@ public class FirstCourseCommand implements Command {
                 String productName = product.trim();
                 ResultSet res1 = stmt1.executeQuery("SELECT * FROM menu WHERE product='" + productName + "'");
                 if (res1.next()) {
-                    time = String.valueOf(res1.getTime(3));
+                    time = String.valueOf(res1.getString(3));
                 }
                 productCost = res1.getInt(2);
                 String fullOrder = res.getString(3);
                 LocalTime start = LocalTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
                 LocalTime end = LocalTime.parse(time, formatter);
                 end = end.plus(start.getHour(), ChronoUnit.HOURS);
                 end = end.plus(start.getMinute(), ChronoUnit.MINUTES);
-                end = end.plus(start.getSecond(), ChronoUnit.SECONDS);
-                String requestedTime = req.getParameter("time") + ":03";
+                String requestedTime = req.getParameter("time");
                 LocalTime orderTime = LocalTime.parse(requestedTime, formatter);
                 if (clientBalance > productCost) {
                     if (end.isBefore(orderTime)) {
@@ -114,7 +113,7 @@ public class FirstCourseCommand implements Command {
             ResultSet res = stmt.executeQuery("SELECT * FROM menu WHERE tag='firstCourse' ");
             while (res.next()) {
                 Blob image = res.getBlob(5);
-                listResults.add(new Product(res.getString(1), res.getInt(2), res.getTime(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())), res.getDouble(7), res.getInt(8)));
+                listResults.add(new Product(res.getString(1), res.getInt(2), res.getString(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())), res.getDouble(7), res.getInt(8)));
             }
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();

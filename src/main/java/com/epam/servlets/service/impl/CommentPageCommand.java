@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -44,7 +45,7 @@ public class CommentPageCommand implements Command {
             ResultSet res1 = stmt1.executeQuery("SELECT * FROM menu WHERE product='" + productName + "'  ");
             if (res1.next()) {
                 Blob image = res1.getBlob(5);
-                product = new Product(res1.getString(1), res1.getInt(2), res1.getTime(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())));
+                product = new Product(res1.getString(1), res1.getInt(2), res1.getString(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())));
             }
             req.setAttribute("product", product);
             connection.close();
@@ -59,7 +60,8 @@ public class CommentPageCommand implements Command {
         String comment = req.getParameter("comment");
         String productName = req.getParameter("about");
         String author = (String) req.getAttribute("user");
-        LocalTime time = LocalTime.now();
+        LocalTime now = LocalTime.now();
+        String time = now.format(DateTimeFormatter.ofPattern("hh:mm:ss"));
         LocalDate date = LocalDate.now();
         String rate = req.getParameter("rate");
         double average = 0;

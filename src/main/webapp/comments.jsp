@@ -69,12 +69,6 @@
                 "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-blue w3-hover-border-grey\">×</span>\n" +
                 "   <h5>You have already commented this product so the old comment has been changed </h5 ></div > ");
     }
-    if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("only rate")) {
-        out.println("<div class=\"w3-panel w3-green w3-display-container w3-card-4 w3-round\">\n" +
-                "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-blue w3-hover-border-grey\">×</span>\n" +
-                "   <h5> Rating value has been changed  </h5 ></div > ");
-    }
 %>
 <label>
     <form>
