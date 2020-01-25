@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: chech
@@ -6,7 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<jsp:useBean id="inf" class="java.lang.String" scope="request"/>
 <html>
 <head>
     <title>Sing in</title>
@@ -27,23 +28,29 @@
             <input type="password" name="pass" required
                    class="w3-input w3-animate-input w3-border w3-round-large"
                    style="width: 30%"><br/>
-        </label> <%
-        if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("wrong")) {
-            out.println("<div class=\"w3-panel w3-red w3-display-container w3-card-4 w3-round\">\n" +
-                    "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                    "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey\">×</span>\n" +
-                    "   <h5>Password or login is incorrect</h5>\n" +
-                    "</div>");
-        }
-        if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("already")) {
-            out.println("<div class=\"w3-panel w3-red w3-display-container w3-card-4 w3-round\">\n" +
-                    "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                    "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey\">×</span>\n" +
-                    "   <h5>User already in system</h5>\n" +
-                    "</div>");
-        }
-    %>
-        <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom" onclick="location.href='/client'">Submit</button>
+        </label>
+
+        <c:if test="${inf.equals('wrong')}">
+            <div class="w3-panel w3-red w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+                <h5>Password or login is incorrect</h5>
+            </div>
+        </c:if>
+
+        <c:if test="${inf.equals('already')}">
+            <div class="w3-panel w3-red w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+                <h5>User already in system</h5>
+            </div>
+        </c:if>
+
+        <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom" onclick="location.href='/client'">
+            Submit
+        </button>
     </form>
 </div>
 </div>

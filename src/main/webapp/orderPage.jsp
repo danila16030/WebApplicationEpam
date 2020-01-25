@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: chech
@@ -7,6 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="product" class="com.epam.servlets.entities.Product" scope="request"/>
+<jsp:useBean id="inf" class="java.lang.String" scope="request"/>
 <html>
 <head>
     <title>Order</title>
@@ -40,27 +42,45 @@
     </label>
     <input type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom"
            id="inf" name="time" value="Submit"/>
+    <input type="checkbox" value="card" checked>Pay online
 </form>
-<%
-    if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("money")) {
-        out.println("<div class=\"w3-panel w3-red w3-display-container w3-card-4 w3-round\">\n" +
-                "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey\">×</span>\n" +
-                "   <h5>You dont have enough money to order this product.</h5></div>");
-    }
-    if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("time")) {
-        out.println("<div class=\"w3-panel w3-red w3-display-container w3-card-4 w3-round\">\n" +
-                "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey\">×</span>\n" +
-                "   <h5>The product will not be ready at this time. Please select the time given the cooking time.</h5></div>");
-    }
-    if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("cool")) {
-        out.println("<div class=\"w3-panel w3-green w3-display-container w3-card-4 w3-round\">\n" +
-                "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey\">×</span>\n" +
-                "   <h5>Order completed successfully </h5 ></div > ");
-    }
-%>
+
+<c:if test="${inf.equals('blok')}">
+    <div class="w3-panel w3-red w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+        <h5>You cant make a order because you are blocked</h5>
+    </div>
+</c:if>
+
+<c:if test="${inf.equals('money')}">
+    <div class="w3-panel w3-red w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+        <h5>You dont have enough money to order this product</h5>
+    </div>
+</c:if>
+
+<c:if test="${inf.equals('time')}">
+    <div class="w3-panel w3-red w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+        <h5>The product will not be ready at this time. Please select the time given the cooking time.</h5>
+    </div>
+</c:if>
+
+<c:if test="${inf.equals('cool')}">
+    <div class="w3-panel w3-green w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+        <h5>Order completed successfully.</h5>
+    </div>
+</c:if>
+
 <div class="w3-container w3-grey w3-opacity w3-right-align w3-padding">
     <button class="w3-btn w3-round-large" onclick="location.href='/WebApplication_war_exploded/firstCourse?move=0'">Back
         to menu

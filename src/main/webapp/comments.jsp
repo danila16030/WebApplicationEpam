@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="product" class="com.epam.servlets.entities.Product" scope="request"/>
 <jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
+<jsp:useBean id="inf" class="java.lang.String" scope="request"/>
 <html>
 <head>
     <title>Comments about ${product.name}</title>
@@ -50,26 +51,34 @@
     <input type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom"
            id="inf" name="com" value="Submit"/>
 </form>
-<%
-    if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("no comments")) {
-        out.println("<div class=\"w3-panel w3-blue w3-display-container w3-card-4 w3-round\">\n" +
-                "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-blue w3-hover-border-grey\">×</span>\n" +
-                "   <h5>No one has commented on this product yet so you can be the first </h5 ></div > ");
-    }
-    if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("added")) {
-        out.println("<div class=\"w3-panel w3-green w3-display-container w3-card-4 w3-round\">\n" +
-                "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-blue w3-hover-border-grey\">×</span>\n" +
-                "   <h5>Your comment has been successfully added. </h5 ></div > ");
-    }
-    if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("update")) {
-        out.println("<div class=\"w3-panel w3-green w3-display-container w3-card-4 w3-round\">\n" +
-                "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-blue w3-hover-border-grey\">×</span>\n" +
-                "   <h5>You have already commented this product so the old comment has been changed </h5 ></div > ");
-    }
-%>
+
+<c:if test="${inf.equals('no comments')}">
+    <div class="w3-panel w3-blue w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+        <h5>No one has commented on this product yet so you can be the first.</h5>
+    </div>
+</c:if>
+
+<c:if test="${inf.equals('added')}">
+    <div class="w3-panel w3-green w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+        <h5>Your comment has been successfully added.</h5>
+    </div>
+</c:if>
+
+<c:if test="${inf.equals('update')}">
+    <div class="w3-panel w3-green w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+        <h5>You have already commented this product so the old comment has been changed.</h5>
+    </div>
+</c:if>
+
 <label>
     <form>
         <table border="1">

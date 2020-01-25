@@ -60,42 +60,48 @@ public class FirstCourseCommand implements Command {
             Statement stmt = connection.createStatement();
             ResultSet res = stmt.executeQuery("SELECT * FROM client WHERE login='" + userName + "' ");
             if (res.next()) {
-                clientBalance = res.getInt(6);
-                Statement stmt1 = connection.createStatement();
-                String productName = product.trim();
-                ResultSet res1 = stmt1.executeQuery("SELECT * FROM menu WHERE product='" + productName + "'");
-                if (res1.next()) {
-                    time = String.valueOf(res1.getString(3));
-                }
-                productCost = res1.getInt(2);
-                String fullOrder = res.getString(3);
-                LocalTime start = LocalTime.now();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                LocalTime end = LocalTime.parse(time, formatter);
-                end = end.plus(start.getHour(), ChronoUnit.HOURS);
-                end = end.plus(start.getMinute(), ChronoUnit.MINUTES);
-                String requestedTime = req.getParameter("time");
-                LocalTime orderTime = LocalTime.parse(requestedTime, formatter);
-                if (clientBalance > productCost) {
-                    if (end.isBefore(orderTime)) {
-                        if (fullOrder != null) {
-                            fullOrder = fullOrder + product + orderTime;
+                if (!res.getBoolean(4)) {
+                    clientBalance = res.getInt(6);
+                    Statement stmt1 = connection.createStatement();
+                    String productName = product.trim();
+                    ResultSet res1 = stmt1.executeQuery("SELECT * FROM menu WHERE product='" + productName + "'");
+                    if (res1.next()) {
+                        time = String.valueOf(res1.getString(3));
+                    }
+                    productCost = res1.getInt(2);
+                    String fullOrder = res.getString(3);
+                    LocalTime now = LocalTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                    LocalTime end = LocalTime.parse(time, formatter);
+                    end = end.plus(now.getHour(), ChronoUnit.HOURS);
+                    end = end.plus(now.getMinute(), ChronoUnit.MINUTES);
+                    String requestedTime = req.getParameter("time");
+                    LocalTime orderTime = LocalTime.parse(requestedTime, formatter);
+                    if (clientBalance > productCost) {
+                        if (end.isBefore(orderTime)) {
+                            if (fullOrder != null) {
+                                fullOrder = fullOrder + product + orderTime;
+                            } else {
+                                fullOrder = product + orderTime;
+                            }
+                            clientBalance = clientBalance - productCost;
+                            int point = res.getInt(2) + 1;
+                            stmt.executeUpdate("UPDATE  client SET `order`='" + fullOrder + "', balance='" + clientBalance + "',loyaltyPoints='" + point + "' WHERE login='" + userName + "'");
+                            connection.close();
+                            req.setAttribute("inf", "cool");
+                            return getProductForOrderPage(req);
                         } else {
-                            fullOrder = product + orderTime;
+                            req.setAttribute("inf", "time");
+                            return getProductForOrderPage(req);
                         }
-                        clientBalance = clientBalance - productCost;
-                        stmt.executeUpdate("UPDATE  client SET `order`='" + fullOrder + "', balance='" + clientBalance + "' WHERE login='" + userName + "'");
-                        connection.close();
-                        req.setAttribute("inf", "cool");
-                        return getProductForOrderPage(req);
                     } else {
-                        req.setAttribute("inf", "time");
+                        req.setAttribute("inf", "money");
                         return getProductForOrderPage(req);
                     }
-                } else {
-                    req.setAttribute("inf", "money");
-                    return getProductForOrderPage(req);
                 }
+            } else {
+                req.setAttribute("inf", "block");
+                return getProductForOrderPage(req);
             }
         } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | SQLException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();

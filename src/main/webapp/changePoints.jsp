@@ -29,19 +29,26 @@
             <tr>
                 <th> Login</th>
                 <th> Loyalty points</th>
+                <th> Block</th>
             </tr>
             <c:forEach var="user" items="${listResults}">
                 <tr>
                     <td>${user.login}</td>
                     <td>
-                            <input type="hidden" name="user" value="${user.login}">
-                            <input type="text" name="points" style="width: 30%" value="${user.loyaltyPoints}"
-                                   pattern="^[0-9]{1,}"><br/>
-                            <button type="submit">Click to confirm changes</button>
+                        <input type="hidden" name="user" value="${user.login}">
+                        <input type="text" name="points" style="width: 30%" value="${user.loyaltyPoints}"
+                               pattern="^[0-9]{1,}" required><br/>
                     </td>
+                    <td>Block<input type="checkbox" name="block" value="${user.login}"
+                    <c:if test="${user.block}">
+                                    checked
+                    </c:if>></td>
                 </tr>
             </c:forEach>
         </table>
+        <c:if test="${!empty listResults}">
+            <button type="submit">Click to confirm changes</button>
+        </c:if>
     </form>
 </div>
 </body>

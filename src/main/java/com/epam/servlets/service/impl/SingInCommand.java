@@ -20,7 +20,8 @@ public class SingInCommand implements Command {
             if (res.next()) {
                 if (!res.getBoolean(3)) {
                     if (res.getString(4).equals("admin")) {
-                            return "admin";
+                        stmt.executeUpdate("UPDATE  users SET inSystem=true WHERE login='" + name + "'");
+                        return "admin";
                     }
                     stmt.executeUpdate("UPDATE  users SET inSystem=true WHERE login='" + name + "'");
                     return "client";

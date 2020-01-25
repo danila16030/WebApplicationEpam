@@ -62,10 +62,12 @@
                 <td>${product.cost}</td>
                 <td>${product.cookingTime}</td>
                 <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%">
-                    <input type="submit" id="order" name="move" value="click to order ${product.name} ">
-                    <input type="button" id="com" name="comment"
-                           value="View comments on ${product.name} "
-                           onclick="location.href='/WebApplication_war_exploded/comments?about=${product.name}'">
+                    <c:if test="${!empty user}">
+                        <input type="submit" id="order" name="move" value="click to order ${product.name} ">
+                        <input type="button" id="com" name="comment"
+                               value="View comments on ${product.name} "
+                               onclick="location.href='/WebApplication_war_exploded/comments?about=${product.name}'">
+                    </c:if>
                 </td>
                 <td>${product.averageScope}</td>
                 <td>${product.votersNumber}</td>
@@ -73,17 +75,6 @@
         </c:forEach>
     </table>
 </form>
-<script>
-    function DeliteButton(value) {
-        value.style.display = "none";
-    }
 
-    var uservar = document.getElementById("user").value;
-    if (uservar === "") {
-        var buttons = document.getElementsByTagName("input");
-        var inputList = Array.prototype.slice.call(buttons);
-        inputList.forEach(DeliteButton);
-    }
-</script>
 </body>
 </html>

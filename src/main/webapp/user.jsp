@@ -34,8 +34,8 @@ Order:
         <c:forEach var="product" items="${client.orderList}">
             <tr>
                 <td>${product.name} </td>
-                <td>${product.readyTime}</td>
-                <td><input type="text" id="time" value="${product.readyTime}" disabled></td>
+                <td>${product.orderTime}</td>
+                <td>${product.cookingProcess}</td>
                 </td>
             </tr>
         </c:forEach>
@@ -49,37 +49,6 @@ Block: <%= client.isBlock()%><br>
            onclick="location.href='/WebApplication_war_exploded/balance'">
 </label>
 
-<script>
-    function getDate(string) {
-        return new Date(0, 0, 0, string.split(':')[0], string.split(':')[1], string.split(':')[2]);
-    }
-
-    function SetTime(value) {
-        var date1 = new Date();
-        let firstDate = value.value;
-        let secondDate = date1.toLocaleTimeString();
-        let different = (getDate(firstDate) - getDate(secondDate));
-        let hours = Math.floor((different % 86400000) / 3600000);
-        let minutes = Math.round(((different % 86400000) % 3600000) / 60000);
-        let seconds = Math.round((((different % 86400000) % 3600000) % 60000) / 1000);
-        let cookTime = hours + ':' + minutes + ':' + seconds;
-        if (minutes < 0 || seconds < 0 || hours < 0) {
-            if (hours < -4) {
-                value.value = "Expired";
-            }
-            value.value = "Ready";
-        } else {
-            value.value = cookTime;
-        }
-    }
-
-    var time = document.getElementById("time");
-    if (time.value != "") {
-        var buttons = document.getElementsByTagName("input");
-        var inputList = Array.prototype.slice.call(buttons);
-        inputList.forEach(SetTime);
-    }
-</script>
 </body>
 
 </html>

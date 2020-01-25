@@ -36,6 +36,7 @@
         <button type="submit">Search</button>
     </form>
 </div>
+
 <div>
     <form method="post">
         <table border="1">
@@ -50,24 +51,25 @@
                 <tr>
                     <input type="hidden" name="previous" value="${product.name}">
                     <td><input type="text" name="product" value="${product.name}"
-                               pattern="^[A-Za-z0-9]{1,}">
+                               pattern="^[A-Za-z0-9]{1,}" required>
                     </td>
                     <td><input type="text" name="cost" value="${product.cost}"
-                               pattern="^[0-9]{1,}"></td>
+                               pattern="^[0-9]{1,}" required></td>
                     <td><input type="time" name="time" value="${product.cookingTime}"
-                               pattern="^[A-Za-z0-9]{1,}"></td>
+                               pattern="^[A-Za-z0-9]{1,}" required></td>
                     <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%"></td>
                     <td><input type="text" name="tag" value="${product.tag}"
-                               pattern="^[A-Za-z]{1,}">
-                        <input type="submit" id="de" name="delete" value="click to delete this product" >
-                        <button type="submit">Click to confirm changes</button>
+                               pattern="^[A-Za-z]{1,}" required>
+                        <input type="submit" id="de" name="delete" value="click to delete this product">
                     </td>
                     </td>
                 </tr>
             </c:forEach>
         </table>
+        <c:if test="${!empty listResults}">
+            <button type="submit">Click to confirm changes</button>
+        </c:if>
     </form>
 </div>
-
 </body>
 </html>

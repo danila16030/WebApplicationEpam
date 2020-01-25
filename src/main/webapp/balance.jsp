@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: chech
@@ -12,6 +13,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="inf" class="java.lang.String" scope="request"/>
 <html>
 <head>
     <title>Balance</title>
@@ -28,14 +30,17 @@
     <input type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom"
            value="Submit"/>
 </form>
-<%
-    if (request.getAttribute("inf") != null && request.getAttribute("inf").equals("cool")) {
-        out.println("<div class=\"w3-panel w3-green w3-display-container w3-card-4 w3-round\">\n" +
-                "   <span onclick=\"this.parentElement.style.display='none'\"\n" +
-                "   class=\"w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey\">×</span>\n" +
-                "   <h5>Order completed successfully </h5 ></div > ");
-    }
-%>
+
+<c:if test="${inf.equals('cool')}">
+    <div class="w3-panel w3-green w3-display-container w3-card-4 w3-round">
+        <span onclick="this.parentElement.style.display='none'"
+              class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">
+            x</span>
+        <h5>Balance replenished.</h5>
+    </div>
+</c:if>
+
+
 <div class="w3-container w3-grey w3-opacity w3-right-align w3-padding">
     <button class="w3-btn w3-round-large" onclick="location.href='/WebApplication_war_exploded/user'">Back on client
         page
