@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
 public class BalancePageCommand implements Command {
+
     @Override
     public String execute(HttpServletRequest req) {
         String name = (String) req.getAttribute("user");

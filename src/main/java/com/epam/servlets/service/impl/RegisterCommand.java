@@ -1,12 +1,18 @@
 package com.epam.servlets.service.impl;
 
+import com.epam.servlets.dao.DAOFactory;
+import com.epam.servlets.dao.UserDAO;
 import com.epam.servlets.service.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class RegisterCommand implements Command {
+    private UserDAO userDAO = DAOFactory.getInstance().getSqlUserDAO();
     @Override
     public String execute(HttpServletRequest req) {
         String name = req.getParameter("name");
@@ -15,14 +21,12 @@ public class RegisterCommand implements Command {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
             Statement stmt = connection.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM users WHERE login='" + name + "' ");
-            if (res.next()) {
+            if (userDAO.findUserByLogin(name)) {
                 req.setAttribute("inf", "exist");
                 return "register";
             }
-            String query = "INSERT INTO users (login , password,inSystem) VALUES('" + name + "', '" + password + "',true )";
+            userDAO.creteNewUser(name, password);
             String query2 = "INSERT INTO client (login) VALUES('" + name + "')";
-            stmt.executeUpdate(query);
             stmt.executeUpdate(query2);
             connection.close();
         } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {

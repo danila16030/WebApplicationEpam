@@ -31,7 +31,7 @@ public class CommentPageCommand implements Command {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
             Statement stmt = connection.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM comments WHERE aboutProduct='" + productName + "'");
+            ResultSet res = stmt.executeQuery("SELECT * FROM comment WHERE aboutProduct='" + productName + "'");
             if (res.next()) {
                 listResults.add(new Comment(res.getString(1), res.getString(3), res.getString(4), res.getString(5), res.getString(7)));
                 while (res.next()) {
@@ -74,17 +74,17 @@ public class CommentPageCommand implements Command {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
             Statement stmt = connection.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM comments WHERE author='" + author + "' AND aboutProduct='" + productName + "'");
+            ResultSet res = stmt.executeQuery("SELECT * FROM comment WHERE author='" + author + "' AND aboutProduct='" + productName + "'");
             if (res.next()) {
                 req.setAttribute("inf", "update");
-                stmt.executeUpdate("UPDATE comments SET date='" + date + "',time='" + time + "', comment='" + comment + "',evaluation='" + rate + "' WHERE author='" + author + "' AND aboutProduct='" + productName + "'");
+                stmt.executeUpdate("UPDATE comment SET date='" + date + "',time='" + time + "', comment='" + comment + "',evaluation='" + rate + "' WHERE author='" + author + "' AND aboutProduct='" + productName + "'");
             } else {
-                String query = "INSERT INTO comments (author , date,time,comment,aboutProduct,evaluation) VALUES('" + author + "', '" + date + "','" + time + "','" + comment + "','" + productName + "','" + rate + "' )";
+                String query = "INSERT INTO comment (author , date,time,comment,aboutProduct,evaluation) VALUES('" + author + "', '" + date + "','" + time + "','" + comment + "','" + productName + "','" + rate + "' )";
                 stmt.executeUpdate(query);
                 req.setAttribute("inf", "added");
             }
             if (!rate.equals("no rating")) {
-                ResultSet res1 = stmt.executeQuery("SELECT * FROM comments WHERE aboutProduct='" + productName + "'");
+                ResultSet res1 = stmt.executeQuery("SELECT * FROM comment WHERE aboutProduct='" + productName + "'");
                 while (res1.next()) {
                     votesNumber++;
                     if (!res1.getString(7).equals("no rate")) {
