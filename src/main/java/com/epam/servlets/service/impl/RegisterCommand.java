@@ -13,8 +13,10 @@ import java.sql.Statement;
 
 public class RegisterCommand implements Command {
     private UserDAO userDAO = DAOFactory.getInstance().getSqlUserDAO();
+
     @Override
     public String execute(HttpServletRequest req) {
+
         String name = req.getParameter("name");
         String password = req.getParameter("pass");
         try {

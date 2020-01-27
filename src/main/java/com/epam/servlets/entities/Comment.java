@@ -16,8 +16,6 @@ public class Comment {
         this.rate =rate;
     }
 
-
-
     public String getRate() {
         return rate;
     }

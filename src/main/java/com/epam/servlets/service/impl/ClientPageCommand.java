@@ -20,7 +20,6 @@ public class ClientPageCommand implements Command {
     private String logOut(HttpServletRequest req) {
         String name = (String) req.getAttribute("user");
         userDAO.logOut(name);
-
         return "/WebApplication_war_exploded";
     }
 

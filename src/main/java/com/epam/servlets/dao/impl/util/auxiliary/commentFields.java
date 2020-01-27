@@ -1,6 +1,6 @@
 package com.epam.servlets.dao.impl.util.auxiliary;
 
-public enum  commentFields {
+public enum CommentFields {
     AUTHOR,
     ID,
     DATE,

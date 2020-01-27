@@ -17,7 +17,7 @@ public class Controller extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (request.getParameter("move") != null || request.getServletPath().equals("/comments") ||
-                request.getServletPath().equals("/user")) {
+                request.getServletPath().equals("/user") || request.getServletPath().equals("/orderPage")) {
             processRequest(request, response);
         } else {
             s = request.getServletPath();

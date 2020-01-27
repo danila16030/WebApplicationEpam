@@ -42,7 +42,7 @@
     </label>
     <input type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom"
            id="inf" name="time" value="Submit"/>
-    <input type="checkbox" value="card" checked>Pay online
+    <input type="checkbox" name="card" value="card" checked>Pay online
 </form>
 
 <c:if test="${inf.equals('blok')}">

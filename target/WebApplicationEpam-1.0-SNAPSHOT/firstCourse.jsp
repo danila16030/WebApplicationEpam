@@ -46,7 +46,7 @@
     </form>
 </div>
 <input type="submit" id="user" value="${user}" style="display: none">
-<form>
+<form method="post">
     <table border="1">
         <tr>
             <th> Name</th>
@@ -63,7 +63,8 @@
                 <td>${product.cookingTime}</td>
                 <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%">
                     <c:if test="${!empty user}">
-                        <input type="submit" id="order" name="move" value="click to order ${product.name} ">
+                        <input type="button" id="order" name="move" value="click to order ${product.name} "
+                               onclick="location.href='/WebApplication_war_exploded/orderPage?product=${product.name}'">
                         <input type="button" id="com" name="comment"
                                value="View comments on ${product.name} "
                                onclick="location.href='/WebApplication_war_exploded/comments?about=${product.name}'">

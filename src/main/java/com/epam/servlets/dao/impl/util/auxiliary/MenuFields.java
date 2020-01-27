@@ -1,11 +1,11 @@
 package com.epam.servlets.dao.impl.util.auxiliary;
 
-public enum  menuFields {
+public enum MenuFields {
     PRODUCT,
     COST,
     COOKINGTIME,
     TAG,
-    EXAMPLUM,
+    EXEMPLUM,
     ID,
     AVERAGE,
     VOTESNUMBER;

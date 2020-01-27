@@ -12,7 +12,8 @@ public enum CommandEnum {
     USER(new UserPageCommand()),
     COMMENTS(new CommentPageCommand()),
     CHANGEPOINTS(new ChangePointPageCommand()),
-    CHANGEMENU(new ChangeMenuPageCommand());
+    CHANGEMENU(new ChangeMenuPageCommand()),
+    ORDERPAGE(new OrderPageCommand());
 
     private Command command;
 

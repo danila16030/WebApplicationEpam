@@ -18,7 +18,7 @@ public class Product {
 
     public Product(String name, String orderTime, String cookingProcess) {
         this.name = name;
-        this.cookingTime=orderTime;
+        this.orderTime=orderTime;
         this.cookingProcess = cookingProcess;
     }
 

@@ -37,7 +37,7 @@
 </label>
 <form method="post" class="w3-selection w3-light-grey w3-padding">
     <label> If you want, you can leave a comment:
-        <input type="text" id="com" name="comment" pattern="^[A-Za-z]{1,}" required
+        <input type="text" id="com" name="comment" pattern="^[A-Za-z ]{1,}" required
                class="w3-input w3-animate-input w3-border w3-round-large"
                style="width: 30%"><br/>
     </label>
