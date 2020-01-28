@@ -1,5 +1,8 @@
 package com.epam.servlets.service.impl;
 
+import com.epam.servlets.dao.ClientDAO;
+import com.epam.servlets.dao.DAOFactory;
+import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.entities.Product;
 import com.epam.servlets.service.Command;
 
@@ -9,9 +12,12 @@ import java.sql.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Base64;
+
 
 public class OrderPageCommand implements Command {
+    private MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
+    private ClientDAO clientDAO = DAOFactory.getInstance().getSqlClientDAO();
+
     @Override
     public String execute(HttpServletRequest req) {
         if (req.getParameter("time") != null) {
@@ -22,21 +28,10 @@ public class OrderPageCommand implements Command {
     }
 
     private String getProductForOrderPage(HttpServletRequest req) {
-        Product product = null;
+        Product product;
         String productName = req.getParameter("product");
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
-            Statement stmt = connection.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM menu WHERE product='" + productName + "'  ");
-            if (res.next()) {
-                Blob image = res.getBlob(5);
-                product = new Product(res.getString(1), res.getInt(2), res.getString(3), Base64.getEncoder().encodeToString(image.getBytes(1, (int) image.length())));
-            }
-        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
-            return null;
-        }
+        product = menuDAO.getProductForOrder(productName);
+
         req.setAttribute("product", product);
         return "orderPage";
     }
@@ -45,7 +40,7 @@ public class OrderPageCommand implements Command {
         String userName = (String) req.getAttribute("user");
         String product = req.getParameter("product");
         String card = req.getParameter("card");
-        String time = null;
+        String time;
         int clientBalance;
         int productCost;
         try {
@@ -56,13 +51,9 @@ public class OrderPageCommand implements Command {
             if (res.next()) {
                 if (!res.getBoolean(4)) {
                     clientBalance = res.getInt(6);
-                    Statement stmt1 = connection.createStatement();
                     String productName = product.trim();
-                    ResultSet res1 = stmt1.executeQuery("SELECT * FROM menu WHERE product='" + productName + "'");
-                    if (res1.next()) {
-                        time = String.valueOf(res1.getString(3));
-                    }
-                    productCost = res1.getInt(2);
+                    time = menuDAO.getProductTime(productName);
+                    productCost = menuDAO.getProductCost(productName);
                     String fullOrder = res.getString(3);
                     LocalTime now = LocalTime.now();
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -80,7 +71,7 @@ public class OrderPageCommand implements Command {
                             }
                             clientBalance = clientBalance - productCost;
                             int point = res.getInt(2) + 1;
-                            stmt.executeUpdate("UPDATE  client SET `order`='" + fullOrder + "', balance='" + clientBalance + "',loyaltyPoints='" + point + "' WHERE login='" + userName + "'");
+                            clientDAO.makeOrder(fullOrder, clientBalance, point, userName);
                             connection.close();
                             req.setAttribute("inf", "cool");
                             return getProductForOrderPage(req);

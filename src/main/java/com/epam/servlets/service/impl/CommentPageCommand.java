@@ -29,17 +29,16 @@ public class CommentPageCommand implements Command {
     }
 
     private String getComment(HttpServletRequest req) {
-        String a = req.getParameter("comment");
         String productName = req.getParameter("about");
         ArrayList<Comment> listResults = new ArrayList();
-        Product product = new Product();
+        Product product;
         if (commentDAO.findCommentAboutProduct(productName)) {
             listResults = commentDAO.getCommentsAboutProduct(productName);
         } else {
             req.setAttribute("inf", "no comments");
         }
         req.setAttribute("listResults", listResults);
-        product = menuDAO.getProduct(productName);
+        product = menuDAO.getProductForComment(productName);
         req.setAttribute("product", product);
 
         return "comments";
@@ -56,7 +55,6 @@ public class CommentPageCommand implements Command {
         if (rate == null) {
             rate = "no rating";
         }
-
         if (commentDAO.findCommentAboutProductByAuthor(author, productName)) {
             req.setAttribute("inf", "update");
             commentDAO.updateComment(date, productName, time, comment, rate, author);

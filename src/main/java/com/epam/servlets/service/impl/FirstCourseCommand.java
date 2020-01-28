@@ -13,7 +13,7 @@ public class FirstCourseCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req) {
-        ArrayList<Product> listResults = new ArrayList();
+        ArrayList<Product> listResults;
         listResults = menuDAO.getProductList("firstCourse");
         req.setAttribute("listResults", listResults);
         return "firstCourse";

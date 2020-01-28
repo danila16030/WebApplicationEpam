@@ -16,7 +16,7 @@
 <div>
     <form method="post">
         <label>Enter the product name you want to find:
-            <input type="text" name="product" style="width: 30%" pattern="^[A-Za-z0-9]{1,}"><br/>
+            <input type="text" name="product" style="width: 30%" pattern="^[A-Za-z0-9 ]{1,}"><br/>
         </label>
         <button type="submit">Search</button>
     </form>
@@ -51,7 +51,7 @@
                 <tr>
                     <input type="hidden" name="previous" value="${product.name}">
                     <td><input type="text" name="product" value="${product.name}"
-                               pattern="^[A-Za-z0-9]{1,}" required>
+                               pattern="^[A-Za-z0-9 ]{1,}" required>
                     </td>
                     <td><input type="text" name="cost" value="${product.cost}"
                                pattern="^[0-9]{1,}" required></td>

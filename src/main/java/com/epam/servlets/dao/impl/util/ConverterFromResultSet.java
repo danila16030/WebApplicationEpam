@@ -1,7 +1,9 @@
 package com.epam.servlets.dao.impl.util;
 
+import com.epam.servlets.dao.impl.util.auxiliary.ClientFields;
 import com.epam.servlets.dao.impl.util.auxiliary.CommentFields;
 import com.epam.servlets.dao.impl.util.auxiliary.MenuFields;
+import com.epam.servlets.entities.Client;
 import com.epam.servlets.entities.Comment;
 import com.epam.servlets.entities.Product;
 
@@ -24,12 +26,30 @@ public class ConverterFromResultSet {
     public ArrayList<Product> getProductList(ResultSet resultSet) throws SQLException {
         ArrayList<Product> list = new ArrayList<>();
         while (resultSet.next()) {
-            list.add(createProduct(resultSet));
+            list.add(createProductForComment(resultSet));
         }
         return list;
     }
 
-    private Product createProduct(ResultSet resultSet) throws SQLException {
+    public ArrayList<Product> getProductListForChange(ResultSet resultSet) throws SQLException {
+        ArrayList<Product> list = new ArrayList<>();
+        while (resultSet.next()) {
+            list.add(createProductForChange(resultSet));
+        }
+        return list;
+    }
+
+    private Product createProductForChange(ResultSet resultSet) throws SQLException {
+        Blob image = resultSet.getBlob(MenuFields.EXEMPLUM.name());
+        String name = resultSet.getString(MenuFields.PRODUCT.name());
+        int cost = resultSet.getInt(MenuFields.COST.name());
+        String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
+        String tag = resultSet.getString(MenuFields.TAG.name());
+        return new Product(name, cost, cookingTime, Base64.getEncoder().encodeToString(image.getBytes(1,
+                (int) image.length())), tag);
+    }
+
+    private Product createProductForComment(ResultSet resultSet) throws SQLException {
         Blob image = resultSet.getBlob(MenuFields.EXEMPLUM.name());
         String name = resultSet.getString(MenuFields.PRODUCT.name());
         int cost = resultSet.getInt(MenuFields.COST.name());
@@ -40,11 +60,49 @@ public class ConverterFromResultSet {
                 (int) image.length())), averageScope, votersNumber);
     }
 
-    public Product getProduct(ResultSet resultSet) throws SQLException {
+    public ArrayList<Client> getClientList(ResultSet resultSet) throws SQLException {
+        ArrayList<Client> list = new ArrayList<>();
+        while (resultSet.next()) {
+            String login = resultSet.getString(ClientFields.LOGIN.name());
+            if (!login.equals("admin")) {
+                int point = resultSet.getInt(ClientFields.LOYALTYPOINTS.name());
+                boolean block = resultSet.getBoolean(ClientFields.BLOCK.name());
+                Client client = new Client();
+                client.setLogin(login);
+                client.setLoyaltyPoints(point);
+                client.setBlock(block);
+                list.add(client);
+            }
+        }
+        return list;
+    }
+
+    public Product getProductForChange(ResultSet resultSet) throws SQLException {
         Product product = new Product();
         if (resultSet.next()) {
+            product = createProductForChange(resultSet);
+        }
+        return product;
+    }
 
-            product = createProduct(resultSet);
+    public Product getProductForOrder(ResultSet resultSet) throws SQLException {
+        Product product = new Product();
+        if (resultSet.next()) {
+            product = createProductForChange(resultSet);
+            Blob image = resultSet.getBlob(MenuFields.EXEMPLUM.name());
+            String name = resultSet.getString(MenuFields.PRODUCT.name());
+            int cost = resultSet.getInt(MenuFields.COST.name());
+            String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
+            product = new Product(name, cost, cookingTime, Base64.getEncoder().encodeToString(image.getBytes(1,
+                    (int) image.length())));
+        }
+        return product;
+    }
+
+    public Product getProductForComment(ResultSet resultSet) throws SQLException {
+        Product product = new Product();
+        if (resultSet.next()) {
+            product = createProductForComment(resultSet);
         }
         return product;
     }
