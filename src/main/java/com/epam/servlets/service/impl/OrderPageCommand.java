@@ -3,12 +3,12 @@ package com.epam.servlets.service.impl;
 import com.epam.servlets.dao.ClientDAO;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
+import com.epam.servlets.dao.OrderDAO;
 import com.epam.servlets.entities.Product;
 import com.epam.servlets.service.Command;
+import com.epam.servlets.timer.MyTimer;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -17,6 +17,8 @@ import java.time.temporal.ChronoUnit;
 public class OrderPageCommand implements Command {
     private MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
     private ClientDAO clientDAO = DAOFactory.getInstance().getSqlClientDAO();
+    private OrderDAO orderDAO = DAOFactory.getInstance().getSqlOrderDAO();
+    private MyTimer myTimer = MyTimer.getInstance();
 
     @Override
     public String execute(HttpServletRequest req) {
@@ -41,57 +43,46 @@ public class OrderPageCommand implements Command {
         String product = req.getParameter("product");
         String card = req.getParameter("card");
         String time;
+        int point;
         int clientBalance;
         int productCost;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
-            Statement stmt = connection.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM client WHERE login='" + userName + "' ");
-            if (res.next()) {
-                if (!res.getBoolean(4)) {
-                    clientBalance = res.getInt(6);
-                    String productName = product.trim();
-                    time = menuDAO.getProductTime(productName);
-                    productCost = menuDAO.getProductCost(productName);
-                    String fullOrder = res.getString(3);
-                    LocalTime now = LocalTime.now();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                    LocalTime end = LocalTime.parse(time, formatter);
-                    end = end.plus(now.getHour(), ChronoUnit.HOURS);
-                    end = end.plus(now.getMinute(), ChronoUnit.MINUTES);
-                    String requestedTime = req.getParameter("time");
-                    LocalTime orderTime = LocalTime.parse(requestedTime, formatter);
-                    if (clientBalance > productCost || card == null) {
-                        if (end.isBefore(orderTime)) {
-                            if (fullOrder != null) {
-                                fullOrder = fullOrder + " " + product + " " + orderTime;
-                            } else {
-                                fullOrder = " " + product + " " + orderTime;
-                            }
-                            clientBalance = clientBalance - productCost;
-                            int point = res.getInt(2) + 1;
-                            clientDAO.makeOrder(fullOrder, clientBalance, point, userName);
-                            connection.close();
-                            req.setAttribute("inf", "cool");
-                            return getProductForOrderPage(req);
-                        } else {
-                            req.setAttribute("inf", "time");
-                            return getProductForOrderPage(req);
-                        }
+        if (!clientDAO.isBlock(userName)) {
+            clientBalance = clientDAO.getBalance(userName);
+            point = clientDAO.getPoint(userName);
+            String productName = product.trim();
+            time = menuDAO.getProductTime(productName);
+            productCost = menuDAO.getProductCost(productName);
+            LocalTime now = LocalTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime end = LocalTime.parse(time, formatter);
+            end = end.plus(now.getHour(), ChronoUnit.HOURS);
+            end = end.plus(now.getMinute(), ChronoUnit.MINUTES);
+            String requestedTime = req.getParameter("time");
+            LocalTime orderTime = LocalTime.parse(requestedTime, formatter);
+            if (clientBalance > productCost || card == null) {
+                if (end.isBefore(orderTime) && now.isBefore(end)) {
+                    if (card != null) {
+                        clientBalance = clientBalance - productCost;
+                        point += 1;
                     } else {
-                        req.setAttribute("inf", "money");
-                        return getProductForOrderPage(req);
+                        card = "cash";
                     }
+                    orderDAO.makeOrder(product, requestedTime, userName, card);
+                    clientDAO.changeBalanceAndPoints(clientBalance, point, userName);
+                    myTimer.orderTimer();
+                    req.setAttribute("inf", "cool");
+                    return getProductForOrderPage(req);
+                } else {
+                    req.setAttribute("inf", "time");
+                    return getProductForOrderPage(req);
                 }
             } else {
-                req.setAttribute("inf", "block");
+                req.setAttribute("inf", "money");
                 return getProductForOrderPage(req);
             }
-        } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | SQLException | IllegalAccessException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
+        } else {
+            req.setAttribute("inf", "block");
+            return getProductForOrderPage(req);
         }
-        return null;
     }
 }

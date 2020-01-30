@@ -3,8 +3,10 @@ package com.epam.servlets.dao.impl.util;
 import com.epam.servlets.dao.impl.util.auxiliary.ClientFields;
 import com.epam.servlets.dao.impl.util.auxiliary.CommentFields;
 import com.epam.servlets.dao.impl.util.auxiliary.MenuFields;
+import com.epam.servlets.dao.impl.util.auxiliary.OrderFields;
 import com.epam.servlets.entities.Client;
 import com.epam.servlets.entities.Comment;
+import com.epam.servlets.entities.Order;
 import com.epam.servlets.entities.Product;
 
 import java.sql.Blob;
@@ -67,10 +69,12 @@ public class ConverterFromResultSet {
             if (!login.equals("admin")) {
                 int point = resultSet.getInt(ClientFields.LOYALTYPOINTS.name());
                 boolean block = resultSet.getBoolean(ClientFields.BLOCK.name());
+                int balance = resultSet.getInt(ClientFields.BALANCE.name());
                 Client client = new Client();
                 client.setLogin(login);
                 client.setLoyaltyPoints(point);
                 client.setBlock(block);
+                client.setBalance(balance);
                 list.add(client);
             }
         }
@@ -108,7 +112,7 @@ public class ConverterFromResultSet {
     }
 
 
-    public ArrayList<Comment> getComents(ResultSet resultSet) throws SQLException {
+    public ArrayList<Comment> getComments(ResultSet resultSet) throws SQLException {
         ArrayList<Comment> list = new ArrayList<>();
         while (resultSet.next()) {
             String author = resultSet.getString(CommentFields.AUTHOR.name());
@@ -117,6 +121,26 @@ public class ConverterFromResultSet {
             String comment = resultSet.getString(CommentFields.COMMENT.name());
             String rate = resultSet.getString(CommentFields.EVALUATION.name());
             list.add(new Comment(author, date, time, comment, rate));
+        }
+        return list;
+    }
+
+    public ArrayList<Order> getOrderList(ResultSet resultSet) throws SQLException {
+        ArrayList<Order> list = new ArrayList<>();
+        String product;
+        String time;
+        String method;
+        if (resultSet.next()) {
+            product = resultSet.getString(OrderFields.PRODUCT.name());
+            time = resultSet.getString(OrderFields.ORDERTIME.name());
+            method = resultSet.getString(OrderFields.PAYMENTMETHOD.name());
+            list.add(new Order(product, time, method));
+            while (resultSet.next()) {
+                product = resultSet.getString(OrderFields.PRODUCT.name());
+                time = resultSet.getString(OrderFields.ORDERTIME.name());
+                method = resultSet.getString(OrderFields.PAYMENTMETHOD.name());
+                list.add(new Order(product, time, method));
+            }
         }
         return list;
     }

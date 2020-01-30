@@ -8,18 +8,14 @@ import com.epam.servlets.service.Command;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
-public class FirstCourseCommand implements Command {
+public class SecondCourseCommand implements Command {
     private MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
 
-        @Override
-        public String execute(HttpServletRequest req) {
-            ArrayList<Product> listResults;
-            listResults = menuDAO.getProductList("firstCourse");
-            req.setAttribute("listResults", listResults);
-            return "firstCourse";
+    @Override
+    public String execute(HttpServletRequest req) {
+        ArrayList<Product> listResults;
+        listResults = menuDAO.getProductList("secondCourse");
+        req.setAttribute("listResults", listResults);
+        return "secondCourse";
     }
 }
-
-
-
-

@@ -13,7 +13,8 @@ public enum CommandEnum {
     COMMENTS(new CommentPageCommand()),
     CHANGEPOINTS(new ChangePointPageCommand()),
     CHANGEMENU(new ChangeMenuPageCommand()),
-    ORDERPAGE(new OrderPageCommand());
+    ORDERPAGE(new OrderPageCommand()),
+    SECONDCOURSE(new SecondCourseCommand());
 
     private Command command;
 

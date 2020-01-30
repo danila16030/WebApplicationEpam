@@ -30,12 +30,14 @@ Order:
             <th> Name</th>
             <th> Will be ready in</th>
             <th> Remaining time before cooking</th>
+            <th> Payment method</th>
         </tr>
-        <c:forEach var="product" items="${client.orderList}">
+        <c:forEach var="order" items="${client.orderList}">
             <tr>
-                <td>${product.name} </td>
-                <td>${product.orderTime}</td>
-                <td>${product.cookingProcess}</td>
+                <td>${order.productName} </td>
+                <td>${order.time}</td>
+                <td>${order.leftTime}</td>
+                <td>${order.paymentMethod}</td>
                 </td>
             </tr>
         </c:forEach>

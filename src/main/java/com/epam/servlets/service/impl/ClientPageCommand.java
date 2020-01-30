@@ -22,5 +22,4 @@ public class ClientPageCommand implements Command {
         userDAO.logOut(name);
         return "/WebApplication_war_exploded";
     }
-
 }

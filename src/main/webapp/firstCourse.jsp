@@ -13,7 +13,7 @@
 <html>
 <head>
     <title>FirstCourse</title>
-    <link rel="stylesheet" type="text/css" href="productPage.css"/>
+    <link rel="stylesheet" type="text/css" href="css/productPage.css"/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style type="text/css">
     </style>
@@ -27,7 +27,7 @@
                 <li><a href="" class="down">Dishes</a>
                     <ul class="submenu">
                         <li><a href="firstCourse?move=0"> First course</a></li>
-                        <li><a href="">Second course</a></li>
+                        <li><a href="secondCourse?move=0">Second course</a></li>
                         <li><a href="">Garnish</a></li>
                         <li><a href="">Salad</a></li>
                     </ul>
@@ -66,7 +66,7 @@
                         <input type="button" id="order" name="move" value="click to order ${product.name} "
                                onclick="location.href='/WebApplication_war_exploded/orderPage?product=${product.name}'">
                         <input type="button" id="com" name="comment"
-                               value="View comments on ${product.name} "
+                               value="View comments about ${product.name} "
                                onclick="location.href='/WebApplication_war_exploded/comments?about=${product.name}'">
                     </c:if>
                 </td>

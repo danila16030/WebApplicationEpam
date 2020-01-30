@@ -1,9 +1,6 @@
 package com.epam.servlets.dao;
 
-import com.epam.servlets.dao.impl.SQLCommentDAO;
-import com.epam.servlets.dao.impl.SQLMenuDAO;
-import com.epam.servlets.dao.impl.SQLUserDAO;
-import com.epam.servlets.dao.impl.SQLClientDAO;
+import com.epam.servlets.dao.impl.*;
 
 public class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();
@@ -12,6 +9,7 @@ public class DAOFactory {
     private final CommentDAO sqlCommentDAO = new SQLCommentDAO();
     private final MenuDAO sqlMenuDAO = new SQLMenuDAO();
     private final ClientDAO sqlClientDAO = new SQLClientDAO();
+    private final OrderDAO sqlOrderDAO=new SQLOrderDAO();
 
     private DAOFactory() {
     }
@@ -32,6 +30,9 @@ public class DAOFactory {
         return sqlMenuDAO;
     }
 
+    public OrderDAO getSqlOrderDAO() {
+        return sqlOrderDAO;
+    }
 
     public CommentDAO getSqlCommentDAO() {
         return sqlCommentDAO;

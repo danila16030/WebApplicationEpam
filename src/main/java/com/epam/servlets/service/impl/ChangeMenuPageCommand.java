@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class ChangeMenuPageCommand implements Command {
 
     private MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
@@ -18,6 +19,10 @@ public class ChangeMenuPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest req) {
 
+
+        if (req.getParameter("create") != null) {
+            return createProduct(req);
+        }
         if (req.getParameter("delete") != null) {
             return deleteProduct(req);
         }
@@ -28,6 +33,14 @@ public class ChangeMenuPageCommand implements Command {
         }
     }
 
+    private String createProduct(HttpServletRequest req) {
+        String tag = req.getParameter("tag");
+        String productName = req.getParameter("product");
+        String cost = req.getParameter("cost");
+        String time = req.getParameter("time");
+        String file = req.getParameter("file");
+        return getProduct(req);
+    }
 
     private String deleteProduct(HttpServletRequest req) {
         String productName = req.getParameter("product");
@@ -64,6 +77,5 @@ public class ChangeMenuPageCommand implements Command {
         }
         req.setAttribute("listResults", listResults);
         return "changeMenu";
-
     }
 }

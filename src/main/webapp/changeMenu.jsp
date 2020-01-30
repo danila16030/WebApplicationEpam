@@ -11,6 +11,8 @@
 <html>
 <head>
     <title>changeMenu</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jq.js"></script>
 </head>
 <body>
 <div>
@@ -36,7 +38,36 @@
         <button type="submit">Search</button>
     </form>
 </div>
-
+Create new Product:
+<div>
+    <form method="post" enctype="multipart/form-data">
+        <table border="1">
+            <tr>
+                <th> Name</th>
+                <th> Cost</th>
+                <th> Cooking time</th>
+                <th> Exemplum</th>
+                <th> Tag</th>
+            </tr>
+            <tr>
+                <input type="hidden" name="previous">
+                <td><input type="text" name="product"
+                           pattern="^[A-Za-z0-9 ]{1,}" required>
+                </td>
+                <td><input type="text" name="cost"
+                           pattern="^[0-9]{1,}" required></td>
+                <td><input type="time" name="time"
+                           pattern="^[A-Za-z0-9]{1,}" required></td>
+                <td><input type="file" id="file" name="file"></td>
+                <td><input type="text" name="tag"
+                           pattern="^[A-Za-z]{1,}" required>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" id="btn" name="create" value="Click to create new product changes">
+    </form>
+</div>
+Required products:
 <div>
     <form method="post">
         <table border="1">
@@ -71,5 +102,7 @@
         </c:if>
     </form>
 </div>
+
 </body>
+
 </html>

@@ -5,9 +5,10 @@ import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
 import com.epam.servlets.dao.impl.util.auxiliary.CommentFields;
+import com.epam.servlets.dao.pool.ConnectionPool;
+import com.epam.servlets.dao.pool.ConnectionPoolException;
 import com.epam.servlets.entities.Comment;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,15 +23,17 @@ public class SQLCommentDAO implements CommentDAO {
     private Map<String, PreparedStatement> preparedStatementMap;
 
     private static final ConverterFromResultSet converterFromResultSet = ConverterFromResultSet.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+
 
     public SQLCommentDAO() {
         preparedStatementMap = new HashMap<>();
         Connection connection = null;
+
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
-        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            connection = connectionPool.takeConnection();
+        } catch (ConnectionPoolException e) {
+            //    logger.error(e);
         }
 
         prepareStatement(connection, sqlFindCommentsAboutProduct);
@@ -38,13 +41,9 @@ public class SQLCommentDAO implements CommentDAO {
         prepareStatement(connection, sqlUpdateComment);
         prepareStatement(connection, sqlCreateNewComment);
 
-      /*  if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }*/
+        if (connection != null) {
+            connectionPool.closeConnection(connection);
+        }
     }
 
 
@@ -167,7 +166,7 @@ public class SQLCommentDAO implements CommentDAO {
             if (preparedStatement != null) {
                 preparedStatement.setString(1, productName);
                 resultSet = preparedStatement.executeQuery();
-                resultList = converterFromResultSet.getComents(resultSet);
+                resultList = converterFromResultSet.getComments(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();

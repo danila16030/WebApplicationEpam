@@ -22,7 +22,7 @@ public class ChangePointPageCommand implements Command {
 
     private String getClients(HttpServletRequest req) {
         String userName = req.getParameter("username");
-        ArrayList<Client> listResults = new ArrayList();
+        ArrayList<Client> listResults;
         listResults = clientDAO.getClientList(userName);
         if (listResults.isEmpty()) {
             req.setAttribute("inf", "not exist");

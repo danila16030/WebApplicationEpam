@@ -3,10 +3,14 @@ package com.epam.servlets.dao.impl;
 import com.epam.servlets.dao.ClientDAO;
 import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
 import com.epam.servlets.dao.impl.util.auxiliary.ClientFields;
+import com.epam.servlets.dao.pool.ConnectionPool;
+import com.epam.servlets.dao.pool.ConnectionPoolException;
 import com.epam.servlets.entities.Client;
 
-import java.lang.reflect.InvocationTargetException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,42 +18,34 @@ import java.util.Map;
 public class SQLClientDAO implements ClientDAO {
 
     private String sqlCreateNewClient = "INSERT INTO client (login) VALUES(?)";
-    private String sqlRemoveOrder = "UPDATE  client SET `order`=?,loyaltyPoints=?,block=? WHERE login=?";
     private String sqlChangePoints = "UPDATE  client SET loyaltyPoints=?,block=? WHERE login=?";
-    private String sqlFindClient = "SELECT * FROM client WHERE login=? ";
     private String sqlChangeBalance = "UPDATE  client SET balance=? WHERE login=?";
     private String sqlGetClient = "SELECT * FROM client WHERE login=?";
     private String sqlGetAllClient = "SELECT * FROM client";
-    private String sqlMakeOrder = "UPDATE  client SET `order`=?, balance=?,loyaltyPoints=? WHERE login=?";
+    private String sqlChangeBalanceAndOrder = "UPDATE  client SET balance=?,loyaltyPoints=? WHERE login=?";
     private Map<String, PreparedStatement> preparedStatementMap;
 
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static final ConverterFromResultSet converterFromResultSet = ConverterFromResultSet.getInstance();
 
     public SQLClientDAO() {
         preparedStatementMap = new HashMap<>();
         Connection connection = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafe?serverTimezone=UTC", "root", "root");
-        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
+            connection = connectionPool.takeConnection();
+        } catch (ConnectionPoolException e) {
+            //    logger.error(e);
         }
 
         prepareStatement(connection, sqlCreateNewClient);
-        prepareStatement(connection, sqlRemoveOrder);
         prepareStatement(connection, sqlChangePoints);
-        prepareStatement(connection, sqlFindClient);
         prepareStatement(connection, sqlChangeBalance);
         prepareStatement(connection, sqlGetClient);
         prepareStatement(connection, sqlGetAllClient);
-        prepareStatement(connection, sqlMakeOrder);
-      /*  if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }*/
+        prepareStatement(connection, sqlChangeBalanceAndOrder);
+        if (connection != null) {
+            connectionPool.closeConnection(connection);
+        }
     }
 
 
@@ -78,22 +74,6 @@ public class SQLClientDAO implements ClientDAO {
     }
 
     @Override
-    public void removeOrder(String order, int points, String name, int block) {
-        try {
-            PreparedStatement preparedStatement = preparedStatementMap.get(sqlRemoveOrder);
-            if (preparedStatement != null) {
-                preparedStatement.setString(1, order);
-                preparedStatement.setInt(2, points);
-                preparedStatement.setInt(3, block);
-                preparedStatement.setString(4, name);
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void changePoint(String point, int block, String name) {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlChangePoints);
@@ -113,7 +93,7 @@ public class SQLClientDAO implements ClientDAO {
         int balance = 0;
         ResultSet resultSet;
         try {
-            PreparedStatement preparedStatement = preparedStatementMap.get(sqlFindClient);
+            PreparedStatement preparedStatement = preparedStatementMap.get(sqlGetClient);
             if (preparedStatement != null) {
                 preparedStatement.setString(1, name);
                 resultSet = preparedStatement.executeQuery();
@@ -125,6 +105,46 @@ public class SQLClientDAO implements ClientDAO {
             e.printStackTrace();
         }
         return balance;
+    }
+
+    @Override
+    public boolean isBlock(String name) {
+        ResultSet resultSet;
+        try {
+            PreparedStatement preparedStatement = preparedStatementMap.get(sqlGetClient);
+            if (preparedStatement != null) {
+                preparedStatement.setString(1, name);
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    if (resultSet.getBoolean(ClientFields.BLOCK.name())) {
+                        return true;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    @Override
+    public int getPoint(String name) {
+        int point = 0;
+        ResultSet resultSet;
+        try {
+            PreparedStatement preparedStatement = preparedStatementMap.get(sqlGetClient);
+            if (preparedStatement != null) {
+                preparedStatement.setString(1, name);
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()) {
+                    point = resultSet.getInt(ClientFields.LOYALTYPOINTS.name());
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return point;
     }
 
     @Override
@@ -167,14 +187,13 @@ public class SQLClientDAO implements ClientDAO {
     }
 
     @Override
-    public void makeOrder(String order, int balance, int point, String name) {
+    public void changeBalanceAndPoints(int balance, int point, String name) {
         try {
-            PreparedStatement preparedStatement = preparedStatementMap.get(sqlMakeOrder);
+            PreparedStatement preparedStatement = preparedStatementMap.get(sqlChangeBalanceAndOrder);
             if (preparedStatement != null) {
-                preparedStatement.setString(1, order);
-                preparedStatement.setInt(2, balance);
-                preparedStatement.setInt(3, point);
-                preparedStatement.setString(4, name);
+                preparedStatement.setInt(1, balance);
+                preparedStatement.setInt(2, point);
+                preparedStatement.setString(3, name);
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {

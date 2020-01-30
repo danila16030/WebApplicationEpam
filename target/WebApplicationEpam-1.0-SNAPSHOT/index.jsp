@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Cafe</title>
-    <link rel="stylesheet" type="text/css" href="mainPage.css"/>
+    <link rel="stylesheet" type="text/css" href="css/mainPage.css"/>
     <style type="text/css">
     </style>
 </head>
@@ -27,7 +27,7 @@
                 <li><a href="" class="down">Dishes</a>
                     <ul class="submenu">
                         <li><a href="firstCourse?move=0"> First course</a></li>
-                        <li><a href="">Second course</a></li>
+                        <li><a href="secondCourse?move=0">Second course</a></li>
                         <li><a href="">Garnish</a></li>
                         <li><a href="">Salad</a></li>
                     </ul>

@@ -45,7 +45,7 @@
     <input type="checkbox" name="card" value="card" checked>Pay online
 </form>
 
-<c:if test="${inf.equals('blok')}">
+<c:if test="${inf.equals('block')}">
     <div class="w3-panel w3-red w3-display-container w3-card-4 w3-round">
         <span onclick="this.parentElement.style.display='none'"
               class="w3-button w3-margin-right w3-display-right w3-round-large w3-hover-green w3-border w3-border-green w3-hover-border-grey">

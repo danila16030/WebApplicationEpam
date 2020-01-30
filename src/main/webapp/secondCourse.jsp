@@ -12,7 +12,7 @@
 <jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
 <html>
 <head>
-    <title>FirstCourse</title>
+    <title>SecondCourse</title>
     <link rel="stylesheet" type="text/css" href="css/productPage.css"/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style type="text/css">

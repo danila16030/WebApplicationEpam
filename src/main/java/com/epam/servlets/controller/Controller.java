@@ -2,7 +2,7 @@ package com.epam.servlets.controller;
 
 import com.epam.servlets.service.Command;
 import com.epam.servlets.service.factory.CommandEnum;
-
+import com.epam.servlets.timer.MyTimer;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 public class Controller extends HttpServlet {
-    String s;
+    static String s;
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

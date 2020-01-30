@@ -5,8 +5,6 @@ public class Product {
     private String name;
     private int cost;
     private String cookingTime;
-    private String cookingProcess;
-    private String orderTime;
     private String image;
     private int id;
     private double averageScope;
@@ -14,12 +12,6 @@ public class Product {
     private String tag;
 
     public Product() {
-    }
-
-    public Product(String name, String orderTime, String cookingProcess) {
-        this.name = name;
-        this.orderTime=orderTime;
-        this.cookingProcess = cookingProcess;
     }
 
     public Product(String name, int cost, String cookingTime, String image, double averageScope, int votersNumber) {
@@ -46,13 +38,6 @@ public class Product {
         this.tag = tag;
     }
 
-    public String getOrderTime() {
-        return orderTime;
-    }
-
-    public void setOrderTime(String orderTime) {
-        this.orderTime = orderTime;
-    }
 
     public void setAverageScope(double averageScope) {
         this.averageScope = averageScope;
@@ -114,14 +99,6 @@ public class Product {
         this.cookingTime = cookingTime;
     }
 
-    public String getCookingProcess() {
-        return cookingProcess;
-    }
-
-    public void setCookingProcess(String cookingProcess) {
-        this.cookingProcess = cookingProcess;
-    }
-
     public String getImage() {
         return image;
     }
@@ -139,9 +116,6 @@ public class Product {
         if (votersNumber != product.votersNumber) return false;
         if (name != null ? !name.equals(product.name) : product.name != null) return false;
         if (cookingTime != null ? !cookingTime.equals(product.cookingTime) : product.cookingTime != null) return false;
-        if (cookingProcess != null ? !cookingProcess.equals(product.cookingProcess) : product.cookingProcess != null)
-            return false;
-        if (orderTime != null ? !orderTime.equals(product.orderTime) : product.orderTime != null) return false;
         if (image != null ? !image.equals(product.image) : product.image != null) return false;
         return tag != null ? tag.equals(product.tag) : product.tag == null;
     }
@@ -153,8 +127,6 @@ public class Product {
         result = name != null ? name.hashCode() : 0;
         result = 31 * result + cost;
         result = 31 * result + (cookingTime != null ? cookingTime.hashCode() : 0);
-        result = 31 * result + (cookingProcess != null ? cookingProcess.hashCode() : 0);
-        result = 31 * result + (orderTime != null ? orderTime.hashCode() : 0);
         result = 31 * result + (image != null ? image.hashCode() : 0);
         result = 31 * result + id;
         temp = Double.doubleToLongBits(averageScope);
@@ -170,8 +142,6 @@ public class Product {
                 "name='" + name + '\'' +
                 ", cost=" + cost +
                 ", cookingTime='" + cookingTime + '\'' +
-                ", cookingProcess='" + cookingProcess + '\'' +
-                ", orderTime='" + orderTime + '\'' +
                 ", image='" + image + '\'' +
                 ", id=" + id +
                 ", averageScope=" + averageScope +
