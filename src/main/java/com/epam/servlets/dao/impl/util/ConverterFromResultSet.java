@@ -130,16 +130,24 @@ public class ConverterFromResultSet {
         String product;
         String time;
         String method;
+        String customer;
+        Order order;
         if (resultSet.next()) {
             product = resultSet.getString(OrderFields.PRODUCT.name());
             time = resultSet.getString(OrderFields.ORDERTIME.name());
             method = resultSet.getString(OrderFields.PAYMENTMETHOD.name());
-            list.add(new Order(product, time, method));
+            customer = resultSet.getString(OrderFields.CUSTOMER.name());
+            order = new Order(product, time, method);
+            order.setCustomer(customer);
+            list.add(order);
             while (resultSet.next()) {
                 product = resultSet.getString(OrderFields.PRODUCT.name());
                 time = resultSet.getString(OrderFields.ORDERTIME.name());
                 method = resultSet.getString(OrderFields.PAYMENTMETHOD.name());
-                list.add(new Order(product, time, method));
+                customer = resultSet.getString(OrderFields.CUSTOMER.name());
+                order = new Order(product, time, method);
+                order.setCustomer(customer);
+                list.add(order);
             }
         }
         return list;

@@ -17,7 +17,7 @@ import java.util.Map;
 public class SQLOrderDAO implements OrderDAO {
 
     private String sqlMakeOrder = "INSERT INTO  `order` (product,orderTime,customer,paymentMethod) VALUES(?,?,?,?)";
-    private String sqlRemoveOrder = "DELETE FROM `order` WHERE product=? AND orderTime=?";
+    private String sqlRemoveOrder = "DELETE FROM `order` WHERE product=? AND orderTime=? AND customer=? ";
     private String sqlGetCustomerOrder = "SELECT * FROM `order` WHERE customer=?";
     private String sqlGetAllOrder = "SELECT * FROM `order`";
     private Map<String, PreparedStatement> preparedStatementMap;
@@ -74,12 +74,13 @@ public class SQLOrderDAO implements OrderDAO {
     }
 
     @Override
-    public void removeOrder(String product, String time) {
+    public void removeOrder(String product, String time,String customer) {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlRemoveOrder);
             if (preparedStatement != null) {
                 preparedStatement.setString(1, product);
                 preparedStatement.setString(2, time);
+                preparedStatement.setString(3, customer);
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {

@@ -74,7 +74,7 @@ public class SQLClientDAO implements ClientDAO {
     }
 
     @Override
-    public void changePoint(String point, int block, String name) {
+    public void changePointAndBlock(String point, int block, String name) {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlChangePoints);
             if (preparedStatement != null) {

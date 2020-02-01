@@ -24,7 +24,6 @@ public class UserPageCommand implements Command {
         String name = (String) req.getAttribute("user");
         ArrayList<Order> orderList = new ArrayList<>();
         String time;
-        String orderTimeS;
         Client client;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         ArrayList<Order> userOrder = orderDAO.getClientOrder(name);
@@ -34,15 +33,14 @@ public class UserPageCommand implements Command {
                 if (menuDAO.findProductByName(order.getProductName())) {
                     String requestedTime = order.getTime();
                     LocalTime orderTime = LocalTime.parse(requestedTime, formatter);
-                    orderTimeS = orderTime.format(formatter);
                     LocalTime now = LocalTime.now();
                     if (now.isBefore(orderTime)) {
                         orderTime = orderTime.minus(now.getHour(), ChronoUnit.HOURS);
                         orderTime = orderTime.minus(now.getMinute(), ChronoUnit.MINUTES);
                         time = orderTime.format(formatter);
-                        orderList.add(new Order(order.getProductName(), orderTimeS, time, order.getPaymentMethod()));
+                        orderList.add(new Order(order.getProductName(), order.getTime(), time, order.getPaymentMethod()));
                     } else {
-                        orderList.add(new Order(order.getProductName(), orderTimeS, "Ready", order.getPaymentMethod()));
+                        orderList.add(new Order(order.getProductName(), order.getTime(), "Ready", order.getPaymentMethod()));
                     }
                 }
             }

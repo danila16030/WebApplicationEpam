@@ -45,7 +45,7 @@ public class ChangePointPageCommand implements Command {
                     }
                 }
             }
-            clientDAO.changePoint(points[i], block, userName[i]);
+            clientDAO.changePointAndBlock(points[i], block, userName[i]);
             block = 0;
         }
         return "changePoints";

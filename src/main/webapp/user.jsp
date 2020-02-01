@@ -12,18 +12,18 @@
 <head>
     <title>${client.login}</title>
     <link rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style type="text/css">
     </style>
 </head>
 <body>
-
 <br>
-
-Login: <%= client.getLogin()%><br>
-
-Loyalty points: <%= client.getLoyaltyPoints()%><br>
-
+<label>Login: <%= client.getLogin()%><br>
+</label>
+<label>Loyalty points: <%= client.getLoyaltyPoints()%><br>
+</label>
 Order:
+<body class="w3-light-grey">
 <form>
     <table border="1">
         <tr>
@@ -52,5 +52,5 @@ Block: <%= client.isBlock()%><br>
 </label>
 
 </body>
-
+</body>
 </html>

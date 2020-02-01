@@ -5,6 +5,8 @@ public class Order {
     private String time;
     private String paymentMethod;
     private String leftTime;
+    private String customer;
+
 
     public Order(String productName, String time, String paymentMethod) {
         this.productName = productName;
@@ -21,6 +23,15 @@ public class Order {
 
     public String getLeftTime() {
         return leftTime;
+    }
+
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 
     public void setLeftTime(String leftTime) {
@@ -51,6 +62,7 @@ public class Order {
         this.time = time;
     }
 
+
     @Override
     public String toString() {
         return "Order{" +
@@ -58,6 +70,8 @@ public class Order {
                 ", time='" + time + '\'' +
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", leftTime='" + leftTime + '\'' +
+                ", customer='" + customer + '\'' +
                 '}';
     }
+
 }

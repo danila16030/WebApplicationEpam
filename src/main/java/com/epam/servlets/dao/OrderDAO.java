@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public interface OrderDAO {
     void makeOrder(String product, String orderTime, String customer, String paymentMethod);
 
-    void removeOrder(String product, String time);
+    void removeOrder(String product, String time,String customer);
 
     ArrayList<Order> getClientOrder(String customer);
 

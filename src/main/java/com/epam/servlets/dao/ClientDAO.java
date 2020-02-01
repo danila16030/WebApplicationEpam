@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public interface ClientDAO {
     void createNewClient(String login);
 
-    void changePoint(String point, int block, String name);
+    void changePointAndBlock(String point, int block, String name);
 
     int getBalance(String name);
 
