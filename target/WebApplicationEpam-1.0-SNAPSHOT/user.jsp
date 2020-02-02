@@ -17,11 +17,13 @@
     </style>
 </head>
 <body>
-
 <br>
+<p align="right" style=" font-size:15px"> Balance: <%= client.getBalance()%>
+    <input type="button" id="money" name="money" value="replenish balance"
+           onclick="location.href='/WebApplication_war_exploded/balance'">
+    Login: ${client.login}
+</p>
 
-<label>Login: <%= client.getLogin()%><br>
-</label>
 <label>Loyalty points: <%= client.getLoyaltyPoints()%><br>
 </label>
 Order:
@@ -48,11 +50,9 @@ Order:
 
 Block: <%= client.isBlock()%><br>
 
-<label>Balance:${client.balance}
-    <input type="button" id="money" name="money" value="replenish balance"
-           onclick="location.href='/WebApplication_war_exploded/balance'">
-</label>
-
+<div class="w3-container w3-grey w3-opacity w3-right-align w3-padding">
+    <button class="w3-btn w3-round-large" onclick="location.href='/WebApplication_war_exploded'">Back to Main</button>
+</div>
 </body>
 </body>
 </html>

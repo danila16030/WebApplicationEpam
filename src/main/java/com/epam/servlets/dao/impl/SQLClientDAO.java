@@ -1,10 +1,11 @@
 package com.epam.servlets.dao.impl;
 
 import com.epam.servlets.dao.ClientDAO;
+import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
 import com.epam.servlets.dao.impl.util.auxiliary.ClientFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
-import com.epam.servlets.dao.pool.ConnectionPoolException;
+import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Client;
 
 import java.sql.Connection;
@@ -33,7 +34,7 @@ public class SQLClientDAO implements ClientDAO {
         Connection connection = null;
         try {
             connection = connectionPool.takeConnection();
-        } catch (ConnectionPoolException e) {
+        } catch (PoolException e) {
             //    logger.error(e);
         }
 
@@ -61,12 +62,14 @@ public class SQLClientDAO implements ClientDAO {
     }
 
     @Override
-    public void createNewClient(String login) {
+    public void createNewClient(String login) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlCreateNewClient);
             if (preparedStatement != null) {
                 preparedStatement.setString(1, login);
                 preparedStatement.executeUpdate();
+            } else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +77,7 @@ public class SQLClientDAO implements ClientDAO {
     }
 
     @Override
-    public void changePointAndBlock(String point, int block, String name) {
+    public void changePointAndBlock(String point, int block, String name) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlChangePoints);
             if (preparedStatement != null) {
@@ -82,6 +85,8 @@ public class SQLClientDAO implements ClientDAO {
                 preparedStatement.setInt(2, block);
                 preparedStatement.setString(3, name);
                 preparedStatement.executeUpdate();
+            } else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,7 +94,7 @@ public class SQLClientDAO implements ClientDAO {
     }
 
     @Override
-    public int getBalance(String name) {
+    public int getBalance(String name) throws DAOException {
         int balance = 0;
         ResultSet resultSet;
         try {
@@ -100,6 +105,8 @@ public class SQLClientDAO implements ClientDAO {
                 if (resultSet.next()) {
                     balance = resultSet.getInt(ClientFields.BALANCE.name());
                 }
+            } else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,7 +115,7 @@ public class SQLClientDAO implements ClientDAO {
     }
 
     @Override
-    public boolean isBlock(String name) {
+    public boolean isBlock(String name) throws DAOException {
         ResultSet resultSet;
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlGetClient);
@@ -120,6 +127,8 @@ public class SQLClientDAO implements ClientDAO {
                         return true;
                     }
                 }
+            } else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -129,7 +138,7 @@ public class SQLClientDAO implements ClientDAO {
 
 
     @Override
-    public int getPoint(String name) {
+    public int getPoint(String name) throws DAOException {
         int point = 0;
         ResultSet resultSet;
         try {
@@ -140,6 +149,8 @@ public class SQLClientDAO implements ClientDAO {
                 if (resultSet.next()) {
                     point = resultSet.getInt(ClientFields.LOYALTYPOINTS.name());
                 }
+            } else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -148,13 +159,15 @@ public class SQLClientDAO implements ClientDAO {
     }
 
     @Override
-    public void changeBalance(int balance, String name) {
+    public void changeBalance(int balance, String name) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlChangeBalance);
             if (preparedStatement != null) {
                 preparedStatement.setInt(1, balance);
                 preparedStatement.setString(2, name);
                 preparedStatement.executeUpdate();
+            } else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -162,32 +175,40 @@ public class SQLClientDAO implements ClientDAO {
     }
 
     @Override
-    public ArrayList<Client> getClientList(String name) {
+    public ArrayList<Client> getClientList(String name) throws DAOException {
         ArrayList<Client> resultList = new ArrayList<>();
         ResultSet resultSet;
         if (name.equals("")) {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlGetAllClient);
-            try {
-                resultSet = preparedStatement.executeQuery();
-                resultList = converterFromResultSet.getClientList(resultSet);
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (preparedStatement != null) {
+                try {
+                    resultSet = preparedStatement.executeQuery();
+                    resultList = converterFromResultSet.getClientList(resultSet);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } else {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlGetClient);
-            try {
-                preparedStatement.setString(1, name);
-                resultSet = preparedStatement.executeQuery();
-                resultList = converterFromResultSet.getClientList(resultSet);
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.setString(1, name);
+                    resultSet = preparedStatement.executeQuery();
+                    resultList = converterFromResultSet.getClientList(resultSet);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         }
         return resultList;
     }
 
     @Override
-    public void changeBalanceAndPoints(int balance, int point, String name) {
+    public void changeBalanceAndPoints(int balance, int point, String name) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlChangeBalanceAndOrder);
             if (preparedStatement != null) {
@@ -195,6 +216,8 @@ public class SQLClientDAO implements ClientDAO {
                 preparedStatement.setInt(2, point);
                 preparedStatement.setString(3, name);
                 preparedStatement.executeUpdate();
+            } else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();

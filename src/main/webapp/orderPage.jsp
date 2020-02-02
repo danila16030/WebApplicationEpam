@@ -7,8 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="product" class="com.epam.servlets.entities.Product" scope="request"/>
-<jsp:useBean id="inf" class="java.lang.String" scope="request"/>
+<jsp:useBean id="product" class="com.epam.servlets.entities.Product" scope="session"/>
+<jsp:useBean id="inf" class="java.lang.String" scope="session"/>
 <html>
 <head>
     <title>Order</title>
@@ -35,6 +35,7 @@
     </form>
 </label>
 <form method="post" class="w3-selection w3-light-grey w3-padding">
+    <input type="hidden" name="product" value="${product.name}">
     <label>Please enter the time when you would like to pick up the order:
         <input type="time" id="time" name="time" required
                class="w3-input w3-animate-input w3-border w3-round-large"

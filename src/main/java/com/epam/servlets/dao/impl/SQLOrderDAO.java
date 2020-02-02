@@ -1,9 +1,10 @@
 package com.epam.servlets.dao.impl;
 
+import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.OrderDAO;
 import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
 import com.epam.servlets.dao.pool.ConnectionPool;
-import com.epam.servlets.dao.pool.ConnectionPoolException;
+import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Order;
 
 import java.sql.Connection;
@@ -31,7 +32,7 @@ public class SQLOrderDAO implements OrderDAO {
         Connection connection = null;
         try {
             connection = connectionPool.takeConnection();
-        } catch (ConnectionPoolException e) {
+        } catch (PoolException e) {
             //    logger.error(e);
         }
 
@@ -58,7 +59,7 @@ public class SQLOrderDAO implements OrderDAO {
     }
 
     @Override
-    public void makeOrder(String product, String orderTime, String customer,String paymentMethod) {
+    public void makeOrder(String product, String orderTime, String customer,String paymentMethod) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlMakeOrder);
             if (preparedStatement != null) {
@@ -67,6 +68,8 @@ public class SQLOrderDAO implements OrderDAO {
                 preparedStatement.setString(3, customer);
                 preparedStatement.setString(4, paymentMethod);
                 preparedStatement.executeUpdate();
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +77,7 @@ public class SQLOrderDAO implements OrderDAO {
     }
 
     @Override
-    public void removeOrder(String product, String time,String customer) {
+    public void removeOrder(String product, String time,String customer) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlRemoveOrder);
             if (preparedStatement != null) {
@@ -82,6 +85,8 @@ public class SQLOrderDAO implements OrderDAO {
                 preparedStatement.setString(2, time);
                 preparedStatement.setString(3, customer);
                 preparedStatement.executeUpdate();
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,7 +94,7 @@ public class SQLOrderDAO implements OrderDAO {
     }
 
     @Override
-    public ArrayList<Order> getClientOrder(String customer) {
+    public ArrayList<Order> getClientOrder(String customer) throws DAOException {
         ArrayList<Order> list = new ArrayList<>();
         ResultSet resultSet;
         try {
@@ -98,6 +103,8 @@ public class SQLOrderDAO implements OrderDAO {
                 preparedStatement.setString(1, customer);
                 resultSet = preparedStatement.executeQuery();
                 list = converterFromResultSet.getOrderList(resultSet);
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,7 +113,7 @@ public class SQLOrderDAO implements OrderDAO {
     }
 
     @Override
-    public ArrayList<Order> getAllOrder() {
+    public ArrayList<Order> getAllOrder() throws DAOException {
         ArrayList<Order> list = new ArrayList<>();
         ResultSet resultSet;
         try {
@@ -114,6 +121,8 @@ public class SQLOrderDAO implements OrderDAO {
             if (preparedStatement != null) {
                 resultSet = preparedStatement.executeQuery();
                 list = converterFromResultSet.getOrderList(resultSet);
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();

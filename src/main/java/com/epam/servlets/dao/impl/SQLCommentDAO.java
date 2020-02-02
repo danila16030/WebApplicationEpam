@@ -1,12 +1,13 @@
 package com.epam.servlets.dao.impl;
 
 import com.epam.servlets.dao.CommentDAO;
+import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
 import com.epam.servlets.dao.impl.util.auxiliary.CommentFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
-import com.epam.servlets.dao.pool.ConnectionPoolException;
+import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Comment;
 
 import java.sql.*;
@@ -32,7 +33,7 @@ public class SQLCommentDAO implements CommentDAO {
 
         try {
             connection = connectionPool.takeConnection();
-        } catch (ConnectionPoolException e) {
+        } catch (PoolException e) {
             //    logger.error(e);
         }
 
@@ -59,7 +60,7 @@ public class SQLCommentDAO implements CommentDAO {
     }
 
     @Override
-    public boolean findCommentAboutProductByAuthor(String author, String productName) {
+    public boolean findCommentAboutProductByAuthor(String author, String productName) throws DAOException {
         ResultSet resultSet;
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlFindCommentByProductNameAndAuthor);
@@ -70,6 +71,8 @@ public class SQLCommentDAO implements CommentDAO {
                 if (resultSet.next()) {
                     return true;
                 }
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,7 +81,7 @@ public class SQLCommentDAO implements CommentDAO {
     }
 
     @Override
-    public void updateComment(LocalDate date, String productName, String time, String comment, String rate, String author) {
+    public void updateComment(LocalDate date, String productName, String time, String comment, String rate, String author) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlUpdateComment);
             if (preparedStatement != null) {
@@ -89,6 +92,8 @@ public class SQLCommentDAO implements CommentDAO {
                 preparedStatement.setString(5, author);
                 preparedStatement.setString(6, productName);
                 preparedStatement.executeUpdate();
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,7 +101,7 @@ public class SQLCommentDAO implements CommentDAO {
     }
 
     @Override
-    public void createComment(LocalDate date, String productName, String time, String comment, String rate, String author) {
+    public void createComment(LocalDate date, String productName, String time, String comment, String rate, String author) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlCreateNewComment);
             if (preparedStatement != null) {
@@ -107,6 +112,8 @@ public class SQLCommentDAO implements CommentDAO {
                 preparedStatement.setString(5, productName);
                 preparedStatement.setString(6, rate);
                 preparedStatement.executeUpdate();
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,7 +121,7 @@ public class SQLCommentDAO implements CommentDAO {
     }
 
     @Override
-    public boolean findCommentAboutProduct(String productName) {
+    public boolean findCommentAboutProduct(String productName) throws DAOException {
         ResultSet resultSet;
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlFindCommentsAboutProduct);
@@ -124,6 +131,8 @@ public class SQLCommentDAO implements CommentDAO {
                 if (resultSet.next()) {
                     return true;
                 }
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -132,7 +141,7 @@ public class SQLCommentDAO implements CommentDAO {
     }
 
     @Override
-    public void updateRate(String productName) {
+    public void updateRate(String productName) throws DAOException {
         ResultSet resultSet;
         double average = 0;
         double votesNumber = 0;
@@ -149,6 +158,8 @@ public class SQLCommentDAO implements CommentDAO {
                     }
                 }
                 average = term / votesNumber;
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
             MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
             menuDAO.updateRate(average, votesNumber, productName);
@@ -158,7 +169,7 @@ public class SQLCommentDAO implements CommentDAO {
     }
 
     @Override
-    public ArrayList<Comment> getCommentsAboutProduct(String productName) {
+    public ArrayList<Comment> getCommentsAboutProduct(String productName) throws DAOException {
         ArrayList<Comment> resultList = new ArrayList<>();
         ResultSet resultSet;
         try {
@@ -167,6 +178,8 @@ public class SQLCommentDAO implements CommentDAO {
                 preparedStatement.setString(1, productName);
                 resultSet = preparedStatement.executeQuery();
                 resultList = converterFromResultSet.getComments(resultSet);
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();

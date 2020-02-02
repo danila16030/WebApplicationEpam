@@ -5,11 +5,11 @@ import com.epam.servlets.entities.Order;
 import java.util.ArrayList;
 
 public interface OrderDAO {
-    void makeOrder(String product, String orderTime, String customer, String paymentMethod);
+    void makeOrder(String product, String orderTime, String customer, String paymentMethod) throws DAOException;
 
-    void removeOrder(String product, String time,String customer);
+    void removeOrder(String product, String time,String customer) throws DAOException;
 
-    ArrayList<Order> getClientOrder(String customer);
+    ArrayList<Order> getClientOrder(String customer) throws DAOException;
 
-    ArrayList<Order> getAllOrder();
+    ArrayList<Order> getAllOrder() throws DAOException;
 }

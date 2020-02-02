@@ -1,9 +1,11 @@
 package com.epam.servlets.service.impl;
 
+import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.entities.Product;
 import com.epam.servlets.service.Command;
+import com.epam.servlets.service.CommandException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -17,8 +19,7 @@ public class ChangeMenuPageCommand implements Command {
     private MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
 
     @Override
-    public String execute(HttpServletRequest req) {
-
+    public String execute(HttpServletRequest req) throws CommandException {
 
         if (req.getParameter("create") != null) {
             return createProduct(req);
@@ -33,7 +34,7 @@ public class ChangeMenuPageCommand implements Command {
         }
     }
 
-    private String createProduct(HttpServletRequest req) {
+    private String createProduct(HttpServletRequest req) throws CommandException {
         String tag = req.getParameter("tag");
         String productName = req.getParameter("product");
         String cost = req.getParameter("cost");
@@ -42,40 +43,52 @@ public class ChangeMenuPageCommand implements Command {
         return getProduct(req);
     }
 
-    private String deleteProduct(HttpServletRequest req) {
+    private String deleteProduct(HttpServletRequest req) throws CommandException {
         String productName = req.getParameter("product");
-        menuDAO.deleteProduct(productName);
+        try {
+            menuDAO.deleteProduct(productName);
+        } catch (DAOException e) {
+            throw new CommandException("Error in DAO", e);
+        }
         return getProduct(req);
     }
 
-    private String updateProduct(HttpServletRequest req) {
+    private String updateProduct(HttpServletRequest req) throws CommandException {
         String tag[] = req.getParameterValues("tag");
         String[] productName = req.getParameterValues("product");
         String[] previousName = req.getParameterValues("previous");
         String[] cost = req.getParameterValues("cost");
         String[] time = req.getParameterValues("time");
-        menuDAO.updateProduct(tag, productName, previousName, cost, time);
+        try {
+            menuDAO.updateProduct(tag, productName, previousName, cost, time);
+        } catch (DAOException e) {
+            throw new CommandException("Error in DAO", e);
+        }
         return getProduct(req);
     }
 
-    private String getProduct(HttpServletRequest req) {
+    private String getProduct(HttpServletRequest req) throws CommandException {
         String productName = req.getParameter("product");
-        ArrayList<Product> listResults = new ArrayList();
+        ArrayList<Product> menuList = new ArrayList();
         List<String> tags = null;
         if (req.getParameter("tag") != null) {
             tags = Arrays.asList(req.getParameterValues("tag"));
             tags = tags.stream().distinct().collect(Collectors.toList());
         }
-        if (tags != null) {
-            listResults = menuDAO.getProductListForChange(tags);
-        } else {
-            if (menuDAO.findProductByName(productName)) {
-                listResults.add(menuDAO.getProductForChange(productName));
+        try {
+            if (tags != null) {
+                menuList = menuDAO.getProductListForChange(tags);
             } else {
-                req.setAttribute("inf", "not exist");
+                if (menuDAO.findProductByName(productName)) {
+                    menuList.add(menuDAO.getProductForChange(productName));
+                } else {
+                    req.getSession().setAttribute("inf", "not exist");
+                }
             }
+        } catch (DAOException e) {
+            throw new CommandException("Error in DAO", e);
         }
-        req.setAttribute("listResults", listResults);
+        req.getSession().setAttribute("menuList", menuList);
         return "changeMenu";
     }
 }

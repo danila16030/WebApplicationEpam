@@ -6,25 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface MenuDAO {
-    void updateRate(double average, double votesNumber, String productName);
+    void updateRate(double average, double votesNumber, String productName) throws DAOException;
 
-    ArrayList<Product> getProductList(String tag);
+    ArrayList<Product> getProductList(String tag) throws DAOException;
 
-    ArrayList<Product> getProductListForChange(List<String> tag);
+    ArrayList<Product> getProductListForChange(List<String> tag) throws DAOException;
 
-    Product getProductForComment(String productName);
+    Product getProductForComment(String productName) throws DAOException;
 
-    Product getProductForOrder(String productName);
+    Product getProductForOrder(String productName) throws DAOException;
 
-    String getProductTime(String productName);
+    String getProductTime(String productName) throws DAOException;
 
-    int getProductCost(String productName);
+    int getProductCost(String productName) throws DAOException;
 
-    void deleteProduct(String productName);
+    void deleteProduct(String productName) throws DAOException;
 
-    void updateProduct(String tag[], String[] productName, String[] previousName, String[] cost, String[] time);
+    void updateProduct(String tag[], String[] productName, String[] previousName, String[] cost, String[] time) throws DAOException;
 
-    Product getProductForChange(String productName);
+    Product getProductForChange(String productName) throws DAOException;
 
-    boolean findProductByName(String productName);
+    boolean findProductByName(String productName) throws DAOException;
 }

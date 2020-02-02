@@ -1,9 +1,10 @@
 package com.epam.servlets.dao.impl;
 
+import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.UserDAO;
 import com.epam.servlets.dao.impl.util.auxiliary.UserFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
-import com.epam.servlets.dao.pool.ConnectionPoolException;
+import com.epam.servlets.dao.pool.PoolException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,7 +31,7 @@ public class SQLUserDAO implements UserDAO {
         Connection connection = null;
         try {
             connection = connectionPool.takeConnection();
-        } catch (ConnectionPoolException e) {
+        } catch (PoolException e) {
             //    logger.error(e);
         }
 
@@ -40,7 +41,6 @@ public class SQLUserDAO implements UserDAO {
         prepareStatement(connection, sqlFindUserByLogin);
         prepareStatement(connection, sqlLogOut);
         prepareStatement(connection, sqlInSystem);
-
         if (connection != null) {
             connectionPool.closeConnection(connection);
         }
@@ -59,7 +59,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean findUserByLogin(String login) {
+    public boolean findUserByLogin(String login) throws DAOException {
         ResultSet resultSet;
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlFindUserByLogin);
@@ -69,6 +69,8 @@ public class SQLUserDAO implements UserDAO {
                 if (resultSet.next()) {
                     return true;
                 }
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,7 +79,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public String singInByLogin(String login) {
+    public String singInByLogin(String login) throws DAOException {
         ResultSet resultSet;
         String result;
         try {
@@ -95,6 +97,8 @@ public class SQLUserDAO implements UserDAO {
                         return "client";
                     }
                 }
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,13 +108,15 @@ public class SQLUserDAO implements UserDAO {
 
 
     @Override
-    public void creteNewUser(String login, String password) {
+    public void creteNewUser(String login, String password) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlCreateNewUser);
             if (preparedStatement != null) {
                 preparedStatement.setString(1, login);
                 preparedStatement.setString(2, password);
                 preparedStatement.executeUpdate();
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -118,12 +124,14 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public void logOut(String login) {
+    public void logOut(String login) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlLogOut);
             if (preparedStatement != null) {
                 preparedStatement.setString(1, login);
                 preparedStatement.executeUpdate();
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -131,12 +139,14 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public void inSystem(String login) {
+    public void inSystem(String login) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlInSystem);
             if (preparedStatement != null) {
                 preparedStatement.setString(1, login);
                 preparedStatement.executeUpdate();
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -144,7 +154,7 @@ public class SQLUserDAO implements UserDAO {
     }
 
     @Override
-    public boolean findUserByLoginAndPassword(String login, String password) {
+    public boolean findUserByLoginAndPassword(String login, String password) throws DAOException {
         ResultSet resultSet;
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlFindUserByLoginAndPassword);
@@ -155,6 +165,8 @@ public class SQLUserDAO implements UserDAO {
                 if (resultSet.next()) {
                     return true;
                 }
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();

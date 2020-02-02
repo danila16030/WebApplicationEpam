@@ -1,9 +1,11 @@
 package com.epam.servlets.service.impl;
 
 import com.epam.servlets.dao.ClientDAO;
+import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.entities.Client;
 import com.epam.servlets.service.Command;
+import com.epam.servlets.service.CommandException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ public class ChangePointPageCommand implements Command {
     private ClientDAO clientDAO = DAOFactory.getInstance().getSqlClientDAO();
 
     @Override
-    public String execute(HttpServletRequest req) {
+    public String execute(HttpServletRequest req) throws CommandException {
         if (req.getParameter("points") == null) {
             return getClients(req);
         } else {
@@ -20,18 +22,22 @@ public class ChangePointPageCommand implements Command {
         }
     }
 
-    private String getClients(HttpServletRequest req) {
+    private String getClients(HttpServletRequest req) throws CommandException {
         String userName = req.getParameter("username");
-        ArrayList<Client> listResults;
-        listResults = clientDAO.getClientList(userName);
-        if (listResults.isEmpty()) {
-            req.setAttribute("inf", "not exist");
+        ArrayList<Client> clientList;
+        try {
+            clientList = clientDAO.getClientList(userName);
+        } catch (DAOException e) {
+            throw new CommandException("Error in DAO", e);
         }
-        req.setAttribute("listResults", listResults);
+        if (clientList.isEmpty()) {
+            req.getSession().setAttribute("inf", "not exist");
+        }
+        req.getSession().setAttribute("clientList", clientList);
         return "changePoints";
     }
 
-    private String setPoints(HttpServletRequest req) {
+    private String setPoints(HttpServletRequest req) throws CommandException {
         String[] userName = req.getParameterValues("user");
         String[] points = req.getParameterValues("points");
         String[] blocks = req.getParameterValues("block");
@@ -45,7 +51,11 @@ public class ChangePointPageCommand implements Command {
                     }
                 }
             }
-            clientDAO.changePointAndBlock(points[i], block, userName[i]);
+            try {
+                clientDAO.changePointAndBlock(points[i], block, userName[i]);
+            } catch (DAOException e) {
+                throw new CommandException("Error in DAO", e);
+            }
             block = 0;
         }
         return "changePoints";

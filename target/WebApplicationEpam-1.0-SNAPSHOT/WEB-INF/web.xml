@@ -23,6 +23,7 @@
         <url-pattern>/admin</url-pattern>
         <url-pattern>/changeMenu</url-pattern>
         <url-pattern>/changePoints</url-pattern>
+        <url-pattern>/errorPage</url-pattern>
     </servlet-mapping>
 
     <filter>

@@ -1,10 +1,11 @@
 package com.epam.servlets.dao.impl;
 
+import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
 import com.epam.servlets.dao.impl.util.auxiliary.MenuFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
-import com.epam.servlets.dao.pool.ConnectionPoolException;
+import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Product;
 
 import java.sql.Connection;
@@ -34,7 +35,7 @@ public class SQLMenuDAO implements MenuDAO {
         Connection connection = null;
         try {
             connection = connectionPool.takeConnection();
-        } catch (ConnectionPoolException e) {
+        } catch (PoolException e) {
             //    logger.error(e);
         }
 
@@ -62,7 +63,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public void updateRate(double average, double votesNumber, String productName) {
+    public void updateRate(double average, double votesNumber, String productName) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlUpdateRate);
             if (preparedStatement != null) {
@@ -70,6 +71,8 @@ public class SQLMenuDAO implements MenuDAO {
                 preparedStatement.setDouble(2, votesNumber);
                 preparedStatement.setString(3, productName);
                 preparedStatement.executeUpdate();
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,7 +80,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public ArrayList<Product> getProductList(String tag) {
+    public ArrayList<Product> getProductList(String tag) throws DAOException {
         ArrayList<Product> resultList = new ArrayList<>();
         ResultSet resultSet;
         try {
@@ -86,6 +89,8 @@ public class SQLMenuDAO implements MenuDAO {
                 preparedStatement.setString(1, tag);
                 resultSet = preparedStatement.executeQuery();
                 resultList = converterFromResultSet.getProductList(resultSet);
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,7 +99,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public ArrayList<Product> getProductListForChange(List<String> tags) {
+    public ArrayList<Product> getProductListForChange(List<String> tags) throws DAOException {
         ArrayList<Product> resultList = new ArrayList<>();
         ResultSet resultSet;
         try {
@@ -104,6 +109,8 @@ public class SQLMenuDAO implements MenuDAO {
                     preparedStatement.setString(1, tag);
                     resultSet = preparedStatement.executeQuery();
                     resultList.addAll(converterFromResultSet.getProductListForChange(resultSet));
+                }else {
+                    throw new DAOException("Couldn't find prepared statement");
                 }
             }
         } catch (SQLException e) {
@@ -113,7 +120,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public Product getProductForComment(String productName) {
+    public Product getProductForComment(String productName) throws DAOException {
         Product product = new Product();
         ResultSet resultSet;
         try {
@@ -122,6 +129,8 @@ public class SQLMenuDAO implements MenuDAO {
                 preparedStatement.setString(1, productName);
                 resultSet = preparedStatement.executeQuery();
                 product = converterFromResultSet.getProductForComment(resultSet);
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,7 +139,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public Product getProductForOrder(String productName) {
+    public Product getProductForOrder(String productName) throws DAOException {
         Product product = new Product();
         ResultSet resultSet;
         try {
@@ -139,6 +148,8 @@ public class SQLMenuDAO implements MenuDAO {
                 preparedStatement.setString(1, productName);
                 resultSet = preparedStatement.executeQuery();
                 product = converterFromResultSet.getProductForOrder(resultSet);
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -147,7 +158,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public String getProductTime(String productName) {
+    public String getProductTime(String productName) throws DAOException {
         String time = null;
         ResultSet resultSet;
         try {
@@ -158,6 +169,8 @@ public class SQLMenuDAO implements MenuDAO {
                 if (resultSet.next()) {
                     time = resultSet.getString(MenuFields.COOKINGTIME.name());
                 }
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -166,7 +179,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public int getProductCost(String productName) {
+    public int getProductCost(String productName) throws DAOException {
         int cost = 0;
         ResultSet resultSet;
         try {
@@ -177,6 +190,8 @@ public class SQLMenuDAO implements MenuDAO {
                 if (resultSet.next()) {
                     cost = resultSet.getInt(MenuFields.COST.name());
                 }
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -185,12 +200,14 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public void deleteProduct(String productName) {
+    public void deleteProduct(String productName) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlDeleteProduct);
             if (preparedStatement != null) {
                 preparedStatement.setString(1, productName);
                 preparedStatement.executeUpdate();
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -198,7 +215,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public void updateProduct(String[] tag, String[] productName, String[] previousName, String[] cost, String[] time) {
+    public void updateProduct(String[] tag, String[] productName, String[] previousName, String[] cost, String[] time) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlUpdateProduct);
             if (preparedStatement != null) {
@@ -210,6 +227,8 @@ public class SQLMenuDAO implements MenuDAO {
                     preparedStatement.setString(5, previousName[i]);
                     preparedStatement.executeUpdate();
                 }
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -217,7 +236,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public Product getProductForChange(String productName) {
+    public Product getProductForChange(String productName) throws DAOException {
         Product product = new Product();
         ResultSet resultSet;
         try {
@@ -226,6 +245,8 @@ public class SQLMenuDAO implements MenuDAO {
                 preparedStatement.setString(1, productName);
                 resultSet = preparedStatement.executeQuery();
                 product = converterFromResultSet.getProductForChange(resultSet);
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -234,7 +255,7 @@ public class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public boolean findProductByName(String productName) {
+    public boolean findProductByName(String productName) throws DAOException {
         ResultSet resultSet;
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlFindProductByName);
@@ -244,6 +265,8 @@ public class SQLMenuDAO implements MenuDAO {
                 if (resultSet.next()) {
                     return true;
                 }
+            }else {
+                throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
             e.printStackTrace();

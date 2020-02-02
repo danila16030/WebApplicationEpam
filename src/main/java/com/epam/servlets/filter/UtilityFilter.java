@@ -1,18 +1,16 @@
 package com.epam.servlets.filter;
 
 
-import com.epam.servlets.entities.Client;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 
 
 public class UtilityFilter implements Filter {
     private FilterConfig filterConfig;
     private String userName;
     private String previousPage;
+    private String pos;
 
     public void init(final FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
@@ -42,7 +40,13 @@ public class UtilityFilter implements Filter {
 
             }
         }
-
+        /*String a = (String) req.getSession().getAttribute("inf");
+        if (a != null && !a.equals("")) {
+            if (pos!=null&&!pos.equals(req.getServletPath())) {
+                req.getSession().setAttribute("inf", "");
+            }
+            pos = req.getServletPath();
+        }*/
         if (userName != null) {
             request.setAttribute("user", userName);
         }

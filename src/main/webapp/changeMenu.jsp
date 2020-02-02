@@ -7,7 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
+<jsp:useBean id="menuList" class="java.util.ArrayList" scope="session"/>
 <html>
 <head>
     <title>changeMenu</title>
@@ -78,7 +78,7 @@ Required products:
                 <th> Exemplum</th>
                 <th> Tag</th>
             </tr>
-            <c:forEach var="product" items="${listResults}">
+            <c:forEach var="product" items="${menuList}">
                 <tr>
                     <input type="hidden" name="previous" value="${product.name}">
                     <td><input type="text" name="product" value="${product.name}"
@@ -97,7 +97,7 @@ Required products:
                 </tr>
             </c:forEach>
         </table>
-        <c:if test="${!empty listResults}">
+        <c:if test="${!empty menuList}">
             <button type="submit">Click to confirm changes</button>
         </c:if>
     </form>

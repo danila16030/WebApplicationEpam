@@ -1,8 +1,8 @@
 package com.epam.servlets.controller;
 
 import com.epam.servlets.service.Command;
+import com.epam.servlets.service.CommandException;
 import com.epam.servlets.service.factory.CommandEnum;
-import com.epam.servlets.timer.MyTimer;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,13 +13,12 @@ import java.io.IOException;
 
 
 public class Controller extends HttpServlet {
-    static String s;
-
+    private static String s;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("move") != null || request.getServletPath().equals("/comments") ||
-                request.getServletPath().equals("/user") || request.getServletPath().equals("/orderPage")) {
+        if (request.getParameter("move") != null ||
+                request.getServletPath().equals("/user")) {
             processRequest(request, response);
         } else {
             s = request.getServletPath();
@@ -39,14 +38,21 @@ public class Controller extends HttpServlet {
         s = req.getServletPath();
         s = s.substring(1);
         Command command = CommandEnum.getCurrentCommand(s);
-        page = command.execute(req);
-        if (page.equals("client") || page.equals("/WebApplication_war_exploded") || page.equals("admin")) {
-            resp.sendRedirect(page);
-            return;
+        try {
+            page = command.execute(req);
+            if (page.equals("client") || page.equals("/WebApplication_war_exploded") || page.equals("admin")
+                    || page.equals("changePoints") || page.equals("changeMenu") || page.equals("singIn")
+                    || page.equals("orderPage") || page.equals("comments") || page.equals("balance") || page.equals("register")) {
+                resp.sendRedirect(page);
+                return;
+            }
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(page + ".jsp");
+            requestDispatcher.forward(req, resp);
+        } catch (CommandException e) {
+            // logger.error(e);
+            resp.sendRedirect("errorPage");
+            System.out.println(e);
         }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher(page + ".jsp");
-        req.removeAttribute("move");
-        requestDispatcher.forward(req, resp);
     }
 
 

@@ -2,9 +2,11 @@ package com.epam.servlets.timer;
 
 
 import com.epam.servlets.dao.ClientDAO;
+import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.OrderDAO;
 import com.epam.servlets.entities.Order;
+import com.epam.servlets.service.CommandException;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -23,9 +25,6 @@ public class MyTimer {
     private ClientDAO clientDAO = DAOFactory.getInstance().getSqlClientDAO();
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
-    public static void main(String[] args) {
-        getInstance().getNearestOrder();
-    }
 
     private MyTimer() {
     }
@@ -34,10 +33,14 @@ public class MyTimer {
         return instance;
     }
 
-    private Order getNearestOrder() {
+    private Order getNearestOrder() throws CommandException {
         ArrayList<Order> orders;
         LocalTime closer = null;
-        orders = orderDAO.getAllOrder();
+        try {
+            orders = orderDAO.getAllOrder();
+        } catch (DAOException e) {
+            throw new CommandException("Error in DAO", e);
+        }
         for (Order order : orders) {
             String time = order.getTime();
             if (closer == null) {
@@ -54,7 +57,7 @@ public class MyTimer {
         return nearestOrder;
     }
 
-    public void orderTimer() {
+    public void orderTimer() throws CommandException {
         timer = new Timer();
         int delay;
         Order order = getNearestOrder();
@@ -73,23 +76,31 @@ public class MyTimer {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    removeOrder(order);
-                    orderTimer();
+                    try {
+                        removeOrder(order);
+                        orderTimer();
+                    } catch (CommandException e) {
+                        e.printStackTrace();
+                    }
                 }
             }, delay);
         }
     }
 
-    private void removeOrder(Order order) {
-        orderDAO.removeOrder(order.getProductName(), order.getTime(), order.getCustomer());
-        if (order.getPaymentMethod().equals("card")) {
-            String customer = order.getCustomer();
-            int point = clientDAO.getPoint(customer) - 10;
-            if (point < 0) {
-                clientDAO.changePointAndBlock("" + point, 1, customer);
-            } else {
-                clientDAO.changePointAndBlock("" + point, 0, customer);
+    private void removeOrder(Order order) throws CommandException {
+        try {
+            orderDAO.removeOrder(order.getProductName(), order.getTime(), order.getCustomer());
+            if (order.getPaymentMethod().equals("card")) {
+                String customer = order.getCustomer();
+                int point = clientDAO.getPoint(customer) - 10;
+                if (point < 0) {
+                    clientDAO.changePointAndBlock("" + point, 1, customer);
+                } else {
+                    clientDAO.changePointAndBlock("" + point, 0, customer);
+                }
             }
+        } catch (DAOException e) {
+            throw new CommandException("Error in DAO", e);
         }
     }
 }

@@ -7,9 +7,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="product" class="com.epam.servlets.entities.Product" scope="request"/>
-<jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
-<jsp:useBean id="inf" class="java.lang.String" scope="request"/>
+<jsp:useBean id="product" class="com.epam.servlets.entities.Product" scope="session"/>
+<jsp:useBean id="commentList" class="java.util.ArrayList" scope="session"/>
+<jsp:useBean id="inf" class="java.lang.String" scope="session"/>
 <html>
 <head>
     <title>Comments about ${product.name}</title>
@@ -48,6 +48,7 @@
         <input type="radio" name="rate" value="4"> 4
         <input type="radio" name="rate" value="5"> 5<br/>
     </label>
+    <input type="hidden" name="product" value="${product.name}">
     <input type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom"
            id="inf" name="com" value="Submit"/>
 </form>
@@ -89,7 +90,7 @@
                 <th> Comment</th>
                 <th> Grade</th>
             </tr>
-            <c:forEach var="comment" items="${listResults}">
+            <c:forEach var="comment" items="${commentList}">
                 <tr>
                     <td>${comment.author} </td>
                     <td>${comment.date}</td>

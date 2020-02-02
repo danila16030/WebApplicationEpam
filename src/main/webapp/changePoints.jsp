@@ -8,7 +8,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
+<jsp:useBean id="clientList" class="java.util.ArrayList" scope="session"/>
 <html>
 <head>
     <title>changePoints</title>
@@ -31,7 +31,7 @@
                 <th> Loyalty points</th>
                 <th> Block</th>
             </tr>
-            <c:forEach var="user" items="${listResults}">
+            <c:forEach var="user" items="${clientList}">
                 <tr>
                     <td>${user.login}</td>
                     <td>
@@ -46,7 +46,7 @@
                 </tr>
             </c:forEach>
         </table>
-        <c:if test="${!empty listResults}">
+        <c:if test="${!empty clientList}">
             <button type="submit">Click to confirm changes</button>
         </c:if>
     </form>

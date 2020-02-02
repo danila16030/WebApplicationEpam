@@ -35,7 +35,7 @@ public class ConnectionPool {
             initPoolData();
         } catch (NumberFormatException e) {
             poolSize = DEFAULT_POOL_SIZE;
-        } catch (ConnectionPoolException e) {
+        } catch (PoolException e) {
             //    logger.error(e);
         }
     }
@@ -44,15 +44,12 @@ public class ConnectionPool {
         return instance;
     }
 
-    private void initPoolData() throws ConnectionPoolException {
+    private void initPoolData() throws PoolException {
         Locale.setDefault(Locale.ENGLISH);
-
         try {
             Class.forName(driverName);
-
             givenAwayConnectionQueue = new ArrayBlockingQueue<>(poolSize);
             connectionQueue = new ArrayBlockingQueue<>(poolSize);
-
             for (int i = 0; i < poolSize; i++) {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PooledConnection pooledConnection = new PooledConnection(connection);
@@ -60,10 +57,10 @@ public class ConnectionPool {
             }
         } catch (SQLException e) {
             // logger.error(e);
-            throw new ConnectionPoolException("SQL Exception during initializing Connection Pool!");
+            throw new PoolException("SQL Exception during initializing Connection Pool!");
         } catch (ClassNotFoundException e) {
             //logger.error(e);
-            throw new ConnectionPoolException("Can't find driver class for database!");
+            throw new PoolException("Can't find driver class for database!");
         }
     }
 
@@ -71,14 +68,14 @@ public class ConnectionPool {
         clearConnectionQueue();
     }
 
-    public Connection takeConnection() throws ConnectionPoolException {
-        Connection connection = null;
+    public Connection takeConnection() throws PoolException {
+        Connection connection;
 
         try {
             connection = connectionQueue.take();
             givenAwayConnectionQueue.add(connection);
         } catch (InterruptedException e) {
-            throw new ConnectionPoolException("Error connecting to the data source.", e);
+            throw new PoolException("Error connecting to the data source.", e);
         }
         return connection;
     }
