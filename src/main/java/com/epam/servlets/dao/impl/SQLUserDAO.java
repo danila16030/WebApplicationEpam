@@ -90,7 +90,7 @@ public class SQLUserDAO implements UserDAO {
                 if (resultSet.next()) {
                     if (!resultSet.getBoolean(UserFields.INSYSTEM.name())) {
                         result = resultSet.getString(UserFields.ROLE.name());
-                        inSystem(login);
+                     //   inSystem(login);
                         if (result.equals("admin")) {
                             return "admin";
                         }

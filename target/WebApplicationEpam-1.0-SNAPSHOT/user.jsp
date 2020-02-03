@@ -17,13 +17,15 @@
     </style>
 </head>
 <body>
+<div class="w3-container w3-blue-grey w3-opacity w3-right-align">
+    <h1>User</h1>
+</div>
 <br>
 <p align="right" style=" font-size:15px"> Balance: <%= client.getBalance()%>
     <input type="button" id="money" name="money" value="replenish balance"
            onclick="location.href='/WebApplication_war_exploded/balance'">
     Login: ${client.login}
 </p>
-
 <label>Loyalty points: <%= client.getLoyaltyPoints()%><br>
 </label>
 Order:

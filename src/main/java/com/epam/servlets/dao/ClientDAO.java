@@ -5,6 +5,7 @@ import com.epam.servlets.entities.Client;
 import java.util.ArrayList;
 
 public interface ClientDAO {
+
     void createNewClient(String login) throws DAOException;
 
     void changePointAndBlock(String point, int block, String name) throws DAOException;

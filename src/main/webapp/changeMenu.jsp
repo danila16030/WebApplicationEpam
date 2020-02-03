@@ -50,23 +50,24 @@ Create new Product:
                 <th> Tag</th>
             </tr>
             <tr>
-                <input type="hidden" name="previous">
                 <td><input type="text" name="product"
-                           pattern="^[A-Za-z0-9 ]{1,}" required>
-                </td>
+                           pattern="^[A-Za-z0-9 ]{1,}" required></td>
                 <td><input type="text" name="cost"
                            pattern="^[0-9]{1,}" required></td>
                 <td><input type="time" name="time"
                            pattern="^[A-Za-z0-9]{1,}" required></td>
-                <td><input type="file" id="file" name="file"></td>
+                <td><input type="file" name="file" required></td>
                 <td><input type="text" name="tag"
-                           pattern="^[A-Za-z]{1,}" required>
-                </td>
+                           pattern="^[A-Za-z]{1,}" required></td>
             </tr>
         </table>
-        <input type="submit" id="btn" name="create" value="Click to create new product changes">
+        <input type="submit" id="btn" name="create" value="Click to create new product">
     </form>
 </div>
+<form method="post" enctype="multipart/form-data">
+    <td><input type="file" name="file" required></td>
+    <input type="submit" name="create" value="Click">
+</form>
 Required products:
 <div>
     <form method="post">

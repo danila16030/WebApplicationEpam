@@ -15,6 +15,7 @@ public class SingInCommand implements Command {
     public String execute(HttpServletRequest req) throws CommandException {
         String name = req.getParameter("name");
         String password = req.getParameter("pass");
+
         try {
             if (userDAO.findUserByLoginAndPassword(name, password)) {
                 String result = userDAO.singInByLogin(name);
@@ -23,7 +24,7 @@ public class SingInCommand implements Command {
                 }
                 return result;
             }
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
         req.getSession().setAttribute("inf", "wrong");

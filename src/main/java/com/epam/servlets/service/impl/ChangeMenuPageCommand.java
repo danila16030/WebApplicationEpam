@@ -7,16 +7,27 @@ import com.epam.servlets.entities.Product;
 import com.epam.servlets.service.Command;
 import com.epam.servlets.service.CommandException;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
 public class ChangeMenuPageCommand implements Command {
 
+    private static final String UPLOAD_PATH = "c:/temp";
     private MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
+    private File file;
+    private AtomicInteger tempNumber = new AtomicInteger();
+    private ServletContext servletContext;
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -34,12 +45,46 @@ public class ChangeMenuPageCommand implements Command {
         }
     }
 
+
+
+    private void buildFile(HttpServletRequest request) {
+        try {
+            if (!request.getParts().isEmpty()) {
+                Collection<Part> part2 = request.getParts();
+                for (Part part : part2) {
+                    File downloadedFile;
+                    try {
+                        String fileName = part.getSubmittedFileName();
+                        String name = part.getName();
+                        if ("file".equals(name)) {
+                            String newFileName = "temp" + tempNumber.addAndGet(1) +
+                                    fileName.substring(fileName.lastIndexOf("."));
+                            downloadedFile = new File(
+                                    UPLOAD_PATH + File.separator + newFileName);
+                            part.write(UPLOAD_PATH +
+                                    File.separator + newFileName);
+                            file = downloadedFile;
+                            // logger.log(Level.DEBUG, "file is " + downloadedFile.getName());
+                        }
+                    } catch (IOException e) {
+                        // logger.log(Level.ERROR, "file read error ");
+                    }
+                }
+            }
+        } catch (IOException e) {
+            // logger.log(Level.DEBUG, "file io exception ", e);
+        } catch (ServletException e) {
+            // logger.log(Level.DEBUG, "read file servlet exception ", e);
+        }
+    }
+
+
     private String createProduct(HttpServletRequest req) throws CommandException {
         String tag = req.getParameter("tag");
         String productName = req.getParameter("product");
         String cost = req.getParameter("cost");
         String time = req.getParameter("time");
-        String file = req.getParameter("file");
+        buildFile(req);
         return getProduct(req);
     }
 
