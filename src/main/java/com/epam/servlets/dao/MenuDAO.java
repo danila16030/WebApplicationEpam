@@ -27,4 +27,6 @@ public interface MenuDAO {
     Product getProductForChange(String productName) throws DAOException;
 
     boolean findProductByName(String productName) throws DAOException;
+
+    void createNewProduct(String tag, String productName, String cost, String time) throws DAOException;
 }

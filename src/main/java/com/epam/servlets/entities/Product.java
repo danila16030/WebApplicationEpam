@@ -5,7 +5,7 @@ public class Product {
     private String name;
     private int cost;
     private String cookingTime;
-    private String image;
+    private String imagePath;
     private int id;
     private double averageScope;
     private int votersNumber;
@@ -18,7 +18,7 @@ public class Product {
         this.name = name;
         this.cost = cost;
         this.cookingTime = cookingTime;
-        this.image = image;
+        this.imagePath = image;
         this.votersNumber = votersNumber;
         this.averageScope = averageScope;
     }
@@ -27,14 +27,14 @@ public class Product {
         this.name = name;
         this.cost = cost;
         this.cookingTime = cookingTime;
-        this.image = image;
+        this.imagePath = image;
     }
 
     public Product(String name, int cost, String cookingTime, String image, String tag) {
         this.name = name;
         this.cost = cost;
         this.cookingTime = cookingTime;
-        this.image = image;
+        this.imagePath = image;
         this.tag = tag;
     }
 
@@ -75,8 +75,8 @@ public class Product {
         this.tag = tag;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public void setId(int id) {
@@ -99,8 +99,8 @@ public class Product {
         this.cookingTime = cookingTime;
     }
 
-    public String getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class Product {
         if (votersNumber != product.votersNumber) return false;
         if (name != null ? !name.equals(product.name) : product.name != null) return false;
         if (cookingTime != null ? !cookingTime.equals(product.cookingTime) : product.cookingTime != null) return false;
-        if (image != null ? !image.equals(product.image) : product.image != null) return false;
+        if (imagePath != null ? !imagePath.equals(product.imagePath) : product.imagePath != null) return false;
         return tag != null ? tag.equals(product.tag) : product.tag == null;
     }
 
@@ -127,7 +127,7 @@ public class Product {
         result = name != null ? name.hashCode() : 0;
         result = 31 * result + cost;
         result = 31 * result + (cookingTime != null ? cookingTime.hashCode() : 0);
-        result = 31 * result + (image != null ? image.hashCode() : 0);
+        result = 31 * result + (imagePath != null ? imagePath.hashCode() : 0);
         result = 31 * result + id;
         temp = Double.doubleToLongBits(averageScope);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
@@ -142,7 +142,7 @@ public class Product {
                 "name='" + name + '\'' +
                 ", cost=" + cost +
                 ", cookingTime='" + cookingTime + '\'' +
-                ", image='" + image + '\'' +
+                ", image='" + imagePath + '\'' +
                 ", id=" + id +
                 ", averageScope=" + averageScope +
                 ", votersNumber=" + votersNumber +

@@ -61,7 +61,7 @@
                 <td>${product.name} </td>
                 <td>${product.cost}</td>
                 <td>${product.cookingTime}</td>
-                <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%">
+                <td><img src="<c:url value="${product.imagePath}"/>" alt="not found" width="15%" height="15%">
                     <c:if test="${!empty user}">
                         <input type="button" id="order" name="move" value="click to order ${product.name} "
                                onclick="location.href='/WebApplication_war_exploded/orderPage?product=${product.name}'">

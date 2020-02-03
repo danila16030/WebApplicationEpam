@@ -10,11 +10,9 @@ import com.epam.servlets.entities.Comment;
 import com.epam.servlets.entities.Order;
 import com.epam.servlets.entities.Product;
 
-import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
 
 public class ConverterFromResultSet {
     private static final ConverterFromResultSet instance = new ConverterFromResultSet();
@@ -55,13 +53,12 @@ public class ConverterFromResultSet {
     private Product createProductForChange(ResultSet resultSet) throws DAOException {
         Product product;
         try {
-            Blob image = resultSet.getBlob(MenuFields.EXEMPLUM.name());
+            String imagePath = resultSet.getString(MenuFields.EXEMPLUM.name());
             String name = resultSet.getString(MenuFields.PRODUCT.name());
             int cost = resultSet.getInt(MenuFields.COST.name());
             String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
             String tag = resultSet.getString(MenuFields.TAG.name());
-            product = new Product(name, cost, cookingTime, Base64.getEncoder().encodeToString(image.getBytes(1,
-                    (int) image.length())), tag);
+            product = new Product(name, cost, cookingTime, imagePath, tag);
         } catch (SQLException e) {
             // logger.error(e);
             throw new DAOException(e);
@@ -72,18 +69,18 @@ public class ConverterFromResultSet {
     private Product createProductForComment(ResultSet resultSet) throws DAOException {
         Product product;
         try {
-            Blob image = resultSet.getBlob(MenuFields.EXEMPLUM.name());
+            String imagePath = resultSet.getString(MenuFields.EXEMPLUM.name());
             String name = resultSet.getString(MenuFields.PRODUCT.name());
             int cost = resultSet.getInt(MenuFields.COST.name());
             String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
             double averageScope = resultSet.getDouble(MenuFields.AVERAGE.name());
             int votersNumber = resultSet.getInt(MenuFields.VOTESNUMBER.name());
-            product = new Product(name, cost, cookingTime, Base64.getEncoder().encodeToString(image.getBytes(1,
-                    (int) image.length())), averageScope, votersNumber);
+            product = new Product(name, cost, cookingTime, imagePath, averageScope, votersNumber);
         } catch (SQLException e) {
             // logger.error(e);
             throw new DAOException(e);
-        } return product;
+        }
+        return product;
     }
 
     public ArrayList<Client> getClientList(ResultSet resultSet) throws DAOException {
@@ -127,12 +124,11 @@ public class ConverterFromResultSet {
         Product product = new Product();
         try {
             if (resultSet.next()) {
-                Blob image = resultSet.getBlob(MenuFields.EXEMPLUM.name());
+                String imagePath = resultSet.getString(MenuFields.EXEMPLUM.name());
                 String name = resultSet.getString(MenuFields.PRODUCT.name());
                 int cost = resultSet.getInt(MenuFields.COST.name());
                 String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
-                product = new Product(name, cost, cookingTime, Base64.getEncoder().encodeToString(image.getBytes(1,
-                        (int) image.length())));
+                product = new Product(name, cost, cookingTime, imagePath);
             }
         } catch (SQLException e) {
             // logger.error(e);

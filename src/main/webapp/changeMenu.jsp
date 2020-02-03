@@ -64,10 +64,6 @@ Create new Product:
         <input type="submit" id="btn" name="create" value="Click to create new product">
     </form>
 </div>
-<form method="post" enctype="multipart/form-data">
-    <td><input type="file" name="file" required></td>
-    <input type="submit" name="create" value="Click">
-</form>
 Required products:
 <div>
     <form method="post">
@@ -89,9 +85,9 @@ Required products:
                                pattern="^[0-9]{1,}" required></td>
                     <td><input type="time" name="time" value="${product.cookingTime}"
                                pattern="^[A-Za-z0-9]{1,}" required></td>
-                    <td><img src="data:image/jpg;base64, ${product.image}" width="15%" height="15%"></td>
+                    <td><img src="<c:url value="${product.imagePath}"/>" alt="not found" width="15%" height="15%">
                     <td><input type="text" name="tag" value="${product.tag}"
-                               pattern="^[A-Za-z]{1,}" required>
+                               pattern="^[A-Za-z ]{1,}" required>
                         <input type="submit" id="de" name="delete" value="click to delete this product">
                     </td>
                     </td>

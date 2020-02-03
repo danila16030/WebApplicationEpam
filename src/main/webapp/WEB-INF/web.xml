@@ -27,11 +27,20 @@
     </servlet-mapping>
 
     <filter>
-        <filter-name>simplefilter</filter-name>
+        <filter-name>simpleFilter2</filter-name>
+        <filter-class>com.epam.servlets.filter.LocaleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>simpleFilter2</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>simpleFilter</filter-name>
         <filter-class>com.epam.servlets.filter.UtilityFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>simplefilter</filter-name>
+        <filter-name>simpleFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

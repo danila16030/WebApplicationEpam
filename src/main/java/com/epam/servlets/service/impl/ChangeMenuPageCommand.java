@@ -4,10 +4,10 @@ import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.entities.Product;
+import com.epam.servlets.fileManager.FileManager;
 import com.epam.servlets.service.Command;
 import com.epam.servlets.service.CommandException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
@@ -27,7 +27,7 @@ public class ChangeMenuPageCommand implements Command {
     private MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
     private File file;
     private AtomicInteger tempNumber = new AtomicInteger();
-    private ServletContext servletContext;
+    private FileManager fileManager = new FileManager();
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -44,7 +44,6 @@ public class ChangeMenuPageCommand implements Command {
             return getProduct(req);
         }
     }
-
 
 
     private void buildFile(HttpServletRequest request) {
@@ -85,6 +84,12 @@ public class ChangeMenuPageCommand implements Command {
         String cost = req.getParameter("cost");
         String time = req.getParameter("time");
         buildFile(req);
+        try {
+            menuDAO.createNewProduct(tag, productName, cost, time);
+        } catch (DAOException e) {
+            throw new CommandException("Error in DAO", e);
+        }
+        fileManager.moveImageToResourceFolder(file, productName);
         return getProduct(req);
     }
 

@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: chech
@@ -6,14 +7,18 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="locale" class="java.lang.String" scope="session"/>
+<fmt:setLocale value="${locale}"/>
+<fmt:bundle basename="pagecontent"/>
 <html>
 <head>
-    <title>Cafe</title>
+    <title><fmt:message key="menu.title"/></title>
     <link rel="stylesheet" type="text/css" href="css/mainPage.css"/>
     <style type="text/css">
     </style>
 </head>
-<div>    <!-- buttons holder -->
+<div> <!-- buttons holder -->
+    <input type="submit" class="singIn" onclick="">
     <button type="submit" class="singIn"
             onclick="location.href=location.href+'singIn'">Sing in
     </button>
