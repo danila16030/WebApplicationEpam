@@ -10,7 +10,6 @@ public class UtilityFilter implements Filter {
     private FilterConfig filterConfig;
     private String userName;
     private String previousPage;
-    private String pos;
 
     public void init(final FilterConfig filterConfig) {
         this.filterConfig = filterConfig;

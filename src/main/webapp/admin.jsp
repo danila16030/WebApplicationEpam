@@ -13,7 +13,7 @@
     <title>Admin</title>
 </head>
 <body>
-<ex:Out value="Welcom to the system:Administrator"/>
+<ex:out value="Welcom to the system:Administrator"/>
 <button class="w3-btn w3-round-large" onclick="location.href='/WebApplication_war_exploded/changeMenu'">Change
     menu
 </button>

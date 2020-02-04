@@ -3,7 +3,7 @@
     <jsp-version>2.0</jsp-version>
     <short-name>My c:out</short-name>
     <tag>
-        <name>Out</name>
+        <name>out</name>
         <tag-class>com.epam.servlets.controller.TagController</tag-class>
         <body-content>scriptless</body-content>
         <attribute>

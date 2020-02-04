@@ -1,7 +1,7 @@
 
 .register {
     position: absolute;
-    left: 96.4%;
+    left: 95.2%;
     top: 1.2%;
     color: gold;
     outline: 0;
@@ -11,7 +11,7 @@
 
 .singIn {
     position: absolute;
-    left: 93.1%;
+    left: 92.9%;
     top: 1.2%;
     color: gold;
     outline: 0;
@@ -19,6 +19,23 @@
     border: 0;
 }
 
+.ru {
+    position: absolute;
+    left: 89.7%;
+    top: 1.2%;
+    color: gold;
+    outline: 0;
+    background-color: black;
+}
+
+.en {
+    position: absolute;
+    left: 90.9%;
+    top: 1.2%;
+    color: gold;
+    outline: 0;
+    background-color: black;
+}
 
 body {
     margin: 0;
