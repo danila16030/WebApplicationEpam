@@ -33,6 +33,14 @@ public class UtilityFilter implements Filter {
             userName = null;
         }
 
+        if (req.getParameter("language") != null) {
+            if (req.getParameter("language").equals("en")) {
+                req.getSession().setAttribute("locale", "be_US");
+            } else {
+                req.getSession().setAttribute("locale", "be_RU");
+            }
+        }
+
         if ((page.equals("singIn") || page.equals("register"))) {
             if (req.getParameter("name") != null) {
                 userName = req.getParameter("name");

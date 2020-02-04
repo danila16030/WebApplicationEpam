@@ -1,7 +1,7 @@
 
 .register {
     position: absolute;
-    left: 95.2%;
+    left: 95.3%;
     top: 1.2%;
     color: gold;
     outline: 0;
@@ -11,7 +11,7 @@
 
 .singIn {
     position: absolute;
-    left: 92.9%;
+    left: 92.7%;
     top: 1.2%;
     color: gold;
     outline: 0;
@@ -26,6 +26,7 @@
     color: gold;
     outline: 0;
     background-color: black;
+    border: 0;
 }
 
 .en {
@@ -35,6 +36,7 @@
     color: gold;
     outline: 0;
     background-color: black;
+    border: 0;
 }
 
 body {
