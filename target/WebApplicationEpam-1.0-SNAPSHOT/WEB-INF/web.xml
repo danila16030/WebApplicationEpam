@@ -12,6 +12,7 @@
         <servlet-name>Control</servlet-name>
         <url-pattern>/control</url-pattern>
         <url-pattern>/singIn</url-pattern>
+        <url-pattern>/noAccess</url-pattern>
         <url-pattern>/register</url-pattern>
         <url-pattern>/firstCourse</url-pattern>
         <url-pattern>/secondCourse</url-pattern>

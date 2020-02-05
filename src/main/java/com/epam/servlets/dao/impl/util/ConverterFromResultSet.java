@@ -75,7 +75,8 @@ public class ConverterFromResultSet {
             String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
             double averageScope = resultSet.getDouble(MenuFields.AVERAGE.name());
             int votersNumber = resultSet.getInt(MenuFields.VOTESNUMBER.name());
-            product = new Product(name, cost, cookingTime, imagePath, averageScope, votersNumber);
+            int id = resultSet.getInt(MenuFields.ID.name());
+            product = new Product(name, cost, cookingTime, imagePath, averageScope, votersNumber, id);
         } catch (SQLException e) {
             // logger.error(e);
             throw new DAOException(e);
@@ -128,7 +129,8 @@ public class ConverterFromResultSet {
                 String name = resultSet.getString(MenuFields.PRODUCT.name());
                 int cost = resultSet.getInt(MenuFields.COST.name());
                 String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
-                product = new Product(name, cost, cookingTime, imagePath);
+                int id = resultSet.getInt(MenuFields.ID.name());
+                product = new Product(name, cost, cookingTime, imagePath, id);
             }
         } catch (SQLException e) {
             // logger.error(e);

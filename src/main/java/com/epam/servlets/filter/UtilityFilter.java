@@ -29,31 +29,27 @@ public class UtilityFilter implements Filter {
         if (list.length > 2) {
             previousPage = list[list.length - 1];
         }
+
+        if (page.equals("admin") || page.equals("changeMenu") || page.equals("changePoints")) {
+            if (req.getSession().getAttribute("role") == null) {
+                req.getSession().setAttribute("path", req.getRequestURI());
+                resp.sendRedirect("noAccess");
+                return;
+            }
+        }
+
         if (req.getServletPath().equals("/index.jsp") && previousPage != null && previousPage.equals("client")) {
             userName = null;
         }
 
-        if (req.getParameter("language") != null) {
-            if (req.getParameter("language").equals("en")) {
-                req.getSession().setAttribute("locale", "be_US");
-            } else {
-                req.getSession().setAttribute("locale", "be_RU");
-            }
-        }
-
         if ((page.equals("singIn") || page.equals("register"))) {
+            req.getSession().setAttribute("role", null);
             if (req.getParameter("name") != null) {
                 userName = req.getParameter("name");
 
             }
         }
-        /*String a = (String) req.getSession().getAttribute("inf");
-        if (a != null && !a.equals("")) {
-            if (pos!=null&&!pos.equals(req.getServletPath())) {
-                req.getSession().setAttribute("inf", "");
-            }
-            pos = req.getServletPath();
-        }*/
+
         if (userName != null) {
             request.setAttribute("user", userName);
         }

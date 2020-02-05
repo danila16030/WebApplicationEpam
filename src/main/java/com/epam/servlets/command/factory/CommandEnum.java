@@ -1,10 +1,9 @@
-package com.epam.servlets.service.factory;
+package com.epam.servlets.command.factory;
 
-import com.epam.servlets.service.Command;
-import com.epam.servlets.service.impl.*;
+import com.epam.servlets.command.Command;
+import com.epam.servlets.command.impl.*;
 
 public enum CommandEnum {
-    INDEX(new IndexCommand()),
     SINGIN(new SingInCommand()),
     CLIENT(new ClientPageCommand()),
     REGISTER(new RegisterCommand()),

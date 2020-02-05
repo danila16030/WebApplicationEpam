@@ -6,7 +6,7 @@ import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.OrderDAO;
 import com.epam.servlets.entities.Order;
-import com.epam.servlets.service.CommandException;
+import com.epam.servlets.command.CommandException;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

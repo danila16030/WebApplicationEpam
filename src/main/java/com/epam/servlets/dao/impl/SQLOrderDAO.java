@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class SQLOrderDAO implements OrderDAO {
 
-    private String sqlMakeOrder = "INSERT INTO  `order` (product,orderTime,customer,paymentMethod) VALUES(?,?,?,?)";
+    private String sqlMakeOrder = "INSERT INTO  `order` (productId,orderTime,customer,paymentMethod,productName) VALUES(?,?,?,?,?)";
     private String sqlRemoveOrder = "DELETE FROM `order` WHERE product=? AND orderTime=? AND customer=? ";
     private String sqlGetCustomerOrder = "SELECT * FROM `order` WHERE customer=?";
     private String sqlGetAllOrder = "SELECT * FROM `order`";
@@ -59,14 +59,15 @@ public class SQLOrderDAO implements OrderDAO {
     }
 
     @Override
-    public void makeOrder(String product, String orderTime, String customer,String paymentMethod) throws DAOException {
+    public void makeOrder(String productName ,String productId, String orderTime, String customer,String paymentMethod) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlMakeOrder);
             if (preparedStatement != null) {
-                preparedStatement.setString(1, product);
+                preparedStatement.setString(1, productId);
                 preparedStatement.setString(2, orderTime);
                 preparedStatement.setString(3, customer);
                 preparedStatement.setString(4, paymentMethod);
+                preparedStatement.setString(5, productName);
                 preparedStatement.executeUpdate();
             }else {
                 throw new DAOException("Couldn't find prepared statement");

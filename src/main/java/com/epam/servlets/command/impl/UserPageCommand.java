@@ -1,10 +1,10 @@
-package com.epam.servlets.service.impl;
+package com.epam.servlets.command.impl;
 
 import com.epam.servlets.dao.*;
 import com.epam.servlets.entities.Client;
 import com.epam.servlets.entities.Order;
-import com.epam.servlets.service.Command;
-import com.epam.servlets.service.CommandException;
+import com.epam.servlets.command.Command;
+import com.epam.servlets.command.CommandException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalTime;

@@ -1,10 +1,10 @@
-package com.epam.servlets.service.impl;
+package com.epam.servlets.command.impl;
 
 import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.UserDAO;
-import com.epam.servlets.service.Command;
-import com.epam.servlets.service.CommandException;
+import com.epam.servlets.command.Command;
+import com.epam.servlets.command.CommandException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,12 +15,14 @@ public class SingInCommand implements Command {
     public String execute(HttpServletRequest req) throws CommandException {
         String name = req.getParameter("name");
         String password = req.getParameter("pass");
-
         try {
             if (userDAO.findUserByLoginAndPassword(name, password)) {
                 String result = userDAO.singInByLogin(name);
                 if (result.equals("singIn")) {
                     req.getSession().setAttribute("inf", "already");
+                }
+                if (result.equals("admin")) {
+                    req.getSession().setAttribute("role", "admin");
                 }
                 return result;
             }

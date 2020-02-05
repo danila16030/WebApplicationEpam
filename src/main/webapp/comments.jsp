@@ -48,7 +48,7 @@
         <input type="radio" name="rate" value="4"> 4
         <input type="radio" name="rate" value="5"> 5<br/>
     </label>
-    <input type="hidden" name="product" value="${product.name}">
+    <input type="hidden" name="productId" value="${product.id}">
     <input type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom"
            id="inf" name="com" value="Submit"/>
 </form>

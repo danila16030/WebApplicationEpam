@@ -1,15 +1,14 @@
-package com.epam.servlets.service.impl;
+package com.epam.servlets.command.impl;
 
 import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.entities.Product;
-import com.epam.servlets.service.Command;
-import com.epam.servlets.service.CommandException;
-import com.epam.servlets.service.factory.CommandEnum;
+import com.epam.servlets.command.Command;
+import com.epam.servlets.command.CommandException;
+import com.epam.servlets.command.factory.CommandEnum;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.rpc.ServiceException;
 import java.util.ArrayList;
 
 public class FirstCourseCommand implements Command {

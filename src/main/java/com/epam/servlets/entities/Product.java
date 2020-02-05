@@ -14,20 +14,22 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, int cost, String cookingTime, String image, double averageScope, int votersNumber) {
+    public Product(String name, int cost, String cookingTime, String image, double averageScope, int votersNumber, int id) {
         this.name = name;
         this.cost = cost;
         this.cookingTime = cookingTime;
         this.imagePath = image;
         this.votersNumber = votersNumber;
         this.averageScope = averageScope;
+        this.id = id;
     }
 
-    public Product(String name, int cost, String cookingTime, String image) {
+    public Product(String name, int cost, String cookingTime, String image, int id) {
         this.name = name;
         this.cost = cost;
         this.cookingTime = cookingTime;
         this.imagePath = image;
+        this.id = id;
     }
 
     public Product(String name, int cost, String cookingTime, String image, String tag) {
@@ -36,8 +38,12 @@ public class Product {
         this.cookingTime = cookingTime;
         this.imagePath = image;
         this.tag = tag;
+
     }
 
+    public int getId() {
+        return id;
+    }
 
     public void setAverageScope(double averageScope) {
         this.averageScope = averageScope;

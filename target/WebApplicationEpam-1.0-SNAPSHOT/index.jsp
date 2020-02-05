@@ -8,8 +8,7 @@ To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="locale" class="java.lang.String" scope="session"/>
-<fmt:setBundle basename="pagecontent_${locale}" var="lang"/>
-
+<fmt:setBundle basename="pagecontent_${cookie.locale.value}" var="lang"/>
 <html>
 <head>
     <title><fmt:message key="mainPage.title" bundle="${lang}"/></title>

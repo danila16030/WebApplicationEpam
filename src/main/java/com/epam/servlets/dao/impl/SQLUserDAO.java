@@ -69,7 +69,7 @@ public class SQLUserDAO implements UserDAO {
                 if (resultSet.next()) {
                     return true;
                 }
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -90,14 +90,14 @@ public class SQLUserDAO implements UserDAO {
                 if (resultSet.next()) {
                     if (!resultSet.getBoolean(UserFields.INSYSTEM.name())) {
                         result = resultSet.getString(UserFields.ROLE.name());
-                     //   inSystem(login);
                         if (result.equals("admin")) {
                             return "admin";
                         }
+                        inSystem(login);
                         return "client";
                     }
                 }
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -115,7 +115,7 @@ public class SQLUserDAO implements UserDAO {
                 preparedStatement.setString(1, login);
                 preparedStatement.setString(2, password);
                 preparedStatement.executeUpdate();
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -130,7 +130,7 @@ public class SQLUserDAO implements UserDAO {
             if (preparedStatement != null) {
                 preparedStatement.setString(1, login);
                 preparedStatement.executeUpdate();
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -145,7 +145,7 @@ public class SQLUserDAO implements UserDAO {
             if (preparedStatement != null) {
                 preparedStatement.setString(1, login);
                 preparedStatement.executeUpdate();
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -165,7 +165,7 @@ public class SQLUserDAO implements UserDAO {
                 if (resultSet.next()) {
                     return true;
                 }
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {

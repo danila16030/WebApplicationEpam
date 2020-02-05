@@ -65,6 +65,7 @@
                     <c:if test="${!empty user}">
                         <input type="hidden" name="product" value="${product.name}">
                         <input type="submit" id="order" name="order" value="click to order ${product.name}">
+                        <input hidden name="productId" value="${product.id}">
                         <input type="submit" id="com" name="com"
                                value="View comments about ${product.name}">
                     </c:if>

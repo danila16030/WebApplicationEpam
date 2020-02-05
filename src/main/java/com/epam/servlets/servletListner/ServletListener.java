@@ -1,6 +1,6 @@
 package com.epam.servlets.servletListner;
 
-import com.epam.servlets.service.CommandException;
+import com.epam.servlets.command.CommandException;
 import com.epam.servlets.timer.MyTimer;
 
 import javax.servlet.ServletContextEvent;
@@ -17,7 +17,6 @@ public class ServletListener implements ServletContextListener {
         } catch (CommandException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

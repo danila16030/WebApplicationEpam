@@ -1,4 +1,4 @@
-package com.epam.servlets.service.impl;
+package com.epam.servlets.command.impl;
 
 import com.epam.servlets.dao.CommentDAO;
 import com.epam.servlets.dao.DAOException;
@@ -6,8 +6,8 @@ import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.entities.Comment;
 import com.epam.servlets.entities.Product;
-import com.epam.servlets.service.Command;
-import com.epam.servlets.service.CommandException;
+import com.epam.servlets.command.Command;
+import com.epam.servlets.command.CommandException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -31,24 +31,20 @@ public class CommentPageCommand implements Command {
     }
 
     private String getComment(HttpServletRequest req) throws CommandException {
-        String productName = req.getParameter("com");
-        if (productName.equals("Submit")) {
-            productName = req.getParameter("product");
-        } else {
-            productName = productName.substring(20);
-        }
+        String productId = req.getParameter("productId");
+
         ArrayList<Comment> commentList = new ArrayList();
         Product product;
         try {
-            if (commentDAO.findCommentAboutProduct(productName)) {
-                commentList = commentDAO.getCommentsAboutProduct(productName);
+            if (commentDAO.findCommentAboutProduct(productId)) {
+                commentList = commentDAO.getCommentsAboutProduct(productId);
                 req.getSession().setAttribute("inf", "");
             } else {
                 req.getSession().setAttribute("inf", "no comments");
             }
             req.getSession().setAttribute("commentList", commentList);
-            product = menuDAO.getProductForComment(productName);
-        }catch (DAOException e){
+            product = menuDAO.getProductForComment(productId);
+        } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
         req.getSession().setAttribute("product", product);
@@ -58,7 +54,7 @@ public class CommentPageCommand implements Command {
 
     private String setComment(HttpServletRequest req) throws CommandException {
         String comment = req.getParameter("comment");
-        String productName = req.getParameter("product");
+        String productId=req.getParameter("productId");
         String author = (String) req.getAttribute("user");
         LocalTime now = LocalTime.now();
         String time = now.format(DateTimeFormatter.ofPattern("hh:mm:ss"));
@@ -68,18 +64,17 @@ public class CommentPageCommand implements Command {
             rate = "no rating";
         }
         try {
-
-            if (commentDAO.findCommentAboutProductByAuthor(author, productName)) {
+            if (commentDAO.findCommentAboutProductByAuthor(author, productId)) {
                 req.getSession().setAttribute("inf", "update");
-                commentDAO.updateComment(date, productName, time, comment, rate, author);
+                commentDAO.updateComment(date, productId, time, comment, rate, author);
             } else {
-                commentDAO.createComment(date, productName, time, comment, rate, author);
+                commentDAO.createComment(date, productId, time, comment, rate, author);
                 req.getSession().setAttribute("inf", "added");
             }
             if (!rate.equals("no rating")) {
-                commentDAO.updateRate(productName);
+                commentDAO.updateRate(productId);
             }
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
         return getComment(req);

@@ -1,13 +1,12 @@
-package com.epam.servlets.service.impl;
+package com.epam.servlets.command.impl;
 
 import com.epam.servlets.dao.*;
 import com.epam.servlets.entities.Product;
-import com.epam.servlets.service.Command;
-import com.epam.servlets.service.CommandException;
+import com.epam.servlets.command.Command;
+import com.epam.servlets.command.CommandException;
 import com.epam.servlets.timer.MyTimer;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.rpc.ServiceException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -30,15 +29,9 @@ public class OrderPageCommand implements Command {
 
     private String getProductForOrderPage(HttpServletRequest req) throws CommandException {
         Product product;
-        String productName = req.getParameter("order");
-        if (productName == null) {
-            productName = req.getParameter("product");
-        } else {
-            productName = productName.substring(15);
-
-        }
+        String productId = req.getParameter("productId");
         try {
-            product = menuDAO.getProductForOrder(productName);
+            product = menuDAO.getProductForOrder(productId);
         } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
@@ -49,7 +42,8 @@ public class OrderPageCommand implements Command {
 
     private String orderADish(HttpServletRequest req) throws CommandException {
         String userName = (String) req.getAttribute("user");
-        String product = req.getParameter("product");
+        String productId = req.getParameter("productId");//везде где id исправить
+        String productName=req.getParameter("productName");
         String card = req.getParameter("card");
         String time;
         int point;
@@ -59,9 +53,8 @@ public class OrderPageCommand implements Command {
             if (!clientDAO.isBlock(userName)) {
                 clientBalance = clientDAO.getBalance(userName);
                 point = clientDAO.getPoint(userName);
-                String productName = product.trim();
-                time = menuDAO.getProductTime(productName);
-                productCost = menuDAO.getProductCost(productName);
+                time = menuDAO.getProductTime(productId);
+                productCost = menuDAO.getProductCost(productId);
                 LocalTime now = LocalTime.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
                 LocalTime end = LocalTime.parse(time, formatter);
@@ -77,7 +70,7 @@ public class OrderPageCommand implements Command {
                         } else {
                             card = "cash";
                         }
-                        orderDAO.makeOrder(product, requestedTime, userName, card);
+                        orderDAO.makeOrder(productName,productId, requestedTime, userName, card);
                         clientDAO.changeBalanceAndPoints(clientBalance, point, userName);
                         myTimer.orderTimer();
                         req.getSession().setAttribute("inf", "cool");
@@ -94,7 +87,7 @@ public class OrderPageCommand implements Command {
                 req.getSession().setAttribute("inf", "block");
                 return getProductForOrderPage(req);
             }
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
     }

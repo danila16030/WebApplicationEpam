@@ -35,7 +35,8 @@
     </form>
 </label>
 <form method="post" class="w3-selection w3-light-grey w3-padding">
-    <input type="hidden" name="product" value="${product.name}">
+    <input type="hidden" name="productId" value="${product.id}">
+    <input type="hidden" name="productName" value="${product.name}">
     <label>Please enter the time when you would like to pick up the order:
         <input type="time" id="time" name="time" required
                class="w3-input w3-animate-input w3-border w3-round-large"

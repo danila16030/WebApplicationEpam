@@ -86,6 +86,7 @@ Required products:
                     <td><input type="time" name="time" value="${product.cookingTime}"
                                pattern="^[A-Za-z0-9]{1,}" required></td>
                     <td><img src="<c:url value="${product.imagePath}"/>" alt="not found" width="15%" height="15%">
+                    </td>
                     <td><input type="text" name="tag" value="${product.tag}"
                                pattern="^[A-Za-z ]{1,}" required>
                         <input type="submit" id="de" name="delete" value="click to delete this product">
