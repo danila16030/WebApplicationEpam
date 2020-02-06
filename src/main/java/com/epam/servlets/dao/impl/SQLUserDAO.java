@@ -5,6 +5,7 @@ import com.epam.servlets.dao.UserDAO;
 import com.epam.servlets.dao.impl.util.auxiliary.UserFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,13 +16,13 @@ import java.util.Map;
 
 public class SQLUserDAO implements UserDAO {
 
-    private String sqlFindUserByLoginAndPassword = "SELECT * FROM user WHERE login=? AND password=?";
     private String sqlSingINUser = "UPDATE  user SET inSystem=true WHERE login=?";
     private String sqlCreateNewUser = "INSERT INTO user (login , password,inSystem) VALUES(?,?,true)";
     private String sqlFindUserByLogin = "SELECT * FROM user WHERE login=?";
     private String sqlLogOut = "UPDATE  user SET inSystem=false WHERE login=?";
     private String sqlInSystem = "UPDATE  user SET inSystem=true WHERE login=?";
     private Map<String, PreparedStatement> preparedStatementMap;
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -35,7 +36,6 @@ public class SQLUserDAO implements UserDAO {
             //    logger.error(e);
         }
 
-        prepareStatement(connection, sqlFindUserByLoginAndPassword);
         prepareStatement(connection, sqlSingINUser);
         prepareStatement(connection, sqlCreateNewUser);
         prepareStatement(connection, sqlFindUserByLogin);
@@ -157,13 +157,14 @@ public class SQLUserDAO implements UserDAO {
     public boolean findUserByLoginAndPassword(String login, String password) throws DAOException {
         ResultSet resultSet;
         try {
-            PreparedStatement preparedStatement = preparedStatementMap.get(sqlFindUserByLoginAndPassword);
+            PreparedStatement preparedStatement = preparedStatementMap.get(sqlFindUserByLogin);
             if (preparedStatement != null) {
                 preparedStatement.setString(1, login);
-                preparedStatement.setString(2, password);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    return true;
+                    if (passwordEncoder.matches(password, resultSet.getString(UserFields.PASSWORD.name()))) {
+                        return true;
+                    }
                 }
             } else {
                 throw new DAOException("Couldn't find prepared statement");

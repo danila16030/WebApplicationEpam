@@ -1,4 +1,9 @@
 
+.but {
+     position: relative;
+     left: 45%;
+ }
+
 body {
     margin: 0;
     background-image: url(https://www.fotoshans.ru/upload/iblock/5ad/5ad71e198d0a28c31ac63d99197393dd.jpg);

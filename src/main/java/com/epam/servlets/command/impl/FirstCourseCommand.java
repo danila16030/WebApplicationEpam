@@ -1,18 +1,20 @@
 package com.epam.servlets.command.impl;
 
+import com.epam.servlets.command.Command;
+import com.epam.servlets.command.CommandException;
+import com.epam.servlets.command.factory.CommandEnum;
 import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.entities.Product;
-import com.epam.servlets.command.Command;
-import com.epam.servlets.command.CommandException;
-import com.epam.servlets.command.factory.CommandEnum;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 public class FirstCourseCommand implements Command {
     private MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
+    private ArrayList<Product> listResults;
+    private int page;
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -24,12 +26,27 @@ public class FirstCourseCommand implements Command {
             Command command = CommandEnum.getCurrentCommand("comments");
             return command.execute(req);
         }
-        ArrayList<Product> listResults;
+        if (req.getParameter("page") != null) {
+            page = Integer.parseInt(req.getParameter("page"));
+        } else {
+            page = 0;
+        }
         try {
             listResults = menuDAO.getProductList("firstCourse");
         } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
+        int listNumber = (int) Math.ceil(listResults.size() / 4.0);
+        ArrayList pages = new ArrayList();
+        for (int i = 0; i < listNumber; i++) {
+            pages.add(i);
+        }
+        if (page > 0) {
+            listResults = new ArrayList<>(listResults.subList(page * 5 - 1, page + listResults.size()-page*5));
+        } else {
+            listResults = new ArrayList<>(listResults.subList(page * 5, page + listResults.size()-page*5));
+        }
+        req.setAttribute("pages", pages);
         req.setAttribute("listResults", listResults);
         return "firstCourse";
     }

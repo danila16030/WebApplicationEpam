@@ -48,7 +48,7 @@
             </div>
         </c:if>
 
-        <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom" onclick="location.href='/client'">
+        <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom">
             Submit
         </button>
     </form>

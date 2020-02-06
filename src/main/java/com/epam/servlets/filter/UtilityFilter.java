@@ -46,7 +46,6 @@ public class UtilityFilter implements Filter {
             req.getSession().setAttribute("role", null);
             if (req.getParameter("name") != null) {
                 userName = req.getParameter("name");
-
             }
         }
 

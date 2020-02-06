@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="user" class="java.lang.String" scope="request"/>
 <jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
+<jsp:useBean id="pages" class="java.util.ArrayList" scope="request"/>
 <html>
 <head>
     <title>SecondCourse</title>
@@ -63,11 +64,12 @@
                 <td>${product.cookingTime}</td>
                 <td><img src="<c:url value="${product.imagePath}"/>" alt="not found" width="15%" height="15%">
                     <c:if test="${!empty user}">
-                        <input type="button" id="order" name="move" value="click to order ${product.name} "
-                               onclick="location.href='/WebApplication_war_exploded/orderPage?product=${product.name}'">
+                        <input hidden name="productId" value="${product.id}">
+                        <input type="button" id="order" name="move" value="click to order"
+                               onclick="location.href='/WebApplication_war_exploded/orderPage'">
                         <input type="button" id="com" name="comment"
-                               value="View comments about ${product.name} "
-                               onclick="location.href='/WebApplication_war_exploded/comments?about=${product.name}'">
+                               value="View comments "
+                               onclick="location.href='/WebApplication_war_exploded/comments'">
                     </c:if>
                 </td>
                 <td>${product.averageScope}</td>
@@ -76,6 +78,10 @@
         </c:forEach>
     </table>
 </form>
-
+<form method="post">
+    <c:forEach var="page" items="${pages}">
+        <input type="submit" name="page" value="${page}" class="but">
+    </c:forEach>
+</form>
 </body>
 </html>

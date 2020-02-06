@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="user" class="java.lang.String" scope="request"/>
 <jsp:useBean id="listResults" class="java.util.ArrayList" scope="request"/>
+<jsp:useBean id="pages" class="java.util.ArrayList" scope="request"/>
 <html>
 <head>
     <title>FirstCourse</title>
@@ -64,10 +65,10 @@
                 <td><img src="<c:url value="${product.imagePath}"/>" alt="not found" width="15%" height="15%">
                     <c:if test="${!empty user}">
                         <input type="hidden" name="product" value="${product.name}">
-                        <input type="submit" id="order" name="order" value="click to order ${product.name}">
+                        <input type="submit" id="order" name="order" value="click to order">
                         <input hidden name="productId" value="${product.id}">
                         <input type="submit" id="com" name="com"
-                               value="View comments about ${product.name}">
+                               value="View comments">
                     </c:if>
                 </td>
                 <td>${product.averageScope}</td>
@@ -76,6 +77,10 @@
         </c:forEach>
     </table>
 </form>
-
+<form method="post">
+    <c:forEach var="page" items="${pages}">
+        <input type="submit" name="page" value="${page}" class="but">
+    </c:forEach>
+</form>
 </body>
 </html>

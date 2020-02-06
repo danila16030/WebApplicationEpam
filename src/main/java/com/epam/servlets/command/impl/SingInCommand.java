@@ -1,10 +1,10 @@
 package com.epam.servlets.command.impl;
 
+import com.epam.servlets.command.Command;
+import com.epam.servlets.command.CommandException;
 import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.UserDAO;
-import com.epam.servlets.command.Command;
-import com.epam.servlets.command.CommandException;
 
 import javax.servlet.http.HttpServletRequest;
 
