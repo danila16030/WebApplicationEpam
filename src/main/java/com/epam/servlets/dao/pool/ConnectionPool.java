@@ -1,6 +1,9 @@
 package com.epam.servlets.dao.pool;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.*;
 import java.util.Locale;
 import java.util.Map;
@@ -13,7 +16,7 @@ public class ConnectionPool {
     private BlockingQueue<Connection> connectionQueue;
     private BlockingQueue<Connection> givenAwayConnectionQueue;
 
-    //private final String dataBasePropertiesLocale = "src/main/resources/db.properties";
+    private static final Logger logger = LogManager.getLogger(ConnectionPool.class);
 
     private String driverName;
     private String url;
@@ -36,7 +39,7 @@ public class ConnectionPool {
         } catch (NumberFormatException e) {
             poolSize = DEFAULT_POOL_SIZE;
         } catch (PoolException e) {
-            //    logger.error(e);
+            logger.error(e);
         }
     }
 
@@ -56,10 +59,10 @@ public class ConnectionPool {
                 connectionQueue.add(pooledConnection);
             }
         } catch (SQLException e) {
-            // logger.error(e);
+            logger.error(e);
             throw new PoolException("SQL Exception during initializing Connection Pool!");
         } catch (ClassNotFoundException e) {
-            //logger.error(e);
+            logger.error(e);
             throw new PoolException("Can't find driver class for database!");
         }
     }
@@ -84,17 +87,17 @@ public class ConnectionPool {
         try {
             connection.close();
         } catch (SQLException e) {
-            //      logger.error(e);
+            logger.error(e);
         }
         try {
             resultSet.close();
         } catch (SQLException e) {
-            //        logger.error(e);
+            logger.error(e);
         }
         try {
             statement.close();
         } catch (SQLException e) {
-            //    logger.error(e);
+            logger.error(e);
         }
     }
 
@@ -102,7 +105,7 @@ public class ConnectionPool {
         try {
             connection.close();
         } catch (SQLException e) {
-            //       logger.error(e);
+            logger.error(e);
         }
     }
 
@@ -110,12 +113,12 @@ public class ConnectionPool {
         try {
             connection.close();
         } catch (SQLException e) {
-            //       logger.error(e);
+                   logger.error(e);
         }
         try {
             statement.close();
         } catch (SQLException e) {
-            //        logger.error(e);
+                    logger.error(e);
         }
     }
 
@@ -134,7 +137,7 @@ public class ConnectionPool {
             closeConnectionsQueue(givenAwayConnectionQueue);
             closeConnectionsQueue(connectionQueue);
         } catch (SQLException e) {
-            //     logger.error(e);
+                 logger.error(e);
         }
     }
 

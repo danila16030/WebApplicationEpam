@@ -7,6 +7,8 @@ import com.epam.servlets.dao.impl.util.auxiliary.ClientFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Client;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,6 +27,7 @@ public class SQLClientDAO implements ClientDAO {
     private String sqlGetAllClient = "SELECT * FROM client";
     private String sqlChangeBalanceAndOrder = "UPDATE  client SET balance=?,loyaltyPoints=? WHERE login=?";
     private Map<String, PreparedStatement> preparedStatementMap;
+    private static final Logger logger = LogManager.getLogger(SQLClientDAO.class);
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static final ConverterFromResultSet converterFromResultSet = ConverterFromResultSet.getInstance();
@@ -35,7 +38,7 @@ public class SQLClientDAO implements ClientDAO {
         try {
             connection = connectionPool.takeConnection();
         } catch (PoolException e) {
-            //    logger.error(e);
+                logger.error(e);
         }
 
         prepareStatement(connection, sqlCreateNewClient);

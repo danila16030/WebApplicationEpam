@@ -7,6 +7,8 @@ import com.epam.servlets.dao.impl.util.auxiliary.MenuFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,7 +29,7 @@ public class SQLMenuDAO implements MenuDAO {
     private String sqlUpdateProduct = "UPDATE  menu SET product=?,tag=?,cookingTime=?,cost=? WHERE product =?";
     private String sqlCreateNewProduct = "INSERT INTO menu (product, cost,cookingTime,tag,exemplum) VALUES(?,?,?,?,?)";
     private Map<String, PreparedStatement> preparedStatementMap;
-
+    private static final Logger logger = LogManager.getLogger(SQLMenuDAO.class);
     private static final ConverterFromResultSet converterFromResultSet = ConverterFromResultSet.getInstance();
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -38,7 +40,7 @@ public class SQLMenuDAO implements MenuDAO {
         try {
             connection = connectionPool.takeConnection();
         } catch (PoolException e) {
-            //    logger.error(e);
+            logger.error(e);
         }
 
         prepareStatement(connection, sqlUpdateRate);

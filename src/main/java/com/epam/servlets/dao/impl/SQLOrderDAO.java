@@ -6,6 +6,8 @@ import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Order;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,11 +19,12 @@ import java.util.Map;
 
 public class SQLOrderDAO implements OrderDAO {
 
-    private String sqlMakeOrder = "INSERT INTO  `order` (productId,orderTime,customer,paymentMethod,productName) VALUES(?,?,?,?,?)";
+    private String sqlMakeOrder = "INSERT INTO  `order` (productId,orderTime,customer,paymentMethod,product) VALUES(?,?,?,?,?)";
     private String sqlRemoveOrder = "DELETE FROM `order` WHERE product=? AND orderTime=? AND customer=? ";
     private String sqlGetCustomerOrder = "SELECT * FROM `order` WHERE customer=?";
     private String sqlGetAllOrder = "SELECT * FROM `order`";
     private Map<String, PreparedStatement> preparedStatementMap;
+    private static final Logger logger = LogManager.getLogger(SQLOrderDAO.class);
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static final ConverterFromResultSet converterFromResultSet = ConverterFromResultSet.getInstance();
@@ -33,7 +36,7 @@ public class SQLOrderDAO implements OrderDAO {
         try {
             connection = connectionPool.takeConnection();
         } catch (PoolException e) {
-            //    logger.error(e);
+                logger.error(e);
         }
 
         prepareStatement(connection, sqlMakeOrder);
@@ -59,7 +62,7 @@ public class SQLOrderDAO implements OrderDAO {
     }
 
     @Override
-    public void makeOrder(String productName ,String productId, String orderTime, String customer,String paymentMethod) throws DAOException {
+    public void makeOrder(String productName, String productId, String orderTime, String customer, String paymentMethod) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlMakeOrder);
             if (preparedStatement != null) {
@@ -69,7 +72,7 @@ public class SQLOrderDAO implements OrderDAO {
                 preparedStatement.setString(4, paymentMethod);
                 preparedStatement.setString(5, productName);
                 preparedStatement.executeUpdate();
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -78,7 +81,7 @@ public class SQLOrderDAO implements OrderDAO {
     }
 
     @Override
-    public void removeOrder(String product, String time,String customer) throws DAOException {
+    public void removeOrder(String product, String time, String customer) throws DAOException {
         try {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlRemoveOrder);
             if (preparedStatement != null) {
@@ -86,7 +89,7 @@ public class SQLOrderDAO implements OrderDAO {
                 preparedStatement.setString(2, time);
                 preparedStatement.setString(3, customer);
                 preparedStatement.executeUpdate();
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -104,7 +107,7 @@ public class SQLOrderDAO implements OrderDAO {
                 preparedStatement.setString(1, customer);
                 resultSet = preparedStatement.executeQuery();
                 list = converterFromResultSet.getOrderList(resultSet);
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -122,7 +125,7 @@ public class SQLOrderDAO implements OrderDAO {
             if (preparedStatement != null) {
                 resultSet = preparedStatement.executeQuery();
                 list = converterFromResultSet.getOrderList(resultSet);
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {

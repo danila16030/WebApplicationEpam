@@ -78,9 +78,11 @@
     </table>
 </form>
 <form method="post">
-    <c:forEach var="page" items="${pages}">
-        <input type="submit" name="page" value="${page}" class="but">
-    </c:forEach>
+    <c:if test="${pages.size()>1}">
+        <c:forEach var="page" items="${pages}">
+            <input type="submit" name="page" value="${page}" class="but">
+        </c:forEach>
+    </c:if>
 </form>
 </body>
 </html>

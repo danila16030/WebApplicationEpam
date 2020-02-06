@@ -9,6 +9,8 @@ import com.epam.servlets.dao.impl.util.auxiliary.CommentFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Comment;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -22,6 +24,7 @@ public class SQLCommentDAO implements CommentDAO {
     private String sqlUpdateComment = "UPDATE comment SET date=?,time=?, comment=?,evaluation=? WHERE author=? AND idProduct=?";
     private String sqlCreateNewComment = "INSERT INTO comment (author , date,time,comment,idProduct,evaluation) VALUES(?, ?,?,?,?,? )";
     private Map<String, PreparedStatement> preparedStatementMap;
+    private static final Logger logger = LogManager.getLogger(SQLCommentDAO.class);
 
     private static final ConverterFromResultSet converterFromResultSet = ConverterFromResultSet.getInstance();
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
@@ -34,7 +37,7 @@ public class SQLCommentDAO implements CommentDAO {
         try {
             connection = connectionPool.takeConnection();
         } catch (PoolException e) {
-            //    logger.error(e);
+            logger.error(e);
         }
 
         prepareStatement(connection, sqlFindCommentsAboutProduct);
@@ -71,7 +74,7 @@ public class SQLCommentDAO implements CommentDAO {
                 if (resultSet.next()) {
                     return true;
                 }
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -92,7 +95,7 @@ public class SQLCommentDAO implements CommentDAO {
                 preparedStatement.setString(5, author);
                 preparedStatement.setString(6, productId);
                 preparedStatement.executeUpdate();
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -112,7 +115,7 @@ public class SQLCommentDAO implements CommentDAO {
                 preparedStatement.setString(5, productId);
                 preparedStatement.setString(6, rate);
                 preparedStatement.executeUpdate();
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -131,7 +134,7 @@ public class SQLCommentDAO implements CommentDAO {
                 if (resultSet.next()) {
                     return true;
                 }
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {
@@ -158,7 +161,7 @@ public class SQLCommentDAO implements CommentDAO {
                     }
                 }
                 average = term / votesNumber;
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
             MenuDAO menuDAO = DAOFactory.getInstance().getSqlMenuDAO();
@@ -178,7 +181,7 @@ public class SQLCommentDAO implements CommentDAO {
                 preparedStatement.setString(1, productId);
                 resultSet = preparedStatement.executeQuery();
                 resultList = converterFromResultSet.getComments(resultSet);
-            }else {
+            } else {
                 throw new DAOException("Couldn't find prepared statement");
             }
         } catch (SQLException e) {

@@ -9,6 +9,8 @@ import com.epam.servlets.entities.Client;
 import com.epam.servlets.entities.Comment;
 import com.epam.servlets.entities.Order;
 import com.epam.servlets.entities.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 
 public class ConverterFromResultSet {
     private static final ConverterFromResultSet instance = new ConverterFromResultSet();
+    private static final Logger logger = LogManager.getLogger(ConverterFromResultSet.class);
 
     private ConverterFromResultSet() {
     }
@@ -31,7 +34,7 @@ public class ConverterFromResultSet {
                 list.add(createProductForComment(resultSet));
             }
         } catch (SQLException e) {
-            // logger.error(e);
+            logger.error(e);
             throw new DAOException(e);
         }
         return list;
@@ -44,7 +47,7 @@ public class ConverterFromResultSet {
                 list.add(createProductForChange(resultSet));
             }
         } catch (SQLException e) {
-            // logger.error(e);
+            logger.error(e);
             throw new DAOException(e);
         }
         return list;
@@ -60,7 +63,7 @@ public class ConverterFromResultSet {
             String tag = resultSet.getString(MenuFields.TAG.name());
             product = new Product(name, cost, cookingTime, imagePath, tag);
         } catch (SQLException e) {
-            // logger.error(e);
+            logger.error(e);
             throw new DAOException(e);
         }
         return product;
@@ -78,7 +81,7 @@ public class ConverterFromResultSet {
             int id = resultSet.getInt(MenuFields.ID.name());
             product = new Product(name, cost, cookingTime, imagePath, averageScope, votersNumber, id);
         } catch (SQLException e) {
-            // logger.error(e);
+            logger.error(e);
             throw new DAOException(e);
         }
         return product;
@@ -102,7 +105,7 @@ public class ConverterFromResultSet {
                 }
             }
         } catch (SQLException e) {
-            // logger.error(e);
+            logger.error(e);
             throw new DAOException(e);
         }
         return list;
@@ -115,7 +118,7 @@ public class ConverterFromResultSet {
                 product = createProductForChange(resultSet);
             }
         } catch (SQLException e) {
-            // logger.error(e);
+            logger.error(e);
             throw new DAOException(e);
         }
         return product;
@@ -133,7 +136,7 @@ public class ConverterFromResultSet {
                 product = new Product(name, cost, cookingTime, imagePath, id);
             }
         } catch (SQLException e) {
-            // logger.error(e);
+            logger.error(e);
             throw new DAOException(e);
         }
         return product;
@@ -146,7 +149,7 @@ public class ConverterFromResultSet {
                 product = createProductForComment(resultSet);
             }
         } catch (SQLException e) {
-            // logger.error(e);
+             logger.error(e);
             throw new DAOException(e);
         }
         return product;
@@ -165,7 +168,7 @@ public class ConverterFromResultSet {
                 list.add(new Comment(author, date, time, comment, rate));
             }
         } catch (SQLException e) {
-            // logger.error(e);
+             logger.error(e);
             throw new DAOException(e);
         }
         return list;
@@ -198,7 +201,7 @@ public class ConverterFromResultSet {
                 }
             }
         } catch (SQLException e) {
-            // logger.error(e);
+             logger.error(e);
             throw new DAOException(e);
         }
         return list;

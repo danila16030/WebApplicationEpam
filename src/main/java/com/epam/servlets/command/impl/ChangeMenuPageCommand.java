@@ -7,6 +7,7 @@ import com.epam.servlets.entities.Product;
 import com.epam.servlets.fileManager.FileManager;
 import com.epam.servlets.command.Command;
 import com.epam.servlets.command.CommandException;
+import com.epam.servlets.fileManager.FileManagerException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -86,10 +87,10 @@ public class ChangeMenuPageCommand implements Command {
         buildFile(req);
         try {
             menuDAO.createNewProduct(tag, productName, cost, time);
-        } catch (DAOException e) {
+            fileManager.moveImageToResourceFolder(file, productName);
+        } catch (DAOException | FileManagerException e) {
             throw new CommandException("Error in DAO", e);
         }
-        fileManager.moveImageToResourceFolder(file, productName);
         return getProduct(req);
     }
 

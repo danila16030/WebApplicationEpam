@@ -5,6 +5,8 @@ import com.epam.servlets.dao.UserDAO;
 import com.epam.servlets.dao.impl.util.auxiliary.UserFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Connection;
@@ -23,6 +25,7 @@ public class SQLUserDAO implements UserDAO {
     private String sqlInSystem = "UPDATE  user SET inSystem=true WHERE login=?";
     private Map<String, PreparedStatement> preparedStatementMap;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private static final Logger logger = LogManager.getLogger(SQLUserDAO.class);
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
 
@@ -33,7 +36,7 @@ public class SQLUserDAO implements UserDAO {
         try {
             connection = connectionPool.takeConnection();
         } catch (PoolException e) {
-            //    logger.error(e);
+    logger.error(e);
         }
 
         prepareStatement(connection, sqlSingINUser);
