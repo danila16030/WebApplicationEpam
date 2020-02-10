@@ -3,7 +3,7 @@ package com.epam.servlets.dao.impl;
 import com.epam.servlets.dao.ClientDAO;
 import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
-import com.epam.servlets.dao.impl.util.auxiliary.ClientFields;
+import com.epam.servlets.dao.impl.util.fields.ClientFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Client;
@@ -106,7 +106,7 @@ public class SQLClientDAO implements ClientDAO {
                 preparedStatement.setString(1, name);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    balance = resultSet.getInt(ClientFields.BALANCE.name());
+                    balance = resultSet.getInt(ClientFields.BALANCE);
                 }
             } else {
                 throw new DAOException("Couldn't find prepared statement");
@@ -126,7 +126,7 @@ public class SQLClientDAO implements ClientDAO {
                 preparedStatement.setString(1, name);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    if (resultSet.getBoolean(ClientFields.BLOCK.name())) {
+                    if (resultSet.getBoolean(ClientFields.BLOCK)) {
                         return true;
                     }
                 }
@@ -150,7 +150,7 @@ public class SQLClientDAO implements ClientDAO {
                 preparedStatement.setString(1, name);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    point = resultSet.getInt(ClientFields.LOYALTYPOINTS.name());
+                    point = resultSet.getInt(ClientFields.LOYALTYPOINTS);
                 }
             } else {
                 throw new DAOException("Couldn't find prepared statement");

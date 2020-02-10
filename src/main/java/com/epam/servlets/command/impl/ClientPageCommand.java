@@ -13,19 +13,20 @@ public class ClientPageCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
-        if (req.getParameter("move").equals("logout")) {
+        if (req.getParameter("move") != null && req.getParameter("move").equals("logout")) {
             return logOut(req);
         }
-        return null;
+        return "index";
     }
 
     private String logOut(HttpServletRequest req) throws CommandException {
         String name = (String) req.getAttribute("user");
         try {
             userDAO.logOut(name);
+            req.getSession().setAttribute("user", "");
         } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
-        return "/WebApplication_war_exploded";
+        return "index";
     }
 }

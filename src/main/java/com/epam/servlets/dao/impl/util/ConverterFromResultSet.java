@@ -1,10 +1,10 @@
 package com.epam.servlets.dao.impl.util;
 
 import com.epam.servlets.dao.DAOException;
-import com.epam.servlets.dao.impl.util.auxiliary.ClientFields;
-import com.epam.servlets.dao.impl.util.auxiliary.CommentFields;
-import com.epam.servlets.dao.impl.util.auxiliary.MenuFields;
-import com.epam.servlets.dao.impl.util.auxiliary.OrderFields;
+import com.epam.servlets.dao.impl.util.fields.ClientFields;
+import com.epam.servlets.dao.impl.util.fields.CommentFields;
+import com.epam.servlets.dao.impl.util.fields.MenuFields;
+import com.epam.servlets.dao.impl.util.fields.OrderFields;
 import com.epam.servlets.entities.Client;
 import com.epam.servlets.entities.Comment;
 import com.epam.servlets.entities.Order;
@@ -56,11 +56,11 @@ public class ConverterFromResultSet {
     private Product createProductForChange(ResultSet resultSet) throws DAOException {
         Product product;
         try {
-            String imagePath = resultSet.getString(MenuFields.EXEMPLUM.name());
-            String name = resultSet.getString(MenuFields.PRODUCT.name());
-            int cost = resultSet.getInt(MenuFields.COST.name());
-            String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
-            String tag = resultSet.getString(MenuFields.TAG.name());
+            String imagePath = resultSet.getString(MenuFields.EXEMPLUM);
+            String name = resultSet.getString(MenuFields.PRODUCT);
+            int cost = resultSet.getInt(MenuFields.COST);
+            String cookingTime = resultSet.getString(MenuFields.COOKINGTIME);
+            String tag = resultSet.getString(MenuFields.TAG);
             product = new Product(name, cost, cookingTime, imagePath, tag);
         } catch (SQLException e) {
             logger.error(e);
@@ -72,13 +72,13 @@ public class ConverterFromResultSet {
     private Product createProductForComment(ResultSet resultSet) throws DAOException {
         Product product;
         try {
-            String imagePath = resultSet.getString(MenuFields.EXEMPLUM.name());
-            String name = resultSet.getString(MenuFields.PRODUCT.name());
-            int cost = resultSet.getInt(MenuFields.COST.name());
-            String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
-            double averageScope = resultSet.getDouble(MenuFields.AVERAGE.name());
-            int votersNumber = resultSet.getInt(MenuFields.VOTESNUMBER.name());
-            int id = resultSet.getInt(MenuFields.ID.name());
+            String imagePath = resultSet.getString(MenuFields.EXEMPLUM);
+            String name = resultSet.getString(MenuFields.PRODUCT);
+            int cost = resultSet.getInt(MenuFields.COST);
+            String cookingTime = resultSet.getString(MenuFields.COOKINGTIME);
+            double averageScope = resultSet.getDouble(MenuFields.AVERAGE);
+            int votersNumber = resultSet.getInt(MenuFields.VOTESNUMBER);
+            int id = resultSet.getInt(MenuFields.ID);
             product = new Product(name, cost, cookingTime, imagePath, averageScope, votersNumber, id);
         } catch (SQLException e) {
             logger.error(e);
@@ -91,11 +91,11 @@ public class ConverterFromResultSet {
         ArrayList<Client> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                String login = resultSet.getString(ClientFields.LOGIN.name());
+                String login = resultSet.getString(ClientFields.LOGIN);
                 if (!login.equals("admin")) {
-                    int point = resultSet.getInt(ClientFields.LOYALTYPOINTS.name());
-                    boolean block = resultSet.getBoolean(ClientFields.BLOCK.name());
-                    int balance = resultSet.getInt(ClientFields.BALANCE.name());
+                    int point = resultSet.getInt(ClientFields.LOYALTYPOINTS);
+                    boolean block = resultSet.getBoolean(ClientFields.BLOCK);
+                    int balance = resultSet.getInt(ClientFields.BALANCE);
                     Client client = new Client();
                     client.setLogin(login);
                     client.setLoyaltyPoints(point);
@@ -128,11 +128,11 @@ public class ConverterFromResultSet {
         Product product = new Product();
         try {
             if (resultSet.next()) {
-                String imagePath = resultSet.getString(MenuFields.EXEMPLUM.name());
-                String name = resultSet.getString(MenuFields.PRODUCT.name());
-                int cost = resultSet.getInt(MenuFields.COST.name());
-                String cookingTime = resultSet.getString(MenuFields.COOKINGTIME.name());
-                int id = resultSet.getInt(MenuFields.ID.name());
+                String imagePath = resultSet.getString(MenuFields.EXEMPLUM);
+                String name = resultSet.getString(MenuFields.PRODUCT);
+                int cost = resultSet.getInt(MenuFields.COST);
+                String cookingTime = resultSet.getString(MenuFields.COOKINGTIME);
+                int id = resultSet.getInt(MenuFields.ID);
                 product = new Product(name, cost, cookingTime, imagePath, id);
             }
         } catch (SQLException e) {
@@ -160,11 +160,11 @@ public class ConverterFromResultSet {
         ArrayList<Comment> list = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                String author = resultSet.getString(CommentFields.AUTHOR.name());
-                String date = resultSet.getString(CommentFields.DATE.name());
-                String time = resultSet.getString(CommentFields.AUTHOR.name());
-                String comment = resultSet.getString(CommentFields.COMMENT.name());
-                String rate = resultSet.getString(CommentFields.EVALUATION.name());
+                String author = resultSet.getString(CommentFields.AUTHOR);
+                String date = resultSet.getString(CommentFields.DATE);
+                String time = resultSet.getString(CommentFields.AUTHOR);
+                String comment = resultSet.getString(CommentFields.COMMENT);
+                String rate = resultSet.getString(CommentFields.EVALUATION);
                 list.add(new Comment(author, date, time, comment, rate));
             }
         } catch (SQLException e) {
@@ -183,18 +183,18 @@ public class ConverterFromResultSet {
         Order order;
         try {
             if (resultSet.next()) {
-                product = resultSet.getString(OrderFields.PRODUCT.name());
-                time = resultSet.getString(OrderFields.ORDERTIME.name());
-                method = resultSet.getString(OrderFields.PAYMENTMETHOD.name());
-                customer = resultSet.getString(OrderFields.CUSTOMER.name());
+                product = resultSet.getString(OrderFields.PRODUCT);
+                time = resultSet.getString(OrderFields.ORDERTIME);
+                method = resultSet.getString(OrderFields.PAYMENTMETHOD);
+                customer = resultSet.getString(OrderFields.CUSTOMER);
                 order = new Order(product, time, method);
                 order.setCustomer(customer);
                 list.add(order);
                 while (resultSet.next()) {
-                    product = resultSet.getString(OrderFields.PRODUCT.name());
-                    time = resultSet.getString(OrderFields.ORDERTIME.name());
-                    method = resultSet.getString(OrderFields.PAYMENTMETHOD.name());
-                    customer = resultSet.getString(OrderFields.CUSTOMER.name());
+                    product = resultSet.getString(OrderFields.PRODUCT);
+                    time = resultSet.getString(OrderFields.ORDERTIME);
+                    method = resultSet.getString(OrderFields.PAYMENTMETHOD);
+                    customer = resultSet.getString(OrderFields.CUSTOMER);
                     order = new Order(product, time, method);
                     order.setCustomer(customer);
                     list.add(order);

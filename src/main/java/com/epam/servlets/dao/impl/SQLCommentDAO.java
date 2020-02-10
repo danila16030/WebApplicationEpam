@@ -5,7 +5,7 @@ import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
-import com.epam.servlets.dao.impl.util.auxiliary.CommentFields;
+import com.epam.servlets.dao.impl.util.fields.CommentFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Comment;
@@ -155,9 +155,9 @@ public class SQLCommentDAO implements CommentDAO {
                 preparedStatement.setString(1, productId);
                 resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    if (!resultSet.getString(CommentFields.EVALUATION.name()).equals("no rating")) {
+                    if (!resultSet.getString(CommentFields.EVALUATION).equals("no rating")) {
                         votesNumber++;
-                        term += Double.parseDouble(resultSet.getString(CommentFields.EVALUATION.name()));
+                        term += Double.parseDouble(resultSet.getString(CommentFields.EVALUATION));
                     }
                 }
                 average = term / votesNumber;

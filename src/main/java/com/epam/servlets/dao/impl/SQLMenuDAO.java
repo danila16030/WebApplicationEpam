@@ -3,7 +3,7 @@ package com.epam.servlets.dao.impl;
 import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.dao.impl.util.ConverterFromResultSet;
-import com.epam.servlets.dao.impl.util.auxiliary.MenuFields;
+import com.epam.servlets.dao.impl.util.fields.MenuFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
 import com.epam.servlets.entities.Product;
@@ -174,7 +174,7 @@ public class SQLMenuDAO implements MenuDAO {
                 preparedStatement.setString(1, productId);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    time = resultSet.getString(MenuFields.COOKINGTIME.name());
+                    time = resultSet.getString(MenuFields.COOKINGTIME);
                 }
             } else {
                 throw new DAOException("Couldn't find prepared statement");
@@ -195,7 +195,7 @@ public class SQLMenuDAO implements MenuDAO {
                 preparedStatement.setString(1, productId);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    cost = resultSet.getInt(MenuFields.COST.name());
+                    cost = resultSet.getInt(MenuFields.COST);
                 }
             } else {
                 throw new DAOException("Couldn't find prepared statement");

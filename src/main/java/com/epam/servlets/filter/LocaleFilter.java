@@ -26,11 +26,11 @@ public class LocaleFilter implements Filter {
                     cookie = c;
                 }
             }
-            if (cookie == null) {
-                cookie = new Cookie("locale", "be_US");
-                cookie.setMaxAge(60 * 60 * 48);
-                resp.addCookie(cookie);
-            }
+        }
+        if (cookie == null) {
+            cookie = new Cookie("locale", "be_US");
+            cookie.setMaxAge(60 * 60 * 48);
+            resp.addCookie(cookie);
         }
 
         if (req.getParameter("language") != null) {

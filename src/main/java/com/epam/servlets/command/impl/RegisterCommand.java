@@ -30,6 +30,6 @@ public class RegisterCommand implements Command {
         } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
-        return "client";
+        return "index";
     }
 }

@@ -3,6 +3,8 @@ package com.epam.servlets.controller;
 import com.epam.servlets.checker.RedirectCheck;
 import com.epam.servlets.service.Service;
 import com.epam.servlets.service.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ public class Controller extends HttpServlet {
     private static String com;
     private Service service = new Service();
     private RedirectCheck redirectCheck = new RedirectCheck();
+    private static final Logger logger = LogManager.getLogger(Controller.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -46,10 +49,11 @@ public class Controller extends HttpServlet {
                 resp.sendRedirect(page);
                 return;
             }
+            req.getSession().setAttribute("inf", "");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(page + ".jsp");
             requestDispatcher.forward(req, resp);
         } catch (ServiceException e) {
-            // logger.error(e);
+            logger.error(e);
             resp.sendRedirect("errorPage");
             System.out.println(e);
         }

@@ -2,7 +2,7 @@ package com.epam.servlets.dao.impl;
 
 import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.UserDAO;
-import com.epam.servlets.dao.impl.util.auxiliary.UserFields;
+import com.epam.servlets.dao.impl.util.fields.UserFields;
 import com.epam.servlets.dao.pool.ConnectionPool;
 import com.epam.servlets.dao.pool.PoolException;
 import org.apache.logging.log4j.LogManager;
@@ -91,13 +91,13 @@ public class SQLUserDAO implements UserDAO {
                 preparedStatement.setString(1, login);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    if (!resultSet.getBoolean(UserFields.INSYSTEM.name())) {
-                        result = resultSet.getString(UserFields.ROLE.name());
+                    if (!resultSet.getBoolean(UserFields.INSYSTEM)) {
+                        result = resultSet.getString(UserFields.ROLE);
                         if (result.equals("admin")) {
                             return "admin";
                         }
                         inSystem(login);
-                        return "client";
+                        return "index";
                     }
                 }
             } else {
@@ -165,7 +165,7 @@ public class SQLUserDAO implements UserDAO {
                 preparedStatement.setString(1, login);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    if (passwordEncoder.matches(password, resultSet.getString(UserFields.PASSWORD.name()))) {
+                    if (passwordEncoder.matches(password, resultSet.getString(UserFields.PASSWORD))) {
                         return true;
                     }
                 }

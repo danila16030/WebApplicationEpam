@@ -38,7 +38,8 @@ public class UtilityFilter implements Filter {
             }
         }
 
-        if (req.getServletPath().equals("/index.jsp") && previousPage != null && previousPage.equals("client")) {
+        String a= (String) req.getSession().getAttribute("user");
+        if (req.getSession().getAttribute("user") != null && req.getSession().getAttribute("user").equals("")) {
             userName = null;
         }
 
@@ -50,7 +51,7 @@ public class UtilityFilter implements Filter {
         }
 
         if (userName != null) {
-            request.setAttribute("user", userName);
+            req.getSession().setAttribute("user", userName);
         }
         if (page.equals("WebApplication_war_exploded") && userName != null) {
             resp.sendRedirect("client");
@@ -59,6 +60,7 @@ public class UtilityFilter implements Filter {
             resp.sendRedirect("/WebApplication_war_exploded");
             return;
         }
+
         chain.doFilter(request, response);
     }
 
