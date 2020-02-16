@@ -10,7 +10,6 @@ To change this template use File | Settings | File Templates.
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="locale" class="java.lang.String" scope="session"/>
 <fmt:setBundle basename="pagecontent_${cookie.locale.value}" var="lang"/>
-<jsp:useBean id="user" class="java.lang.String" scope="session"/>
 <html>
 <head>
     <title><fmt:message key="mainPage.title" bundle="${lang}"/></title>
@@ -19,21 +18,14 @@ To change this template use File | Settings | File Templates.
     </style>
 </head>
 <div> <!-- buttons holder -->
-    <c:if test="${user.equals('')}">
-        <button type="submit" class="singIn"
-                onclick="location.href='/WebApplication_war_exploded/singIn'"><fmt:message key="mainPage.singIn" bundle="${lang}"/>
-        </button>
-        <button type="submit" class="register"
-                onclick="location.href='/WebApplication_war_exploded/register'"><fmt:message key="mainPage.register" bundle="${lang}"/>
-        </button>
-    </c:if>
-    <form method="post">
-        <c:if test="${!user.equals('')}">
-            <input type="button" class="register" id="move" value="${user}"
-                   onclick="location.href='/WebApplication_war_exploded/user'">
-            <button type="submit" class="singIn" name="move" value="logout">Log out</button>
-        </c:if>
-    </form>
+    <button type="submit" class="singIn"
+            onclick="location.href='/WebApplication_war_exploded/singIn'"><fmt:message key="mainPage.singIn"
+                                                                                       bundle="${lang}"/>
+    </button>
+    <button type="submit" class="register"
+            onclick="location.href='/WebApplication_war_exploded/register'"><fmt:message key="mainPage.register"
+                                                                                         bundle="${lang}"/>
+    </button>
 
     <form method="post">
         <input type="submit" class="ru" name="language" value="ru">

@@ -6,6 +6,7 @@ import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.UserDAO;
 import com.epam.servlets.command.Command;
 import com.epam.servlets.command.CommandException;
+import com.epam.servlets.listener.LoginCollector;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ public class RegisterCommand implements Command {
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private UserDAO userDAO = DAOFactory.getInstance().getSqlUserDAO();
     private ClientDAO clientDAO = DAOFactory.getInstance().getSqlClientDAO();
+    private LoginCollector loginCollector = LoginCollector.getInstance();
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -27,9 +29,11 @@ public class RegisterCommand implements Command {
             String hashedPassword = passwordEncoder.encode(password);
             userDAO.creteNewUser(name, hashedPassword);
             clientDAO.createNewClient(name);
+            req.getSession().setAttribute("user", name);
+            loginCollector.addLogin(req.getSession().getId(), name);
         } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
-        return "index";
+        return "client";
     }
 }

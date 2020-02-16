@@ -1,4 +1,4 @@
-package com.epam.servlets.servletListner;
+package com.epam.servlets.listener.servletListner;
 
 import com.epam.servlets.command.CommandException;
 import com.epam.servlets.timer.MyTimer;

@@ -89,15 +89,14 @@ public class MyTimer {
 
     private void removeOrder(Order order) throws CommandException {
         try {
+            String customer = order.getCustomer();
+            nearestOrder = null;
             orderDAO.removeOrder(order.getProductName(), order.getTime(), order.getCustomer());
-            if (order.getPaymentMethod().equals("card")) {
-                String customer = order.getCustomer();
-                int point = clientDAO.getPoint(customer) - 10;
-                if (point < 0) {
-                    clientDAO.changePointAndBlock("" + point, 1, customer);
-                } else {
-                    clientDAO.changePointAndBlock("" + point, 0, customer);
-                }
+            int point = clientDAO.getPoint(customer) - 10;
+            if (point < 0) {
+                clientDAO.changePointAndBlock("" + point, 1, customer);
+            } else {
+                clientDAO.changePointAndBlock("" + point, 0, customer);
             }
         } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);

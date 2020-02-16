@@ -97,7 +97,7 @@ public class SQLUserDAO implements UserDAO {
                             return "admin";
                         }
                         inSystem(login);
-                        return "index";
+                        return "client";
                     }
                 }
             } else {

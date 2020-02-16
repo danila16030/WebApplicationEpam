@@ -1,13 +1,15 @@
 package com.epam.servlets.command.impl;
 
+import com.epam.servlets.command.Command;
+import com.epam.servlets.command.CommandException;
 import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.MenuDAO;
 import com.epam.servlets.entities.Product;
 import com.epam.servlets.fileManager.FileManager;
-import com.epam.servlets.command.Command;
-import com.epam.servlets.command.CommandException;
 import com.epam.servlets.fileManager.FileManagerException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +31,7 @@ public class ChangeMenuPageCommand implements Command {
     private File file;
     private AtomicInteger tempNumber = new AtomicInteger();
     private FileManager fileManager = new FileManager();
+    private static final Logger logger = LogManager.getLogger(ChangeMenuPageCommand.class);
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -64,17 +67,17 @@ public class ChangeMenuPageCommand implements Command {
                             part.write(UPLOAD_PATH +
                                     File.separator + newFileName);
                             file = downloadedFile;
-                            // logger.log(Level.DEBUG, "file is " + downloadedFile.getName());
+                            logger.debug("file is " + downloadedFile.getName());
                         }
                     } catch (IOException e) {
-                        // logger.log(Level.ERROR, "file read error ");
+                        logger.error("file read error ");
                     }
                 }
             }
         } catch (IOException e) {
-            // logger.log(Level.DEBUG, "file io exception ", e);
+            logger.error("file io exception ", e);
         } catch (ServletException e) {
-            // logger.log(Level.DEBUG, "read file servlet exception ", e);
+            logger.error("read file servlet exception ", e);
         }
     }
 

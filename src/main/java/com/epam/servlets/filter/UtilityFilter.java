@@ -10,6 +10,11 @@ public class UtilityFilter implements Filter {
     private FilterConfig filterConfig;
     private String userName;
     private String previousPage;
+    private boolean needRedirect;
+
+    public void outOfTime() {
+
+    }
 
     public void init(final FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
@@ -38,8 +43,7 @@ public class UtilityFilter implements Filter {
             }
         }
 
-        String a= (String) req.getSession().getAttribute("user");
-        if (req.getSession().getAttribute("user") != null && req.getSession().getAttribute("user").equals("")) {
+        if (req.getServletPath().equals("/index.jsp") && previousPage != null && previousPage.equals("client") ) {
             userName = null;
         }
 
@@ -49,9 +53,12 @@ public class UtilityFilter implements Filter {
                 userName = req.getParameter("name");
             }
         }
+        if (req.getSession().getAttribute("user") == null && !page.equals("singIn") && !page.equals("register")) {
+            userName = null;
+        }
 
         if (userName != null) {
-            req.getSession().setAttribute("user", userName);
+            request.setAttribute("user", userName);
         }
         if (page.equals("WebApplication_war_exploded") && userName != null) {
             resp.sendRedirect("client");
@@ -60,7 +67,6 @@ public class UtilityFilter implements Filter {
             resp.sendRedirect("/WebApplication_war_exploded");
             return;
         }
-
         chain.doFilter(request, response);
     }
 

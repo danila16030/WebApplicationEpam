@@ -5,7 +5,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -48,7 +47,6 @@ public class ConnectionPool {
     }
 
     private void initPoolData() throws PoolException {
-        Locale.setDefault(Locale.ENGLISH);
         try {
             Class.forName(driverName);
             givenAwayConnectionQueue = new ArrayBlockingQueue<>(poolSize);
@@ -113,12 +111,12 @@ public class ConnectionPool {
         try {
             connection.close();
         } catch (SQLException e) {
-                   logger.error(e);
+            logger.error(e);
         }
         try {
             statement.close();
         } catch (SQLException e) {
-                    logger.error(e);
+            logger.error(e);
         }
     }
 
@@ -137,7 +135,7 @@ public class ConnectionPool {
             closeConnectionsQueue(givenAwayConnectionQueue);
             closeConnectionsQueue(connectionQueue);
         } catch (SQLException e) {
-                 logger.error(e);
+            logger.error(e);
         }
     }
 

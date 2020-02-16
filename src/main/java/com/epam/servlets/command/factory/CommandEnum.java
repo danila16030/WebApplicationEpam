@@ -5,7 +5,7 @@ import com.epam.servlets.command.impl.*;
 
 public enum CommandEnum {
     SINGIN(new SingInCommand()),
-    INDEX(new ClientPageCommand()),
+    CLIENT(new ClientPageCommand()),
     REGISTER(new RegisterCommand()),
     FIRSTCOURSE(new FirstCourseCommand()),
     BALANCE(new BalancePageCommand()),

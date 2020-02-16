@@ -38,7 +38,7 @@ public class SQLClientDAO implements ClientDAO {
         try {
             connection = connectionPool.takeConnection();
         } catch (PoolException e) {
-                logger.error(e);
+            logger.error(e);
         }
 
         prepareStatement(connection, sqlCreateNewClient);
@@ -181,7 +181,7 @@ public class SQLClientDAO implements ClientDAO {
     public ArrayList<Client> getClientList(String name) throws DAOException {
         ArrayList<Client> resultList = new ArrayList<>();
         ResultSet resultSet;
-        if (name.equals("")) {
+        if (name == null || name.equals("")) {
             PreparedStatement preparedStatement = preparedStatementMap.get(sqlGetAllClient);
             if (preparedStatement != null) {
                 try {

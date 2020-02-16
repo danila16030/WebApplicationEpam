@@ -1,0 +1,46 @@
+10:00:27.137 [http-nio-8080-exec-3] DEBUG epam.servlets.command.impl.ChangeMenuPageCommand - file is temp1.jpg
+17:20:43.108 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:20:43.118 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:21:15.625 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:21:15.647 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:21:35.606 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:21:36.135 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:22:03.730 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:22:04.269 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:22:29.953 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:22:30.487 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:23:24.702 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:23:25.243 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:24:34.238 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:24:34.516 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:25:03.589 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:25:04.146 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:26:24.745 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:26:25.312 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:27:14.511 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:27:14.551 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:27:44.427 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:27:44.512 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:28:42.474 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:28:42.515 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:30:57.683 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:30:57.797 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:32:10.048 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:32:12.364 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:35:07.235 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:35:09.799 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+17:36:36.085 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+17:36:36.115 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+18:13:03.264 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+18:13:03.268 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+18:13:56.453 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+18:13:56.457 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+18:15:04.957 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+18:15:04.960 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+18:15:20.190 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+18:15:20.194 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+18:15:56.156 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+18:15:56.160 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+18:18:41.755 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+18:26:21.350 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+18:26:21.353 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!

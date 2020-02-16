@@ -5,10 +5,12 @@ import com.epam.servlets.command.CommandException;
 import com.epam.servlets.dao.DAOException;
 import com.epam.servlets.dao.DAOFactory;
 import com.epam.servlets.dao.UserDAO;
+import com.epam.servlets.listener.LoginCollector;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class SingInCommand implements Command {
+    private LoginCollector loginCollector = LoginCollector.getInstance();
     private UserDAO userDAO = DAOFactory.getInstance().getSqlUserDAO();
 
     @Override
@@ -25,6 +27,8 @@ public class SingInCommand implements Command {
                     req.getSession().setAttribute("inf", "");
                     req.getSession().setAttribute("role", "admin");
                 }
+                loginCollector.addLogin(req.getSession().getId(), name);
+                req.getSession().setAttribute("user",name);
                 return result;
             }
         } catch (DAOException e) {

@@ -58,6 +58,6 @@ public class ChangePointPageCommand implements Command {
             }
             block = 0;
         }
-        return "changePoints";
+        return getClients(req);
     }
 }
