@@ -8,6 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="menuList" class="java.util.ArrayList" scope="session"/>
+<jsp:useBean id="pagesM" class="java.util.ArrayList" scope="session"/>
 <html>
 <head>
     <title>changeMenu</title>
@@ -100,7 +101,14 @@ Required products:
         </c:if>
     </form>
 </div>
-
+<form method="post">
+    <c:if test="${pagesM.size()>1}">
+        <c:forEach var="page" items="${pagesM}">
+            <input type="submit" name="page" value="${page}" class="but">
+        </c:forEach>
+    </c:if>
+</form>
+<button onclick="location.href='/WebApplication_war_exploded/admin'">Back to Main</button>
 </body>
 
 </html>

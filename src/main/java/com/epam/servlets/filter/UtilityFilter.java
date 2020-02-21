@@ -43,7 +43,12 @@ public class UtilityFilter implements Filter {
             }
         }
 
-        if (req.getServletPath().equals("/index.jsp") && previousPage != null && previousPage.equals("client") ) {
+        if (page.equals("register") && previousPage != null && previousPage.equals("register") || page.equals("singIn")
+                && previousPage != null && previousPage.equals("singIn")) {
+            userName = null;
+        }
+
+        if (req.getServletPath().equals("/index.jsp") && previousPage != null && previousPage.equals("client")) {
             userName = null;
         }
 

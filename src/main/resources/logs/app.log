@@ -44,3 +44,5 @@
 18:18:41.755 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
 18:26:21.350 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
 18:26:21.353 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!
+21:04:30.329 [main] ERROR epam.servlets.dao.pool.ConnectionPool - java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+21:04:30.334 [main] ERROR epam.servlets.dao.pool.ConnectionPool - com.epam.servlets.dao.pool.PoolException: Can't find driver class for database!

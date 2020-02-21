@@ -28,8 +28,8 @@ To change this template use File | Settings | File Templates.
     </button>
 
     <form method="post">
-        <input type="submit" class="ru" name="language" value="ru">
-        <input type="submit" class="en" name="language" value="en">
+        <input type="submit" class="ru" class="flex" name="language" value="ru">
+        <input type="submit" class="en" class="flex" name="language" value="en">
         <nav>
             <ul class="topmenu">
                 <li><a href=""><fmt:message key="menu.home" bundle="${lang}"/></a></li>

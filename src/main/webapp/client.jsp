@@ -17,7 +17,7 @@
 </head>
 <div>    <!-- buttons holder -->
     <form method="post">
-        <input type="button" class="register" id="move" value="${user}"
+        <input type="button" class="register"  id="move" value="${user}"
                onclick="location.href='/WebApplication_war_exploded/user'">
         <nav>
             <ul class="topmenu">

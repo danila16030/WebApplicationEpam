@@ -32,6 +32,7 @@ public class ChangeMenuPageCommand implements Command {
     private AtomicInteger tempNumber = new AtomicInteger();
     private FileManager fileManager = new FileManager();
     private static final Logger logger = LogManager.getLogger(ChangeMenuPageCommand.class);
+    private int page;
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -143,6 +144,22 @@ public class ChangeMenuPageCommand implements Command {
         } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
+        if (req.getParameter("page") != null) {
+            page = Integer.parseInt(req.getParameter("page"));
+        } else {
+            page = 0;
+        }
+        int listNumber = (int) Math.ceil(menuList.size() / 4.0);
+        ArrayList pages = new ArrayList();
+        for (int i = 0; i < listNumber; i++) {
+            pages.add(i);
+        }
+        if (page > 0) {
+            menuList = new ArrayList<>(menuList.subList(page * 4 - 1, page + 4));
+        } else {
+            menuList = new ArrayList<>(menuList.subList(page * 4, page + 4));
+        }
+        req.getSession().setAttribute("pagesM", pages);
         req.getSession().setAttribute("menuList", menuList);
         return "changeMenu";
     }

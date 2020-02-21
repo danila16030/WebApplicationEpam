@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class ChangePointPageCommand implements Command {
     private ClientDAO clientDAO = DAOFactory.getInstance().getSqlClientDAO();
+    private int page;
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
@@ -33,6 +34,23 @@ public class ChangePointPageCommand implements Command {
         if (clientList.isEmpty()) {
             req.getSession().setAttribute("inf", "not exist");
         }
+        if (req.getParameter("page") != null) {
+            page = Integer.parseInt(req.getParameter("page"));
+        } else {
+            page = 0;
+        }
+
+        int listNumber = (int) Math.ceil(clientList.size() / 10.0);
+        ArrayList pages = new ArrayList();
+        for (int i = 0; i < listNumber; i++) {
+            pages.add(i);
+        }
+        if (page > 0) {
+            clientList = new ArrayList<>(clientList.subList(page * 10 - 1, page + 10));
+        } else {
+            clientList = new ArrayList<>(clientList.subList(page * 10, page + 10));
+        }
+        req.getSession().setAttribute("pagesP", pages);
         req.getSession().setAttribute("clientList", clientList);
         return "changePoints";
     }

@@ -9,6 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:useBean id="clientList" class="java.util.ArrayList" scope="session"/>
+<jsp:useBean id="pagesP" class="java.util.ArrayList" scope="session"/>
 <html>
 <head>
     <title>changePoints</title>
@@ -51,5 +52,13 @@
         </c:if>
     </form>
 </div>
+<form method="post">
+    <c:if test="${pagesP.size()>1}">
+        <c:forEach var="page" items="${pagesP}">
+            <input type="submit" name="page" value="${page}" class="but">
+        </c:forEach>
+    </c:if>
+</form>
+<button onclick="location.href='/WebApplication_war_exploded/admin'">Back to Main</button>
 </body>
 </html>

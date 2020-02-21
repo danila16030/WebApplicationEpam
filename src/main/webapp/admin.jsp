@@ -20,5 +20,7 @@
 <button class="w3-btn w3-round-large" onclick="location.href='/WebApplication_war_exploded/changePoints'">Change
     customer points
 </button>
+<br>
+<button onclick="location.href='/WebApplication_war_exploded/singIn'">Back to Main</button>
 </body>
 </html>
