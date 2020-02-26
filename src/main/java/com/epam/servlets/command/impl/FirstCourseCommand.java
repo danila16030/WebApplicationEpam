@@ -26,6 +26,10 @@ public class FirstCourseCommand implements Command {
             Command command = CommandEnum.getCurrentCommand("comments");
             return command.execute(req);
         }
+        return getMenu(req);
+    }
+
+    private String getMenu(HttpServletRequest req) throws CommandException {
         if (req.getParameter("page") != null) {
             page = Integer.parseInt(req.getParameter("page"));
         } else {
@@ -36,7 +40,7 @@ public class FirstCourseCommand implements Command {
         } catch (DAOException e) {
             throw new CommandException("Error in DAO", e);
         }
-        int listNumber = (int) Math.ceil(listResults.size() / 5.0);
+        int listNumber = (int) Math.ceil(listResults.size() / 4.0);
         ArrayList pages = new ArrayList();
         for (int i = 0; i < listNumber; i++) {
             pages.add(i);
@@ -44,12 +48,15 @@ public class FirstCourseCommand implements Command {
         if (page > 0) {
             listResults = new ArrayList<>(listResults.subList(page * 5 - 1, page + 5));
         } else {
-            listResults = new ArrayList<>(listResults.subList(page * 5, page + 5));
+            if (listResults.size() > 5) {
+                listResults = new ArrayList<>(listResults.subList(page * 5, page + 5));
+            }
         }
         req.setAttribute("pages", pages);
         req.setAttribute("listResults", listResults);
         return "firstCourse";
     }
+
 }
 
 

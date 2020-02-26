@@ -36,7 +36,7 @@ public class SQLUserDAO implements UserDAO {
         try {
             connection = connectionPool.takeConnection();
         } catch (PoolException e) {
-    logger.error(e);
+            logger.error(e);
         }
 
         prepareStatement(connection, sqlSingINUser);

@@ -48,7 +48,9 @@ public class ChangePointPageCommand implements Command {
         if (page > 0) {
             clientList = new ArrayList<>(clientList.subList(page * 10 - 1, page + 10));
         } else {
-            clientList = new ArrayList<>(clientList.subList(page * 10, page + 10));
+            if (clientList.size() >10) {
+                clientList = new ArrayList<>(clientList.subList(page * 10, page + 10));
+            }
         }
         req.getSession().setAttribute("pagesP", pages);
         req.getSession().setAttribute("clientList", clientList);

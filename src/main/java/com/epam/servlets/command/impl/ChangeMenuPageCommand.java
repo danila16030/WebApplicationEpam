@@ -36,7 +36,6 @@ public class ChangeMenuPageCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
-
         if (req.getParameter("create") != null) {
             return createProduct(req);
         }
@@ -155,9 +154,11 @@ public class ChangeMenuPageCommand implements Command {
             pages.add(i);
         }
         if (page > 0) {
-            menuList = new ArrayList<>(menuList.subList(page * 4 - 1, page + 4));
+            menuList = new ArrayList<>(menuList.subList(page * 5 - 1, page + 5));
         } else {
-            menuList = new ArrayList<>(menuList.subList(page * 4, page + 4));
+            if (menuList.size() > 4) {
+                menuList = new ArrayList<>(menuList.subList(page * 5, page + 5));
+            }
         }
         req.getSession().setAttribute("pagesM", pages);
         req.getSession().setAttribute("menuList", menuList);

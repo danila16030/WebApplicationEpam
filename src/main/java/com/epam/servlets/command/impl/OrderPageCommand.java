@@ -21,7 +21,7 @@ public class OrderPageCommand implements Command {
     @Override
     public String execute(HttpServletRequest req) throws CommandException {
         if (req.getParameter("time") != null) {
-            return orderADish(req);
+            return makeOrder(req);
         } else {
             return getProductForOrderPage(req);
         }
@@ -40,7 +40,7 @@ public class OrderPageCommand implements Command {
         return "orderPage";
     }
 
-    private String orderADish(HttpServletRequest req) throws CommandException {
+    private String makeOrder(HttpServletRequest req) throws CommandException {
         String userName = (String) req.getAttribute("user");
         String productId = req.getParameter("productId");//везде где id исправить
         String productName=req.getParameter("productName");
